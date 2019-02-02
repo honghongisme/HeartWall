@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="40dp"
+    android:paddingBottom="45dp"
+    android:paddingLeft="55dp"
+    android:paddingRight="55dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请输入想要发布的评论"
+        android:gravity="center_horizontal"/>
+
+    <com.example.administrator.ding.widgt.LinesEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="7"
+        android:lineSpacingExtra="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:hint="你在这里的评论只有钉子发布者才能看到，大胆发表评论吧~"
+        android:id="@+id/comment_et"
+        android:gravity="left"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="匿名"
+        android:id="@+id/anonymous_btn"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/confirm_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="发布"
+        app:layout_constraintBaseline_toBaselineOf="@id/anonymous_btn"/>
+
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--修改下面colorPrimary颜色，修改stateBar和toolbar颜色-->
+    <!--#3F51B5 和#303F9F-->
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="mainActivityFuncBg">#F0F0F0</color>
+    <color name="mainActivityFuncGridBg">#4C4B4B</color>
+
+    <color name="black">#000111</color>
+    <color name="brown">#A0522D</color>
+    <color name="orange">#FF8000</color>
+    <color name="white">#ffffff</color>
+    <color name="gray">#D0CFCF</color>
+    <color name="chartMargin">#CBE8CF</color>
+    <color name="axes">#A19D9D</color>
+    <color name="splashBg">#F6F6F6</color>
+
+    <color name="toolbarColor">#FCD2AB</color>
+    <color name="round_bg">#FF4FFF</color>
+
+    <color name="default_color">#768F76</color>
+    <color name="default_color_dark">#768F76</color>
+    <color name="color_red">#FF0000</color>
+
+
+    <color name="c1">#99CCFF</color>
+    <color name="c2">#FF6666</color>
+    <color name="c3">#CBE8CF</color>
+
+</resources>

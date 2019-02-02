@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="30dp"
+>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/account_ev"
+            android:inputType="number"
+            android:imeOptions="actionNext"
+            android:hint="学号"
+            android:text="11111111"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password_ev"
+            android:inputType="textPassword"
+            android:hint="密码"
+            android:ems="10"
+            android:layout_marginTop="10dp"
+            android:imeOptions="actionDone"
+            android:text="11111111"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:id="@+id/login_btn"
+        android:background="@drawable/login_btn_bg"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.administrator.ding.activities.LookCommentDetailActivity">
+
+    <include layout="@layout/child_activity_toolbar"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:id="@+id/container_ll">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:id="@+id/portrait_iv"
+                    android:src="@drawable/user_po"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/name_tv"
+                    android:text="测试用户"
+                    app:layout_constraintLeft_toRightOf="@id/portrait_iv"
+                    android:layout_marginLeft="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date_tv"
+                    android:text="2000/2/23"
+                    app:layout_constraintLeft_toLeftOf="@id/name_tv"
+                    app:layout_constraintTop_toBottomOf="@id/name_tv"
+                    android:layout_marginTop="5dp"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/content_tv"
+                android:minLines="2"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="评论"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@id/loading_container_cl"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/progress_anim"
+                        android:id="@+id/progress_bar_iv"
+                        app:layout_constraintLeft_toLeftOf="@id/loading_container_cl"
+                        app:layout_constraintRight_toRightOf="@id/loading_container_cl" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="正在加载评论，请稍等..."
+                        android:id="@+id/loading_desc_tv"
+                        app:layout_constraintTop_toBottomOf="@id/progress_bar_iv" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="网络异常"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:id="@+id/error_tv"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="暂无评论"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:id="@+id/empty_tv"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="本条信息对外隐藏"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:id="@+id/visible_tv"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="本条信息不能评论"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:id="@+id/cant_comment_tv"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

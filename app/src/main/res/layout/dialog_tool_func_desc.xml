@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tool_title_tv"
+            android:text="title"
+            android:textSize="20sp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tool_iv"
+            android:src="@drawable/ic_add"
+            android:layout_marginBottom="80dp"
+            android:layout_marginTop="80dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tool_desc_tv"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:lineSpacingExtra="8dp"
+            android:textSize="15sp"
+            android:text="'desc'加引号,,,,还打我嗲王洪迪阿汉武帝对号个王海东爱护我带坏我的"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/tool_extra_tips_tv"
+        android:layout_weight="1"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:lineSpacingExtra="8dp"
+        android:textSize="15sp"
+        android:layout_marginTop="15dp"
+        android:text="extra加引号"/>
+
+</LinearLayout>

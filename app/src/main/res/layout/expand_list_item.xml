@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp"
+    android:background="@drawable/main_show_grid_shape">
+
+    <ImageView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstDate"
+        android:text="2000-12-12 12:12:12"
+        app:layout_constraintLeft_toRightOf="@id/state"
+        android:layout_marginLeft="8dp"
+        android:paddingTop="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lastDate"
+        android:text="2000-12-12 12:12:12"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="5dp"
+        android:paddingTop="8dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/some_content"
+        android:text="whodaihwioda"
+        app:layout_constraintTop_toBottomOf="@id/lastDate"
+        android:layout_marginLeft="5dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="10dp"/>
+
+</android.support.constraint.ConstraintLayout>

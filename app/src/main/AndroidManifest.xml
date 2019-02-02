@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.administrator.ding">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".config.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="Heart Wall"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="Ding"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.NailBagListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.SplashScreenActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.DateAnalysisActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".base.BaseActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity
+            android:name=".activities.WelcomeGuideActivity"
+            android:theme="@style/NoActionBarFullScreen" />
+        <activity android:name=".activities.LookCommentDetailActivity" />
+        <activity
+            android:name=".activities.RandomActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".activities.OperNailActivity"
+            android:theme="@style/NoActionBarFullScreen" />
+        <activity android:name=".base.SimpleActivity"></activity>
+    </application>
+
+</manifest>

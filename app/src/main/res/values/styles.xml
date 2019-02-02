@@ -1,0 +1,79 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeNoBackGround" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <!--无标题-->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--全屏且无标题-->
+    <style name="NoActionBarFullScreen" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <!--dialog基本样式-->
+    <style name="BaseDialog">
+        <item name="android:windowFrame">@null</item><!--是否有边框-->
+        <item name="android:windowIsFloating">true</item><!--是否悬浮状态-->
+        <item name="android:windowIsTranslucent">false</item><!--提示框是否透明-->
+        <item name="android:windowNoTitle">false</item><!--是否有标题-->
+        <item name="android:windowFullscreen">false</item><!--是否全屏-->
+    </style>
+
+    <!--工具功能描述dialog的样式-->
+    <style name="ToolFuncDescDialog" parent="BaseDialog">
+        <item name="android:windowBackground">@drawable/dialog_corner</item>
+    </style>
+
+    <!--工具功能描述dialog的弹出消失样式-->
+    <style name="dialog_animation_style" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_in_from_top</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+
+    <!--闪屏-->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
+    <style name="DialogTheme" parent="android:Theme.Dialog">
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
+
+    <style name="pop_window">
+
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--#F7BB65-->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorPrimary">#4DB6AC</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+
+</resources>

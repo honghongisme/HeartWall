@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="mood_tool_menu_image_res_id">
+        <item>@drawable/ic_mood_good_nail</item>
+        <item>@drawable/ic_mood_bad_nail</item>
+        <item>@drawable/ic_hammer</item>
+        <item>@drawable/ic_claw_hammer</item>
+        <item>@drawable/ic_look</item>
+    </string-array>
+
+    <string-array name="mood_tool_func_image_res_id">
+        <item>@drawable/ic_mood_good_nail_bigger</item>
+        <item>@drawable/ic_mood_bad_nail_bigger</item>
+        <item>@drawable/ic_hammer_bigger</item>
+        <item>@drawable/ic_claw_hammer_bigger</item>
+        <item>@drawable/ic_look_bigger</item>
+    </string-array>
+
+    <string-array name="mood_crack_image_res_id">
+        <item>@drawable/crack01</item>
+        <item>@drawable/crack02</item>
+        <item>@drawable/crack03</item>
+    </string-array>
+
+    <string-array name="plan_tool_menu_image_res_id">
+        <item>@drawable/ic_plan_nail</item>
+        <item>@drawable/ic_hammer</item>
+        <item>@drawable/ic_claw_hammer</item>
+        <item>@drawable/ic_look</item>
+    </string-array>
+
+    <string-array name="plan_tool_func_image_res_id">
+        <item>@drawable/ic_plan_nail_bigger</item>
+        <item>@drawable/ic_hammer_bigger</item>
+        <item>@drawable/ic_claw_hammer_bigger</item>
+        <item>@drawable/ic_look_bigger</item>
+    </string-array>
+
+</resources>

@@ -16,8 +16,6 @@ import java.util.List;
 
 public class WelcomePagerAdapter  extends android.support.v4.app.FragmentPagerAdapter{
 
-
-    private FragmentManager mfragmentManager;
     private List<Fragment> mlist;
 
     public WelcomePagerAdapter(FragmentManager fm, List<Fragment> list) {

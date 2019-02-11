@@ -21,14 +21,14 @@
         android:theme="@style/AppTheme"
         tools:replace="android:label">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".view.activities.MainActivity"
             android:label="Ding"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.NailBagListActivity"
+            android:name=".view.activities.NailBagListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.SplashScreenActivity"
+            android:name=".view.activities.SplashScreenActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,19 +37,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.DateAnalysisActivity"
+            android:name=".view.activities.DateAnalysisActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".base.BaseActivity" />
-        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".view.activities.LoginActivity" />
         <activity
-            android:name=".activities.WelcomeGuideActivity"
+            android:name=".view.activities.WelcomeGuideActivity"
             android:theme="@style/NoActionBarFullScreen" />
-        <activity android:name=".activities.LookCommentDetailActivity" />
+        <activity android:name=".view.activities.LookCommentDetailActivity" />
         <activity
-            android:name=".activities.RandomActivity"
+            android:name=".view.activities.RandomActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activities.OperNailActivity"
+            android:name=".view.activities.OperateNailActivity"
             android:theme="@style/NoActionBarFullScreen" />
         <activity android:name=".base.SimpleActivity"></activity>
     </application>

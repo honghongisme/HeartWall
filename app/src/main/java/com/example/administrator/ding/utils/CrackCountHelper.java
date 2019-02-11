@@ -1,7 +1,6 @@
 package com.example.administrator.ding.utils;
 
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.bean.Crack;
 
 import java.util.ArrayList;
 

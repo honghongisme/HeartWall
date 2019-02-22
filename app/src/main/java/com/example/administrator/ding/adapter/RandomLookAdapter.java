@@ -32,9 +32,6 @@ public class RandomLookAdapter extends RecyclerView.Adapter<RandomLookAdapter.It
     @Override
     public void onBindViewHolder(final ItemViewHolder itemViewHolder, int i) {
         final CommentItem data = mDatas.get(i);
-     /*       ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
-            itemViewHolder.icon.setBackgroundDrawable(drawable);
-            itemViewHolder.icon.setImageResource(data.icon);*/
         itemViewHolder.name.setText(data.getUserName());
         itemViewHolder.date.setText(data.getDate());
         itemViewHolder.content.setText(data.getContent());

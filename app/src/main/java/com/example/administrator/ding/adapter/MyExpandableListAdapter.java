@@ -106,24 +106,16 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        //这里复用会导致列表0也显示状态图片，待解决
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.expand_list_item, null);
         }
-        /*LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.expand_list_item, null);*/
-
-    /*    convertView.setTag(R.layout.expand_list_group, groupPosition);
-        convertView.setTag(R.layout.expand_list_item, childPosition);*/
-
         //设置显示的文字
         setItemText(groupPosition, childPosition, convertView);
         //设置显示的图片
         setPlanItemStateImage(groupPosition, childPosition, convertView);
 
         return convertView;
-
     }
 
     /**

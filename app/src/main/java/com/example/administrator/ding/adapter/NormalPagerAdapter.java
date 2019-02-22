@@ -8,7 +8,6 @@ import java.util.List;
 
 public class NormalPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
-    private FragmentManager mfragmentManager;
     private List<Fragment> mlist;
 
     public NormalPagerAdapter(FragmentManager fm, List<Fragment> list) {

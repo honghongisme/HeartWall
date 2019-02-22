@@ -23,7 +23,7 @@ import com.example.administrator.ding.R;
 import com.example.administrator.ding.utils.*;
 import com.example.administrator.ding.view.activities.LookCommentDetailActivity;
 import com.example.administrator.ding.base.BaseFragment;
-import com.example.administrator.ding.config.MyApplication;
+import com.example.administrator.ding.base.MyApplication;
 import com.example.administrator.ding.model.entities.*;
 import com.example.administrator.ding.presenter.impl.MoodPresenterImpl;
 import com.example.administrator.ding.view.IMoodView;

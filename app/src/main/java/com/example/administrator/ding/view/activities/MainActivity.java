@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.config.MyApplication;
+import com.example.administrator.ding.base.MyApplication;
 import com.example.administrator.ding.view.IMainView;
 import com.example.administrator.ding.base.SimpleActivity;
 import com.example.administrator.ding.model.entities.User;

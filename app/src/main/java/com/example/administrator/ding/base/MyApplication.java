@@ -1,4 +1,4 @@
-package com.example.administrator.ding.config;
+package com.example.administrator.ding.base;
 
 import android.app.Application;
 import android.content.Context;

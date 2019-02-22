@@ -15,7 +15,7 @@ import android.widget.*;
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.base.SimpleActivity;
 import com.example.administrator.ding.model.entities.User;
-import com.example.administrator.ding.config.MyApplication;
+import com.example.administrator.ding.base.MyApplication;
 import com.example.administrator.ding.presenter.impl.LoginPresenterImpl;
 import com.example.administrator.ding.view.ILoginView;
 import com.example.administrator.ding.utils.NetStateCheckHelper;

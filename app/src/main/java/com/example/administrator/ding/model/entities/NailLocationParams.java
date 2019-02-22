@@ -8,15 +8,12 @@ import com.example.administrator.ding.utils.SystemResHelper;
  */
 public class NailLocationParams {
 
-    /**
-     * 让钉子默认位置在屏幕中间
-     */
-    private int[] screenSize;
     private int left;
     private int top;
 
     public NailLocationParams(Context context){
-        screenSize = SystemResHelper.getScreenSize(context);
+        // 让钉子默认位置在屏幕中间
+        int[] screenSize = SystemResHelper.getScreenSize(context);
         left = screenSize[0]/2;
         top = screenSize[1]/2;
     }

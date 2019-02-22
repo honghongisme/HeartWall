@@ -107,12 +107,12 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         //这里复用会导致列表0也显示状态图片，待解决
-        /*if (convertView == null) {
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.expand_list_item, null);
-        }*/
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.expand_list_item, null);
+        }
+        /*LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(R.layout.expand_list_item, null);*/
 
     /*    convertView.setTag(R.layout.expand_list_group, groupPosition);
         convertView.setTag(R.layout.expand_list_item, childPosition);*/
@@ -133,14 +133,17 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
      * @param convertView
      */
     public void setPlanItemStateImage(int groupPosition, int childPosition, View convertView) {
+        // 这里处理groupPosition不为0的情况 避免复用导致图片加载混乱
+        ImageView stateImageView = convertView.findViewById(R.id.state);
         if(groupPosition == 0) {
-            ImageView stateImageView = convertView.findViewById(R.id.state);
             stateImageView.setVisibility(View.VISIBLE);
             if (childPosition < planNotFinishNum) {
                 stateImageView.setImageResource(R.drawable.ic_not_finish);
             }else {
                 stateImageView.setImageResource(R.drawable.ic_finish);
             }
+        } else {
+            stateImageView.setVisibility(View.GONE);
         }
     }
 

@@ -41,6 +41,8 @@ public abstract class SimpleActivity extends BaseActivity {
      * 隐藏loading进度条
      */
     protected void hideProgress() {
-        dialog.dismiss();
+        if(dialog != null) {
+            dialog.dismiss();
+        }
     }
 }

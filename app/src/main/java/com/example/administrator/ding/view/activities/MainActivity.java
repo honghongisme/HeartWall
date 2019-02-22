@@ -122,9 +122,12 @@ public class MainActivity extends SimpleActivity
         TextView departmentTv = navHeader.findViewById(R.id.department);
 
         User user = ((MyApplication)getApplication()).getUser();
-        nameTv.setText(user.getName() + "(" + user.getIdentity() + ")");
-        snoTv.setText(user.getAccountNumber());
-        departmentTv.setText(user.getDepartment());
+        if (user != null) {
+            nameTv.setText(user.getName() + "(" + user.getIdentity() + ")");
+            snoTv.setText(user.getAccountNumber());
+            departmentTv.setText(user.getDepartment());
+        }
+
     }
 
     private void initMenu() {

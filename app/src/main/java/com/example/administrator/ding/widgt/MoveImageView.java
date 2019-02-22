@@ -16,12 +16,9 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView{
 
     private int lastX = 0;
     private int lastY = 0;
-
-    private int x;
-    private int y;
-
     private OnClickNailListener onClickNailListener = null;
     private Context context;
+    private boolean isClick;
 
 
     public MoveImageView(Context context) {
@@ -40,78 +37,64 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView{
 
 
     /**
-     * view随着手指拖动而移动
-     * 当view被点击时，回调坐标
+     * view随着手指拖动而移动 当view被点击时，回调坐标
      * @param event
      * @return
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction())
-        {
+        int x = (int)event.getRawX();
+        int y = (int)event.getRawY();
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-
-                lastX = (int) event.getRawX();
-                lastY = (int) event.getRawY();
-                x = lastX;
-                y = lastY;
+                isClick = true;
                 break;
             case MotionEvent.ACTION_MOVE:
-                int dx = (int)event.getRawX() - lastX;
-                int dy = (int)event.getRawY() - lastY;
-
-                int left = getLeft() + dx;
-                int top = getTop() + dy;
-                int right = getRight() + dx;
-                int bottom = getBottom() + dy;
-                if(left < 0){
-                    left = 0;
-                    right = left + getWidth();
-                }
+                isClick = false;
+                int distanceX = x - lastX;
+                int distanceY = y - lastY;
                 int[] screenSize = SystemResHelper.getScreenSize(context);
-                int screenWidth = screenSize[0];
-                if(right > screenWidth){
-                    right = screenWidth;
-                    left = right - getWidth();
+                int left, top, right, bottom;
+                left = (int) (event.getRawX() + distanceX);
+                right = (int) (event.getRawX() + distanceX + getWidth());
+                top = (int) (event.getRawY() + distanceY);
+                bottom = (int) (event.getRawY() + distanceY + getHeight());
+                // 设置边界
+                if (right > screenSize[0]) {
+                    left = screenSize[0] - getWidth();
+                    right = screenSize[0];
+                } else if (left < 0){
+                    left = 0;
+                    right = getWidth();
                 }
-                if(top < 0){
+                if (top < 0) {
                     top = 0;
-                    bottom = top + getHeight();
+                    bottom = getHeight();
+                } else if (bottom > screenSize[1]) {
+                    top = screenSize[1] - getHeight();
+                    bottom = screenSize[1];
                 }
-                int screenHeight = screenSize[1];
-                if(bottom > screenHeight){
-                    bottom = screenHeight;
-                    top = bottom - getHeight();
-                }
-         //    layout(left, top, right, bottom);
-                this.setFrame(left, top, right, bottom);
-                lastX = (int) event.getRawX();
-                lastY = (int) event.getRawY();
+                setFrame(left, top, right, bottom);
                 break;
             case MotionEvent.ACTION_UP:
-                //自定义的view重写onTouchEvent方法后onClick事件会发生冲突，需要加上下面一句，onclick的入口
-                performClick();
-                //若click
-                if(Math.abs(event.getRawX() - x) < 10 && Math.abs(event.getRawY() - y) < 10) {
+                if (isClick) {
                     int[] centerPoint = countCenterPoint((int)event.getRawX(), (int)event.getRawY(), (int)event.getX(), (int)event.getY(), getWidth(), getHeight());
                     onClickNailListener.getClickPointLocation(centerPoint[0], centerPoint[1]);
+                    isClick = false;
                 } else {
-                    //若move
-                    onClickNailListener.getMoveLocation((int)(event.getRawX() - event.getX()), (int)(event.getRawY() - event.getY()));
+                    // 若move
+                    onClickNailListener.getMoveLocation((int)(event.getRawX()), (int)(event.getRawY()));
                 }
                 break;
-            default:
-                break;
         }
+        lastX = x;
+        lastY = y;
         return true;
     }
-
 
     public void setClickNailListener(OnClickNailListener onClickNailListener) {
         this.onClickNailListener = onClickNailListener;
     }
-
-
 
     public interface OnClickNailListener{
         /**
@@ -143,10 +126,5 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView{
         int tempX = rawX + (width/2 - x);
         int tempY = rawY + (height/2 - y);
         return new int[]{tempX, tempY};
-    }
-
-
-    public void setLocation(int left, int top, int right, int bottom) {
-        setFrame(left, top, right, bottom);
     }
 }

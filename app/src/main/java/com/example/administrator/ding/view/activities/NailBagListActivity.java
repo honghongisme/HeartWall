@@ -106,7 +106,6 @@ public class NailBagListActivity extends SimpleActivity {
                         adapter.refresh(getData(), notFinishNum);
                         expandableListView.collapseGroup(0);
                         expandableListView.expandGroup(0);
-                        hideProgress();
                         showShortToast("拔出成功！详情请查看背包");
                         break;
                     case REQUEST_RESULT_FAILED:

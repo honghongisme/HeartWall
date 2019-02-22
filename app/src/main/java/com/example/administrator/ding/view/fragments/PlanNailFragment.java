@@ -340,9 +340,9 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
      * 每次点击menu的选项都会重绘视图树，因此要恢复钉子的位置
      */
     private void recoverMoveImageViewLocation() {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(nailLocation.getLeft(),nailLocation.getTop(),0,0);
         moveImageView.setVisibility(View.VISIBLE);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(nailLocation.getLeft(), nailLocation.getTop(), 0, 0);
         moveImageView.setLayoutParams(params);
     }
 

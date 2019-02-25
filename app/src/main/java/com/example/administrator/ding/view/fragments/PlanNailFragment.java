@@ -15,7 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.base.BaseFragment;
-import com.example.administrator.ding.base.MyApplication;
+import com.example.administrator.ding.config.MyApplication;
 import com.example.administrator.ding.model.entities.*;
 import com.example.administrator.ding.presenter.impl.PlanPresenterImpl;
 import com.example.administrator.ding.utils.DateUtil;
@@ -64,23 +64,23 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
     /**
      * 可移动钉子ImageView
      */
-    private MoveImageView moveImageView;
+    private MoveImageView mMoveIv;
     /**
      * 可移动钉子的位置信息类
      */
-    private NailLocationParams nailLocation;
+    private NailLocationParams mNailLocation;
     /**
      * 当前选中的工具编号
      */
-    private int currentSelectToolId = 3;
+    private int mCurrentSelectToolId = 3;
     /**
      * intent里的用户信息
      */
-    private User user;
+    private User mUser;
     /**
      * 可添加节点的根布局
      */
-    private AddViewsFrameLayout nailNailCustomFl;
+    private AddViewsFrameLayout mRootFrameLayout;
     private PlanPresenterImpl mPresenter;
 
 
@@ -88,10 +88,10 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        nailNailCustomFl = (AddViewsFrameLayout) inflater.inflate(R.layout.activity_nail, null);
-        nailNailCustomFl.setBackgroundResource(R.drawable.plan_bg);
+        mRootFrameLayout = (AddViewsFrameLayout) inflater.inflate(R.layout.activity_nail, null);
+        mRootFrameLayout.setBackgroundResource(R.drawable.plan_bg);
 
-        user = ((MyApplication)(getActivity().getApplication())).getUser();
+        mUser = ((MyApplication)(getActivity().getApplication())).getUser();
         mPresenter = new PlanPresenterImpl(this);
 
         initHandler();
@@ -101,12 +101,12 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         //获取数据
         mPresenter.getInitialData();
 
-        return nailNailCustomFl;
+        return mRootFrameLayout;
     }
 
     @SuppressLint("HandlerLeak")
     private void initHandler() {
-        handler = new Handler(){
+        mHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -132,7 +132,7 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void setMenu() {
-        ArcMenu arcMenu = nailNailCustomFl.findViewById(R.id.arcMenu);
+        ArcMenu arcMenu = mRootFrameLayout.findViewById(R.id.arcMenu);
         TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.plan_tool_menu_image_res_id);
         int toolCount = toolMenuTitleArrays.length;
         for (int i = 0; i < toolCount; i++) {
@@ -144,7 +144,7 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         arcMenu.setOnMenuMainBtnClickListener(new ArcMenu.OnMenuMainBtnClickListener() {
             @Override
             public void onClick() {
-                if (nailLocation != null) {
+                if (mNailLocation != null) {
                     recoverMoveImageViewLocation();
                 }
             }
@@ -167,11 +167,11 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void setMoveImageViewListener() {
-        moveImageView = nailNailCustomFl.findViewById(R.id.move_iv);
-        moveImageView.setClickNailListener(new MoveImageView.OnClickNailListener() {
+        mMoveIv = mRootFrameLayout.findViewById(R.id.move_iv);
+        mMoveIv.setClickNailListener(new MoveImageView.OnClickNailListener() {
             @Override
             public void getClickPointLocation(final int centerPointX, final int centerPointY) {
-                if (currentSelectToolId == TOOL_HAMMER) {
+                if (mCurrentSelectToolId == TOOL_HAMMER) {
                     final int[] imageSize = OperateNailUtil.getVectorImageSizeByRes(getContext(), R.drawable.ic_plan_nail_head);
                     if (NetStateCheckHelper.isNetWork(getContext())) {
                         mPresenter.checkIsPlaceValid(centerPointX, centerPointY, imageSize);
@@ -185,7 +185,7 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
 
             @Override
             public void getMoveLocation(int left, int top) {
-                nailLocation.setXY(left, top);
+                mNailLocation.setXY(left, top);
             }
         });
     }
@@ -196,9 +196,9 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
      * @param selectedToolId 选中的工具
      */
     private void setCurrentToolLocation(int selectedToolId) {
-        currentSelectToolId = selectedToolId;
+        mCurrentSelectToolId = selectedToolId;
         // 移出上一个使用的tool
-        nailNailCustomFl.removeViewAt(1);
+        mRootFrameLayout.removeViewAt(1);
         //设置并添加显示当前工具
         TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.plan_tool_menu_image_res_id);
         // 当前选中的工具
@@ -210,7 +210,7 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
         params.setMargins(0,0,20,20);
         // 设置工具在父viewGroup里的固定位置1上，便于移出上一个显示的工具（xml里同理）
-        nailNailCustomFl.myAddViewInLayout(currentSelectToolIv, 1, params);
+        mRootFrameLayout.myAddViewInLayout(currentSelectToolIv, 1, params);
         // 当选中拔钉子和查看细节工具时，隐藏移动钉子并重置innerNail
         if (selectedToolId == TOOL_CLAW_HAMMER || selectedToolId == TOOL_LOOK_DETAILS) {
             resetMoveImageView();
@@ -218,20 +218,20 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         // 当选中钉子时，再设置一层可移动的钉子iv
         if (selectedToolId == TOOL_NAIL) {
             // 重置位置信息类
-            nailLocation = new NailLocationParams(getContext());
+            mNailLocation = new NailLocationParams(getContext());
             params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(nailLocation.getLeft(),nailLocation.getTop(),0,0);
-            moveImageView.setVisibility(View.VISIBLE);
-            moveImageView.setImageResource(typedArray.getResourceId(selectedToolId, 0));
-            moveImageView.setLayoutParams(params);
+            params.setMargins(mNailLocation.getLeft(), mNailLocation.getTop(),0,0);
+            mMoveIv.setVisibility(View.VISIBLE);
+            mMoveIv.setImageResource(typedArray.getResourceId(selectedToolId, 0));
+            mMoveIv.setLayoutParams(params);
         }else {
             //如果之前已选过钉子，则恢复位置
-            if (nailLocation != null) {
+            if (mNailLocation != null) {
                 recoverMoveImageViewLocation();
             }else {
-                moveImageView.setVisibility(View.GONE);
+                mMoveIv.setVisibility(View.GONE);
                 // 如果是选中钉子，setLayoutParams本就会重绘视图树，这里是选中非钉子工具时
-                nailNailCustomFl.requestLayout();
+                mRootFrameLayout.requestLayout();
             }
         }
         typedArray.recycle();
@@ -244,7 +244,7 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
     private void setNailHeadInfo(PlanNail nail) {
         //设置钉帽图片
         setImageViewParams(nail.getX(), nail.getY());
-        nailNailCustomFl.requestLayout();
+        mRootFrameLayout.requestLayout();
     }
 
     /**
@@ -259,19 +259,19 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         params.setMargins(MarginLeft, marginTop, 0, 0);
         imageView.setOnClickListener(this);
         imageView.setTag(MarginLeft + "+" + marginTop);
-        nailNailCustomFl.myAddViewInLayout(imageView, params);
+        mRootFrameLayout.myAddViewInLayout(imageView, params);
     }
 
     @Override
     public void onClick(final View v) {
-        if (currentSelectToolId == TOOL_LOOK_DETAILS) {
+        if (mCurrentSelectToolId == TOOL_LOOK_DETAILS) {
             if (v.getTag() != null) {
                 String[] tag = ((String) v.getTag()).split("\\+");
                 int x = Integer.parseInt(tag[0]);
                 int y = Integer.parseInt(tag[1]);
                 mPresenter.getFirstEditInfo(x, y);
             }
-        } else if (currentSelectToolId == TOOL_CLAW_HAMMER) {
+        } else if (mCurrentSelectToolId == TOOL_CLAW_HAMMER) {
             if (v.getTag() != null) {
                 if (NetStateCheckHelper.isNetWork(getContext())) {
                     String[] tag = ((String) v.getTag()).split("\\+");
@@ -287,8 +287,8 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
                         public void doConfirm(final String text) {
                             dialog.dismiss();
                             showProgress("更新中，请稍后...");
-                            PlanNail planNail = new PlanNail(user.getId(), x, y, null, null);
-                            PlanPullNail planPullNail = new PlanPullNail(user.getId(), null, null, date, text);
+                            PlanNail planNail = new PlanNail(mUser.getId(), x, y, null, null);
+                            PlanPullNail planPullNail = new PlanPullNail(mUser.getId(), null, null, date, text);
                             mPresenter.submitLastEditInfoToServer(planNail, planPullNail, v);
                         }
 
@@ -321,7 +321,7 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
      * @param view
      */
     private void deleteNodeFromLayout(View view) {
-        nailNailCustomFl.removeView(view);
+        mRootFrameLayout.removeView(view);
     }
 
     /**
@@ -340,19 +340,19 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
      * 每次点击menu的选项都会重绘视图树，因此要恢复钉子的位置
      */
     private void recoverMoveImageViewLocation() {
-        moveImageView.setVisibility(View.VISIBLE);
+        mMoveIv.setVisibility(View.VISIBLE);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(nailLocation.getLeft(), nailLocation.getTop(), 0, 0);
-        moveImageView.setLayoutParams(params);
+        params.setMargins(mNailLocation.getLeft(), mNailLocation.getTop(), 0, 0);
+        mMoveIv.setLayoutParams(params);
     }
 
     /**
      * 重置可移动钉子
      */
     private void resetMoveImageView() {
-        nailLocation = null;
-        moveImageView.setVisibility(View.GONE);
-        nailNailCustomFl.requestLayout();
+        mNailLocation = null;
+        mMoveIv.setVisibility(View.GONE);
+        mRootFrameLayout.requestLayout();
     }
 
     /**
@@ -383,7 +383,7 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
                 int left = centerPointX - imageSize[0] / 2;
                 int top = centerPointY - imageSize[1] / 2;
                 // 保存信息
-                final PlanNail planNail = new PlanNail(user.getId(), left, top, date, text);
+                final PlanNail planNail = new PlanNail(mUser.getId(), left, top, date, text);
                 mPresenter.submitFirstEditInfoToServer(planNail);
             }
             @Override
@@ -448,6 +448,6 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         for (Nail nail : nailList) {
             setImageViewParams(nail.getPointX(), nail.getPointY());
         }
-        nailNailCustomFl.requestLayout();
+        mRootFrameLayout.requestLayout();
     }
 }

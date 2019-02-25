@@ -26,35 +26,35 @@ public class RandomEditFragment extends BaseFragment {
     private static final int REQUEST_FAILED = 1;
     private static final int REQUEST_INSERT_SUCCESS = 2;
     private static final int REQUEST_INPUT_SENSITIVE = 3;
-    private View layout;
-    private int isAnonymous;
+    private View mLayout;
+    private int mIsAnonymous;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        layout = inflater.inflate(R.layout.fragment_random_edit, container, false);
+        mLayout = inflater.inflate(R.layout.fragment_random_edit, container, false);
         final int id = getArguments().getInt("id");
         final int commentTag = getArguments().getInt("commentTag");
 
         initHandler();
         initListener(id, commentTag);
-        return layout;
+        return mLayout;
     }
 
     private void initListener(final int id, final int commentTag) {
-        final LinesEditText commentEt = layout.findViewById(R.id.comment_et);
+        final LinesEditText commentEt = mLayout.findViewById(R.id.comment_et);
 
-        Switch anonymousBtn = layout.findViewById(R.id.anonymous_btn);
-        Button confirmBtn = layout.findViewById(R.id.confirm_btn);
+        Switch anonymousBtn = mLayout.findViewById(R.id.anonymous_btn);
+        Button confirmBtn = mLayout.findViewById(R.id.confirm_btn);
 
         anonymousBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    isAnonymous = 1;
+                    mIsAnonymous = 1;
                 } else {
-                    isAnonymous = 0;
+                    mIsAnonymous = 0;
                 }
             }
         });
@@ -64,8 +64,8 @@ public class RandomEditFragment extends BaseFragment {
             public void onClick(View v) {
                 String commentText = commentEt.getText().toString().trim();
                 String date = DateUtil.getDateStr("yyyy-MM-dd HH:mm:ss");
-                MoodBadComment comment = new MoodBadComment(id, commentTag, date, commentText, isAnonymous);
-                System.out.println(id + " ; " + commentTag + " ; " + date + " ; " + commentText + " ; " + isAnonymous);
+                MoodBadComment comment = new MoodBadComment(id, commentTag, date, commentText, mIsAnonymous);
+                System.out.println(id + " ; " + commentTag + " ; " + date + " ; " + commentText + " ; " + mIsAnonymous);
                 saveCommentToServer(comment);
             }
         });
@@ -73,7 +73,7 @@ public class RandomEditFragment extends BaseFragment {
 
     @SuppressLint("HandlerLeak")
     private void initHandler() {
-        handler = new Handler() {
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);

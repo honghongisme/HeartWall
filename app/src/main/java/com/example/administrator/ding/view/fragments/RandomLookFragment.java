@@ -29,9 +29,9 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
     private static final int REQUEST_RANDOM_SUCCESS = 0;
     private static final int REQUEST_FAILED = 1;
     private RecyclerView mRv;
-    private ArrayList<CommentItem> mDatas;
-    private ArrayList<Integer> commentTagList;
-    private View layout;
+    private ArrayList<CommentItem> mData;
+    private ArrayList<Integer> mCommentTagList;
+    private View mLayout;
 
     private RandomLookAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -40,7 +40,7 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
 
     @SuppressLint("HandlerLeak")
     private void initHandler() {
-        handler = new Handler() {
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -53,8 +53,8 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
                             System.out.println(i.getDate() + " ; " + i.getContent() + " ; ");
                         }
 
-                        mDatas.clear();
-                        mDatas.addAll(items);
+                        mData.clear();
+                        mData.addAll(items);
                         mAdapter.notifyDataSetChanged();
                         mLayoutManager.scrollToPosition(0);
 
@@ -70,12 +70,12 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_random_look, container, false);
-        mRv = (RecyclerView) layout.findViewById(R.id.rv);
+        mLayout = inflater.inflate(R.layout.fragment_random_look, container, false);
+        mRv = (RecyclerView) mLayout.findViewById(R.id.rv);
         showProgress("加载数据中，请稍候...");
 
         // set Toolbar
-        Toolbar toolbar = (Toolbar) layout.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) mLayout.findViewById(R.id.toolbar);
         toolbar.setTitle("评论墙");
         RandomActivity activity = (RandomActivity)getActivity();
         activity.setSupportActionBar(toolbar);
@@ -85,15 +85,15 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
         initData();
         initHandler();
 
-        mDatas = new ArrayList<>();
-        mFlylayout = (FlyRefreshLayout) layout.findViewById(R.id.fly_refresh_layout);
+        mData = new ArrayList<>();
+        mFlylayout = (FlyRefreshLayout) mLayout.findViewById(R.id.fly_refresh_layout);
         mLayoutManager = new LinearLayoutManager(activity);
-        mAdapter = new RandomLookAdapter(activity, mDatas);
+        mAdapter = new RandomLookAdapter(activity, mData);
         mAdapter.setOnItemClickListener(new RandomLookAdapter.OnItemClickListerner() {
             @Override
             public void onLongItemClick(View view, int position) {
                 showShortToast(position+"");
-                int commentTag = commentTagList.get(position);
+                int commentTag = mCommentTagList.get(position);
                 if(commentTag == 0) {
                     showShortToast("该钉子不能评论！");
                 } else {
@@ -110,7 +110,7 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
         mRv.setLayoutManager(mLayoutManager);
         mRv.setAdapter(mAdapter);
 
-        return layout;
+        return mLayout;
     }
 
 
@@ -124,7 +124,7 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
 
             @Override
             public void onSuccess(ArrayList<CommentItem> items, ArrayList<Integer> commentTags) {
-                commentTagList = commentTags;
+                mCommentTagList = commentTags;
                 Message msg = new Message();
                 msg.obj = items;
                 sendLoadingMessage(REQUEST_RANDOM_SUCCESS, msg);
@@ -139,7 +139,7 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
             bounceAnimateView(child.findViewById(R.id.icon));
         }
 
-        handler.postDelayed(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mFlylayout.onRefreshFinish();

@@ -14,7 +14,7 @@ import android.widget.ExpandableListView;
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.adapter.MyExpandableListAdapter;
 import com.example.administrator.ding.base.SimpleActivity;
-import com.example.administrator.ding.base.MyApplication;
+import com.example.administrator.ding.config.MyApplication;
 import com.example.administrator.ding.model.impl.NailListDataModel;
 import com.example.administrator.ding.presenter.OnGetRequestResultListener;
 import com.example.administrator.ding.model.entities.*;
@@ -94,7 +94,7 @@ public class NailBagListActivity extends SimpleActivity {
         adapter = new MyExpandableListAdapter(this, groupTitles, getData(), notFinishNum);
         expandableListView.setAdapter(adapter);
 
-        handler = new Handler(){
+        mHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);

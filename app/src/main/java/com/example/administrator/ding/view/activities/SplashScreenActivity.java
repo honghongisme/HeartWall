@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.model.entities.User;
-import com.example.administrator.ding.base.MyApplication;
+import com.example.administrator.ding.config.MyApplication;
 import com.example.administrator.ding.model.impl.GetMemoryUserInfoModel;
 
 

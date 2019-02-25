@@ -22,13 +22,15 @@ import java.util.ArrayList;
 
 public class LookCommentDetailActivity extends AppCompatActivity {
 
-    private LinearLayout container;
-    private ConstraintLayout loadingCl;
-    private int x, y, id;
-    private boolean visible = false;
     private static final int REQUEST_RESULT_SUCCESS = 1;
     private static final int REQUEST_RESULT_FAILED = 2;
     private static final int REQUEST_RESULT_EMPTY = 3;
+    
+    private LinearLayout mContainerLv;
+    private ConstraintLayout mLoadingCl;
+    private int x, y, id;
+    private boolean visible = false;
+
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -52,7 +54,7 @@ public class LookCommentDetailActivity extends AppCompatActivity {
                         nameTv.setText(item.getUserName());
                         dateTv.setText(item.getDate());
                         contentTv.setText(item.getContent());
-                        container.addView(childView, layoutParams);
+                        mContainerLv.addView(childView, layoutParams);
                     }
                     break;
                 case REQUEST_RESULT_FAILED:
@@ -89,7 +91,7 @@ public class LookCommentDetailActivity extends AppCompatActivity {
                 x = i.getIntExtra("x", 0);
                 y = i.getIntExtra("y", 0);
                 id = i.getIntExtra("id", 0);
-                container = findViewById(R.id.container_ll);
+                mContainerLv = findViewById(R.id.container_ll);
             } else {
                 TextView visibleTv = findViewById(R.id.visible_tv);
                 visibleTv.setVisibility(View.VISIBLE);
@@ -172,8 +174,8 @@ public class LookCommentDetailActivity extends AppCompatActivity {
     }
 
     private void showLoadingProgress() {
-        loadingCl = findViewById(R.id.loading_container_cl);
-        loadingCl.setVisibility(View.VISIBLE);
+        mLoadingCl = findViewById(R.id.loading_container_cl);
+        mLoadingCl.setVisibility(View.VISIBLE);
         ImageView imageView = findViewById(R.id.progress_bar_iv);
         final AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getDrawable();
         imageView.post(new Runnable() {
@@ -185,6 +187,6 @@ public class LookCommentDetailActivity extends AppCompatActivity {
     }
 
     private void hideLoadingProgress() {
-        loadingCl.setVisibility(View.GONE);
+        mLoadingCl.setVisibility(View.GONE);
     }
 }

@@ -14,28 +14,28 @@ import java.util.List;
 
 public class WelcomeGuideActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
-    private WelcomePagerAdapter adapter;
-    private List<Fragment> list;
+    private ViewPager mViewPager;
+    private WelcomePagerAdapter mAdapter;
+    private List<Fragment> mList;
 
-    private int[] imageResId = {R.drawable.lead1, R.drawable.lead2, R.drawable.lead3, R.drawable.lead4};
+    private int[] mImageResId = {R.drawable.lead1, R.drawable.lead2, R.drawable.lead3, R.drawable.lead4};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_guide);
 
-        viewPager = findViewById(R.id.view_page);
-        list = new ArrayList<>();
+        mViewPager = findViewById(R.id.view_page);
+        mList = new ArrayList<>();
 
-        addOneFragmentToList(imageResId[0]);
-        addOneFragmentToList(imageResId[1]);
-        addOneFragmentToList(imageResId[2]);
-        addOneFragmentToList(imageResId[3]);
+        addOneFragmentToList(mImageResId[0]);
+        addOneFragmentToList(mImageResId[1]);
+        addOneFragmentToList(mImageResId[2]);
+        addOneFragmentToList(mImageResId[3]);
 
-        adapter = new WelcomePagerAdapter(getSupportFragmentManager(), list);
-        viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(new MyPagerChangeListener());
+        mAdapter = new WelcomePagerAdapter(getSupportFragmentManager(), mList);
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setOnPageChangeListener(new MyPagerChangeListener());
     }
 
     /**
@@ -47,7 +47,7 @@ public class WelcomeGuideActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt("res", resId);
         fragment.setArguments(bundle);
-        list.add(fragment);
+        mList.add(fragment);
     }
 
     /**

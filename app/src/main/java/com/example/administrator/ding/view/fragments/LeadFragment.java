@@ -14,14 +14,14 @@ import com.example.administrator.ding.widgt.LoadingProgressDialog;
 
 public class LeadFragment extends Fragment {
 
-    private View view;
-    private LoadingProgressDialog dialog;
+    private View mView;
+    private LoadingProgressDialog mProgress;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_lead, container, false);
-        ImageView imageView = view.findViewById(R.id.im);
+        mView = inflater.inflate(R.layout.fragment_lead, container, false);
+        ImageView imageView = mView.findViewById(R.id.im);
         int res = getArguments().getInt("res");
         imageView.setImageResource(res);
 
@@ -30,11 +30,11 @@ public class LeadFragment extends Fragment {
             setClickBtn();
         }
 
-        return view;
+        return mView;
     }
 
     public void setClickBtn() {
-        ImageView imageView = view.findViewById(R.id.btn);
+        ImageView imageView = mView.findViewById(R.id.btn);
         imageView.setVisibility(View.VISIBLE);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,17 +49,17 @@ public class LeadFragment extends Fragment {
      * 显示loading进度条
      */
     private void showProgress(String desc) {
-        dialog = new LoadingProgressDialog(getContext());
-        if (!dialog.isShowing()) dialog.show();
-        dialog.setData(desc);
+        mProgress = new LoadingProgressDialog(getContext());
+        if (!mProgress.isShowing()) mProgress.show();
+        mProgress.setData(desc);
     }
 
     /**
      * 隐藏loading进度条
      */
     private void hideProgress() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+        if (mProgress != null && mProgress.isShowing()) {
+            mProgress.dismiss();
         }
     }
 

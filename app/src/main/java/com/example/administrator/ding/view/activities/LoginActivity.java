@@ -14,15 +14,15 @@ import android.widget.*;
 
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.base.SimpleActivity;
+import com.example.administrator.ding.contract.LoginContract;
 import com.example.administrator.ding.model.entities.User;
-import com.example.administrator.ding.base.MyApplication;
+import com.example.administrator.ding.config.MyApplication;
 import com.example.administrator.ding.presenter.impl.LoginPresenterImpl;
-import com.example.administrator.ding.view.ILoginView;
 import com.example.administrator.ding.utils.NetStateCheckHelper;
 import com.example.administrator.ding.utils.SystemResHelper;
 
 
-public class LoginActivity extends SimpleActivity implements ILoginView {
+public class LoginActivity extends SimpleActivity implements LoginContract.ILoginView {
 
     /**
      * 用户不存在
@@ -41,8 +41,8 @@ public class LoginActivity extends SimpleActivity implements ILoginView {
      */
     private static final int NO_NETWORK = 3;
 
-    private EditText accountEv, passwordEv;
-    private ImageView loginBtn;
+    private EditText mAccountEv, mPasswordEv;
+    private ImageView mLoginIv;
     private LoginPresenterImpl mPresenter;
 
 
@@ -61,16 +61,16 @@ public class LoginActivity extends SimpleActivity implements ILoginView {
 
     @Override
     public void initView() {
-        accountEv = (EditText)findViewById(R.id.account_ev);
-        passwordEv = (EditText)findViewById(R.id.password_ev);
-        loginBtn = (ImageView) findViewById(R.id.login_btn);
+        mAccountEv = (EditText)findViewById(R.id.account_ev);
+        mPasswordEv = (EditText)findViewById(R.id.password_ev);
+        mLoginIv = (ImageView) findViewById(R.id.login_btn);
     }
 
     @SuppressLint("HandlerLeak")
     @Override
     protected void initData() {
         mPresenter = new LoginPresenterImpl(this);
-        handler = new Handler() {
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -98,14 +98,14 @@ public class LoginActivity extends SimpleActivity implements ILoginView {
 
     @Override
     protected void initListener() {
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        mLoginIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SystemResHelper.hideKeyBoard(v);
                 attemptLogin();
             }
         });
-        passwordEv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mPasswordEv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -127,8 +127,8 @@ public class LoginActivity extends SimpleActivity implements ILoginView {
      * 注册信息检查提交
      */
     private void attemptLogin() {
-        String account = accountEv.getText().toString().trim();
-        String password = passwordEv.getText().toString().trim();
+        String account = mAccountEv.getText().toString().trim();
+        String password = mPasswordEv.getText().toString().trim();
         mPresenter.submitUserInfoToServer(account, password);
     }
 
@@ -143,14 +143,14 @@ public class LoginActivity extends SimpleActivity implements ILoginView {
 
     @Override
     public void nameIsEmpty() {
-        accountEv.setError("用户名不能为空");
-        accountEv.requestFocus();
+        mAccountEv.setError("用户名不能为空");
+        mAccountEv.requestFocus();
     }
 
     @Override
     public void passwordEmpty() {
-        passwordEv.setError("密码不能为空");
-        passwordEv.requestFocus();
+        mPasswordEv.setError("密码不能为空");
+        mPasswordEv.requestFocus();
     }
 
     @Override
@@ -178,4 +178,5 @@ public class LoginActivity extends SimpleActivity implements ILoginView {
     public void loginFailed() {
         sendLoadingMessage(LOGIN_FAILED);
     }
+
 }

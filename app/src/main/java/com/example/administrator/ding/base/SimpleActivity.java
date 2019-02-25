@@ -7,8 +7,8 @@ import com.example.administrator.ding.widgt.LoadingProgressDialog;
 
 public abstract class SimpleActivity extends BaseActivity {
 
-    private LoadingProgressDialog dialog;
-    protected Handler handler;
+    private LoadingProgressDialog mLoadingProgress;
+    protected Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,27 +22,35 @@ public abstract class SimpleActivity extends BaseActivity {
     protected void sendLoadingMessage(int msgWhat) {
         Message msg = new Message();
         msg.what = msgWhat;
-        handler.sendMessage(msg);
+        mHandler.sendMessage(msg);
     }
 
     /**
      * 显示loading进度条
      */
     protected void showProgress(String desc) {
-        if (dialog == null) {
-            dialog = new LoadingProgressDialog(getContext());
-            dialog.show();
+        if (mLoadingProgress == null) {
+            mLoadingProgress = new LoadingProgressDialog(getContext());
+            mLoadingProgress.show();
         }
-        if (!dialog.isShowing()) dialog.show();
-        dialog.setData(desc);
+        if (!mLoadingProgress.isShowing()) mLoadingProgress.show();
+        mLoadingProgress.setData(desc);
     }
 
     /**
      * 隐藏loading进度条
      */
     protected void hideProgress() {
-        if(dialog != null) {
-            dialog.dismiss();
+        if(mLoadingProgress != null) {
+            mLoadingProgress.dismiss();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
         }
     }
 }

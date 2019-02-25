@@ -33,58 +33,58 @@ public class DateAnalysisActivity extends BaseActivity {
     /**
      * 曲线根布局
      */
-    private ConstraintLayout LineChartCl, ColumnarChartCl;
+    private ConstraintLayout mLineChartCl, mColumnarChartCl;
 
     /**
      * 每条曲线名称
      */
-    private String[] planLineTitles = {"钉入总数", "拔出总数"};
+    private String[] mPlanLineTitles = {"钉入总数", "拔出总数"};
     /**
      * 折线的每条曲线的横轴值(两条曲线相同)
      */
-    private ArrayList<String> planLineChartXValues;
+    private ArrayList<String> mPlanLineChartXValues;
     /**
      * 折线的每条曲线的纵轴值
      */
-    private ArrayList<int[]> planLineChartYValues;
+    private ArrayList<int[]> mPlanLineChartYValues;
     /**
      * 柱状图每条曲线的纵轴值
      */
-    private ArrayList<int[]> planColumnarChartYValues;
+    private ArrayList<int[]> mPlanColumnarChartYValues;
     /**
      * 柱状图每条曲线的横轴值
      */
-    private ArrayList<String> planColumnarChartXValues;
+    private ArrayList<String> mPlanColumnarChartXValues;
 
     /**
      * 每条曲线名称
      */
-    private String[] moodLineTitles = {"(好)钉总数 ", "(好)拔总数", "(厄)钉总数 ", "(厄)拔总数 "};
+    private String[] mMoodLineTitles = {"(好)钉总数 ", "(好)拔总数", "(厄)钉总数 ", "(厄)拔总数 "};
     /**
      * 折线的每条曲线的横轴值(两条曲线相同)
      */
-    private ArrayList<String> moodLineChartXValues;
+    private ArrayList<String> mMoodLineChartXValues;
     /**
      * 折线的每条曲线的纵轴值
      */
-    private ArrayList<int[][]> moodLineChartYValues;
+    private ArrayList<int[][]> mMoodLineChartYValues;
     /**
      * 柱状图每条曲线的纵轴值
      */
-    private ArrayList<int[][]> moodColumnarChartYValues;
+    private ArrayList<int[][]> mMoodColumnarChartYValues;
     /**
      * 柱状图每条曲线的横轴值
      */
-    private ArrayList<String> moodColumnarChartXValues;
+    private ArrayList<String> mMoodColumnarChartXValues;
 
     /**
      * 数据model层
      */
-    private DateAnalysisModel model;
+    private DateAnalysisModel mModel;
     /**
      * intent获取的tag，表示类型
      */
-    private String tag;
+    private String mTag;
 
 
 
@@ -94,7 +94,7 @@ public class DateAnalysisActivity extends BaseActivity {
 
         setChartDate();
         // 绘制图表
-        if ("plan".equals(tag)) {
+        if ("plan".equals(mTag)) {
             paintPlanLineChart();
             paintPlanColumnarChart();
         }else {
@@ -122,44 +122,44 @@ public class DateAnalysisActivity extends BaseActivity {
         // 设置通知栏颜色
         SystemResHelper.setStateBarColor(this);
 
-        LineChartCl = findViewById(R.id.line_chart_cl);
-        ColumnarChartCl = findViewById(R.id.columnar_chart_cl);
+        mLineChartCl = findViewById(R.id.line_chart_cl);
+        mColumnarChartCl = findViewById(R.id.columnar_chart_cl);
     }
 
     @Override
     protected void initData() {
-        tag = getIntent().getStringExtra("arg");
-        model = new DateAnalysisModel(getContext());
+        mTag = getIntent().getStringExtra("arg");
+        mModel = new DateAnalysisModel(getContext());
 
         // 获取图表需要展示的数据
-        if ("plan".equals(tag)) {
-            model.getPlanLineChartDate(new DateAnalysisModel.OnGetPlanDateListener() {
+        if ("plan".equals(mTag)) {
+            mModel.getPlanLineChartDate(new DateAnalysisModel.OnGetPlanDateListener() {
                 @Override
                 public void onSuccess(ArrayList<String> xValues, ArrayList<int[]> yValues) {
-                    planLineChartXValues = xValues;
-                    planLineChartYValues = yValues;
+                    mPlanLineChartXValues = xValues;
+                    mPlanLineChartYValues = yValues;
                 }
             });
-            model.getPlanColumnarChartDate(new DateAnalysisModel.OnGetPlanDateListener() {
+            mModel.getPlanColumnarChartDate(new DateAnalysisModel.OnGetPlanDateListener() {
                 @Override
                 public void onSuccess(ArrayList<String> xValues, ArrayList<int[]> yValues) {
-                    planColumnarChartXValues = xValues;
-                    planColumnarChartYValues = yValues;
+                    mPlanColumnarChartXValues = xValues;
+                    mPlanColumnarChartYValues = yValues;
                 }
             });
         }else {
-            model.getMoodLineChartDate(new DateAnalysisModel.OnGetMoodDataListener() {
+            mModel.getMoodLineChartDate(new DateAnalysisModel.OnGetMoodDataListener() {
                 @Override
                 public void onSuccess(ArrayList<String> xValues, ArrayList<int[][]> yValues) {
-                    moodLineChartXValues = xValues;
-                    moodLineChartYValues = yValues;
+                    mMoodLineChartXValues = xValues;
+                    mMoodLineChartYValues = yValues;
                 }
             });
-            model.getMoodColumnarChartDate(new DateAnalysisModel.OnGetMoodDataListener() {
+            mModel.getMoodColumnarChartDate(new DateAnalysisModel.OnGetMoodDataListener() {
                 @Override
                 public void onSuccess(ArrayList<String> xValues, ArrayList<int[][]> yValues) {
-                    moodColumnarChartXValues = xValues;
-                    moodColumnarChartYValues = yValues;
+                    mMoodColumnarChartXValues = xValues;
+                    mMoodColumnarChartYValues = yValues;
                 }
             });
         }
@@ -203,12 +203,12 @@ public class DateAnalysisActivity extends BaseActivity {
      */
     private void paintPlanLineChart() {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        TimeSeries series1 = new TimeSeries(planLineTitles[0]);
-        TimeSeries series2 = new TimeSeries(planLineTitles[1]);
-        for(int i = 0; i < planLineChartXValues.size(); i++) {
+        TimeSeries series1 = new TimeSeries(mPlanLineTitles[0]);
+        TimeSeries series2 = new TimeSeries(mPlanLineTitles[1]);
+        for(int i = 0; i < mPlanLineChartXValues.size(); i++) {
             // 这里add的x和下面设置x标签addXTextLabel添加的x对应
-            series1.add(i, planLineChartYValues.get(i)[0]);
-            series2.add(i, planLineChartYValues.get(i)[1]);
+            series1.add(i, mPlanLineChartYValues.get(i)[0]);
+            series2.add(i, mPlanLineChartYValues.get(i)[1]);
         }
         // 添加数据集
         dataset.addSeries(series1);
@@ -231,7 +231,7 @@ public class DateAnalysisActivity extends BaseActivity {
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
         params.topToBottom = R.id.date_start_desc_tv;
         params.topMargin = 50;
-        LineChartCl.addView(view, 0, params);
+        mLineChartCl.addView(view, 0, params);
     }
 
     /**
@@ -240,7 +240,7 @@ public class DateAnalysisActivity extends BaseActivity {
      */
     public void setPlanLineChartXTextLabel(XYMultipleSeriesRenderer renderer) {
         for(int i = 0; i < 7; i++) {
-            renderer.addXTextLabel(i, planLineChartXValues.get(i));
+            renderer.addXTextLabel(i, mPlanLineChartXValues.get(i));
         }
     }
 
@@ -320,12 +320,12 @@ public class DateAnalysisActivity extends BaseActivity {
     private void setChartDate(boolean flag, String showText) {
         if(flag) {
             ArrayList<String> weeks = DateUtil.getCurrentWeeksDate("yyyy-MM-dd");
-            TextView tv1 = LineChartCl.findViewById(R.id.date_start_desc_tv);
-            TextView tv2 = LineChartCl.findViewById(R.id.date_end_desc_tv);
+            TextView tv1 = mLineChartCl.findViewById(R.id.date_start_desc_tv);
+            TextView tv2 = mLineChartCl.findViewById(R.id.date_end_desc_tv);
             tv1.setText(weeks.get(0));
             tv2.setText(weeks.get(6));
         }else {
-            TextView tv2 = ColumnarChartCl.findViewById(R.id.month_desc_tv);
+            TextView tv2 = mColumnarChartCl.findViewById(R.id.month_desc_tv);
             tv2.setText(showText);
         }
     }
@@ -335,11 +335,11 @@ public class DateAnalysisActivity extends BaseActivity {
      */
     private void paintPlanColumnarChart() {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        CategorySeries series1 = new CategorySeries(planLineTitles[0]);
-        CategorySeries series2 = new CategorySeries(planLineTitles[1]);
-        for(int i = 0; i < planColumnarChartXValues.size(); i++) {
-            series1.add(planColumnarChartYValues.get(i)[0]);
-            series2.add(planColumnarChartYValues.get(i)[1]);
+        CategorySeries series1 = new CategorySeries(mPlanLineTitles[0]);
+        CategorySeries series2 = new CategorySeries(mPlanLineTitles[1]);
+        for(int i = 0; i < mPlanColumnarChartXValues.size(); i++) {
+            series1.add(mPlanColumnarChartYValues.get(i)[0]);
+            series2.add(mPlanColumnarChartYValues.get(i)[1]);
         }
         //添加数据集
         dataset.addSeries(series1.toXYSeries());
@@ -361,7 +361,7 @@ public class DateAnalysisActivity extends BaseActivity {
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
         params.topToBottom = R.id.month_desc_tv;
         params.topMargin = 50;
-        ColumnarChartCl.addView(view, 0, params);
+        mColumnarChartCl.addView(view, 0, params);
     }
 
     /**
@@ -430,7 +430,7 @@ public class DateAnalysisActivity extends BaseActivity {
     private void setPlanColumnarChartXTextLabel(XYMultipleSeriesRenderer renderer) {
         for(int i = 1; i < 13; i++) {
             //这里的i和坐标轴上的刻度对应，设置从1开始，空出0刻度
-            renderer.addXTextLabel(i, planColumnarChartXValues.get(i - 1));
+            renderer.addXTextLabel(i, mPlanColumnarChartXValues.get(i - 1));
         }
     }
 
@@ -457,16 +457,16 @@ public class DateAnalysisActivity extends BaseActivity {
      */
     private void paintMoodLineChart() {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        TimeSeries series1 = new TimeSeries(moodLineTitles[0]);
-        TimeSeries series2 = new TimeSeries(moodLineTitles[1]);
-        TimeSeries series3 = new TimeSeries(moodLineTitles[2]);
-        TimeSeries series4 = new TimeSeries(moodLineTitles[3]);
-        for(int i = 0; i < moodLineChartXValues.size(); i++) {
+        TimeSeries series1 = new TimeSeries(mMoodLineTitles[0]);
+        TimeSeries series2 = new TimeSeries(mMoodLineTitles[1]);
+        TimeSeries series3 = new TimeSeries(mMoodLineTitles[2]);
+        TimeSeries series4 = new TimeSeries(mMoodLineTitles[3]);
+        for(int i = 0; i < mMoodLineChartXValues.size(); i++) {
             // 这里add的x和下面设置x标签addXTextLabel添加的x对应
-            series1.add(i, moodLineChartYValues.get(i)[0][0]);
-            series2.add(i, moodLineChartYValues.get(i)[0][1]);
-            series3.add(i, moodLineChartYValues.get(i)[0][2]);
-            series4.add(i, moodLineChartYValues.get(i)[0][3]);
+            series1.add(i, mMoodLineChartYValues.get(i)[0][0]);
+            series2.add(i, mMoodLineChartYValues.get(i)[0][1]);
+            series3.add(i, mMoodLineChartYValues.get(i)[0][2]);
+            series4.add(i, mMoodLineChartYValues.get(i)[0][3]);
         }
         // 添加数据集
         dataset.addSeries(series1);
@@ -497,7 +497,7 @@ public class DateAnalysisActivity extends BaseActivity {
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
         params.topToBottom = R.id.date_start_desc_tv;
         params.topMargin = 50;
-        LineChartCl.addView(view, 0, params);
+        mLineChartCl.addView(view, 0, params);
     }
 
     /**
@@ -505,15 +505,15 @@ public class DateAnalysisActivity extends BaseActivity {
      */
     private void paintMoodColumnarChart() {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        CategorySeries series1 = new CategorySeries(moodLineTitles[0]);
-        CategorySeries series2 = new CategorySeries(moodLineTitles[1]);
-        CategorySeries series3 = new CategorySeries(moodLineTitles[2]);
-        CategorySeries series4 = new CategorySeries(moodLineTitles[3]);
-        for(int i = 0; i < moodColumnarChartXValues.size(); i++) {
-            series1.add(moodColumnarChartYValues.get(i)[0][0]);
-            series2.add(moodColumnarChartYValues.get(i)[0][1]);
-            series3.add(moodColumnarChartYValues.get(i)[0][2]);
-            series4.add(moodColumnarChartYValues.get(i)[0][3]);
+        CategorySeries series1 = new CategorySeries(mMoodLineTitles[0]);
+        CategorySeries series2 = new CategorySeries(mMoodLineTitles[1]);
+        CategorySeries series3 = new CategorySeries(mMoodLineTitles[2]);
+        CategorySeries series4 = new CategorySeries(mMoodLineTitles[3]);
+        for(int i = 0; i < mMoodColumnarChartXValues.size(); i++) {
+            series1.add(mMoodColumnarChartYValues.get(i)[0][0]);
+            series2.add(mMoodColumnarChartYValues.get(i)[0][1]);
+            series3.add(mMoodColumnarChartYValues.get(i)[0][2]);
+            series4.add(mMoodColumnarChartYValues.get(i)[0][3]);
         }
         //添加数据集
         dataset.addSeries(series1.toXYSeries());
@@ -543,7 +543,7 @@ public class DateAnalysisActivity extends BaseActivity {
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
         params.topToBottom = R.id.month_desc_tv;
         params.topMargin = 50;
-        ColumnarChartCl.addView(view, 0, params);
+        mColumnarChartCl.addView(view, 0, params);
     }
 
     /**
@@ -552,7 +552,7 @@ public class DateAnalysisActivity extends BaseActivity {
      */
     private void setMoodLineChartXTextLabel(XYMultipleSeriesRenderer renderer) {
         for(int i = 0; i < 7; i++) {
-            renderer.addXTextLabel(i, moodLineChartXValues.get(i));
+            renderer.addXTextLabel(i, mMoodLineChartXValues.get(i));
         }
     }
 
@@ -563,7 +563,7 @@ public class DateAnalysisActivity extends BaseActivity {
     private void setMoodColumnarChartXTextLabel(XYMultipleSeriesRenderer renderer) {
         for(int i = 1; i < 13; i++) {
             //这里的i和坐标轴上的刻度对应，设置从1开始，空出0刻度
-            renderer.addXTextLabel(i, moodColumnarChartXValues.get(i - 1));
+            renderer.addXTextLabel(i, mMoodColumnarChartXValues.get(i - 1));
         }
     }
 

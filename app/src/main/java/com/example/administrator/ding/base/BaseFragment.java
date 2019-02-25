@@ -16,11 +16,11 @@ public class BaseFragment extends Fragment{
     /**
      * 加载条
      */
-    protected LoadingProgressDialog dialog;
+    protected LoadingProgressDialog mDialog;
     /**
      * 网络请求的handler
      */
-    protected Handler handler;
+    protected Handler mHandler;
 
 
     /**
@@ -69,27 +69,35 @@ public class BaseFragment extends Fragment{
             msg = new Message();
         }
         msg.what = msgWhat;
-        handler.sendMessage(msg);
+        mHandler.sendMessage(msg);
     }
 
     /**
      * 显示loading进度条
      */
     protected void showProgress(String desc) {
-        if (dialog == null) {
-            dialog = new LoadingProgressDialog(getContext());
-            dialog.show();
+        if (mDialog == null) {
+            mDialog = new LoadingProgressDialog(getContext());
+            mDialog.show();
         }
-        if (!dialog.isShowing()) dialog.show();
-        dialog.setData(desc);
+        if (!mDialog.isShowing()) mDialog.show();
+        mDialog.setData(desc);
     }
 
     /**
      * 隐藏loading进度条
      */
     protected void hideProgress() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+        if (mDialog != null && mDialog.isShowing()) {
+            mDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
         }
     }
 }

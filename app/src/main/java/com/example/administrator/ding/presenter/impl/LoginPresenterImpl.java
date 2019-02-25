@@ -1,19 +1,18 @@
 package com.example.administrator.ding.presenter.impl;
 
 import android.content.Context;
+import com.example.administrator.ding.contract.LoginContract;
 import com.example.administrator.ding.model.entities.User;
 import com.example.administrator.ding.model.impl.LoginModelImpl;
 import com.example.administrator.ding.presenter.OnGetLoginResultListener;
-import com.example.administrator.ding.view.ILoginView;
-import com.example.administrator.ding.presenter.LoginPresenter;
 import com.example.administrator.ding.utils.LoginFieldCheckUtil;
 
-public class LoginPresenterImpl implements LoginPresenter {
+public class LoginPresenterImpl implements LoginContract.LoginPresenter {
 
     private LoginModelImpl mModel;
-    private ILoginView mView;
+    private LoginContract.ILoginView mView;
 
-    public LoginPresenterImpl(ILoginView mView) {
+    public LoginPresenterImpl(LoginContract.ILoginView mView) {
         this.mView = mView;
         mModel = new LoginModelImpl((Context) mView);
     }

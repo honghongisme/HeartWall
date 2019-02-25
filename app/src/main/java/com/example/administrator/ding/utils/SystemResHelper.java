@@ -31,17 +31,6 @@ public class SystemResHelper {
     }
 
     /**
-     * 获取手机屏幕宽度
-     * @param context
-     * @return
-     */
-    public static int getScreenWidth(Context context) {
-        DisplayMetrics metric = new DisplayMetrics();
-        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metric);
-        return metric.widthPixels;
-    }
-
-    /**
      * 获取手机屏幕尺寸
      * @param context
      * @return
@@ -50,14 +39,6 @@ public class SystemResHelper {
         DisplayMetrics metric = new DisplayMetrics();
         ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metric);
         return new int[]{metric.widthPixels, metric.heightPixels};
-    }
-
-    public static void showKeyBoard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager != null) {
-            view.requestFocus();
-            inputMethodManager.showSoftInput(view, 0);
-        }
     }
 
     /**

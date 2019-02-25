@@ -23,7 +23,7 @@ import com.example.administrator.ding.R;
 import com.example.administrator.ding.utils.*;
 import com.example.administrator.ding.view.activities.LookCommentDetailActivity;
 import com.example.administrator.ding.base.BaseFragment;
-import com.example.administrator.ding.base.MyApplication;
+import com.example.administrator.ding.config.MyApplication;
 import com.example.administrator.ding.model.entities.*;
 import com.example.administrator.ding.presenter.impl.MoodPresenterImpl;
 import com.example.administrator.ding.view.IMoodView;
@@ -74,51 +74,51 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
     /**
      * 可添加节点的根布局
      */
-    private AddViewsFrameLayout nailNailCustomFl;
+    private AddViewsFrameLayout mRootFrameLayout;
     /**
      * 可移动钉子ImageView
      */
-    private MoveImageView moveImageView;
+    private MoveImageView mMoveIv;
     /**
      * 可移动钉子的位置信息类
      */
-    private NailLocationParams nailLocation;
+    private NailLocationParams mNailLocation;
     /**
      * 当前选中的钉子编号(-1为无)
      */
-    private int currentSelectNailId = -1;
+    private int mCurrentSelectNailId = -1;
     /**
      * 当前选中的工具编号
      */
-    private int currentSelectToolId = 4;
+    private int mCurrentSelectToolId = 4;
     /**
      * intent里的用户信息
      */
-    private User user;
+    private User mUser;
     /**
      * 记录摇晃次数的dialog
      */
-    private Dialog countShakeNumDialog;
+    private Dialog mCountShakeNumDialog;
     /**
      * 记录摇晃次数的dialog的view
      */
-    private View countShakeNumDialogLayout;
+    private View mCountShakeNumDialogLayout;
     /**
      * 传感器
      */
-    private ShakeListenerHelper shakeListenerHelper;
+    private ShakeListenerHelper mShakeListenerHelper;
     /**
      * 晃动速度数组
      */
-    private ArrayList<Double> shakeSpeedList;
+    private ArrayList<Double> mShakeSpeedList;
     /**
      * 是否公开
      */
-    private boolean isVisible;
+    private boolean mIsVisible;
     /**
      * 是否匿名
      */
-    private boolean isAnonymous;
+    private boolean mIsAnonymous;
     private MoodPresenterImpl mPresenter;
 
 
@@ -126,10 +126,10 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        nailNailCustomFl = (AddViewsFrameLayout) inflater.inflate(R.layout.activity_nail, null);
-        nailNailCustomFl.setBackgroundResource(R.drawable.mood_bg);
+        mRootFrameLayout = (AddViewsFrameLayout) inflater.inflate(R.layout.activity_nail, null);
+        mRootFrameLayout.setBackgroundResource(R.drawable.mood_bg);
 
-        user = ((MyApplication)(getActivity().getApplication())).getUser();
+        mUser = ((MyApplication)(getActivity().getApplication())).getUser();
         mPresenter = new MoodPresenterImpl(this);
 
         initHandler();
@@ -138,14 +138,14 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
 
         mPresenter.getInitialData();
         // 刷新视图树
-        nailNailCustomFl.requestLayout();
+        mRootFrameLayout.requestLayout();
 
-        return nailNailCustomFl;
+        return mRootFrameLayout;
     }
 
     @SuppressLint("HandlerLeak")
     private void initHandler() {
-        handler = new Handler() {
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -197,7 +197,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
      * 设置菜单
      */
     private void setMenu() {
-        ArcMenu arcMenu = nailNailCustomFl.findViewById(R.id.arcMenu);
+        ArcMenu arcMenu = mRootFrameLayout.findViewById(R.id.arcMenu);
         TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.mood_tool_menu_image_res_id);
         int toolCount = toolMenuTitleArrays.length;
         for (int i = 0; i < toolCount; i++) {
@@ -209,7 +209,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
         arcMenu.setOnMenuMainBtnClickListener(new ArcMenu.OnMenuMainBtnClickListener() {
             @Override
             public void onClick() {
-                if (nailLocation != null) {
+                if (mNailLocation != null) {
                     recoverMoveImageViewLocation();
                 }
             }
@@ -235,11 +235,11 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
      * 设置拖动钉子的监听
      */
     private void setMoveImageViewListener() {
-        moveImageView = nailNailCustomFl.findViewById(R.id.move_iv);
-        moveImageView.setClickNailListener(new MoveImageView.OnClickNailListener() {
+        mMoveIv = mRootFrameLayout.findViewById(R.id.move_iv);
+        mMoveIv.setClickNailListener(new MoveImageView.OnClickNailListener() {
             @Override
             public void getClickPointLocation(final int centerPointX, final int centerPointY) {
-                if (currentSelectToolId == TOOL_HAMMER) {
+                if (mCurrentSelectToolId == TOOL_HAMMER) {
                     final int[] imageSize = OperateNailUtil.getVectorImageSizeByRes(getContext(), R.drawable.ic_mood_good_head_nail);
                     mPresenter.checkIsPlaceValid(centerPointX, centerPointY, imageSize);
                 } else {
@@ -249,7 +249,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
 
             @Override
             public void getMoveLocation(int left, int top) {
-                nailLocation.setXY(left, top);
+                mNailLocation.setXY(left, top);
             }
         });
     }
@@ -260,9 +260,9 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
      * @param selectedToolId 选中的工具
      */
     private void setCurrentToolLocation(int selectedToolId) {
-        currentSelectToolId = selectedToolId;
+        mCurrentSelectToolId = selectedToolId;
         // 移出上一个使用的tool
-        nailNailCustomFl.removeViewAt(1);
+        mRootFrameLayout.removeViewAt(1);
         //设置并添加显示当前工具
         TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.mood_tool_menu_image_res_id);
         ImageView currentSelectToolIv = new ImageView(getContext());
@@ -273,29 +273,29 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
         params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
         params.setMargins(0,0,20,20);
         // 设置工具在父viewGroup里的固定位置1上，便于移出上一个显示的工具（xml里同理）
-        nailNailCustomFl.myAddViewInLayout(currentSelectToolIv, 1, params);
+        mRootFrameLayout.myAddViewInLayout(currentSelectToolIv, 1, params);
         // 当选中拔钉子和查看细节工具时，隐藏移动钉子并重置innerNail
         if (selectedToolId == TOOL_CLAW_HAMMER || selectedToolId == TOOL_LOOK_DETAILS) {
             resetMoveImageView();
         }
         // 当选中钉子时，再设置一层可移动的钉子iv
         if (selectedToolId == TOOL_GOOD_NAIL || selectedToolId == TOOL_BAD_NAIL) {
-            currentSelectNailId = selectedToolId;
+            mCurrentSelectNailId = selectedToolId;
             // 重置位置信息类
-            nailLocation = new NailLocationParams(getContext());
+            mNailLocation = new NailLocationParams(getContext());
             params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(nailLocation.getLeft(), nailLocation.getTop(),0,0);
-            moveImageView.setVisibility(View.VISIBLE);
-            moveImageView.setImageResource(typedArray.getResourceId(selectedToolId, 0));
-            moveImageView.setLayoutParams(params);
+            params.setMargins(mNailLocation.getLeft(), mNailLocation.getTop(),0,0);
+            mMoveIv.setVisibility(View.VISIBLE);
+            mMoveIv.setImageResource(typedArray.getResourceId(selectedToolId, 0));
+            mMoveIv.setLayoutParams(params);
         }else {
             //如果之前已选过钉子，则恢复位置
-            if (nailLocation != null) {
+            if (mNailLocation != null) {
                 recoverMoveImageViewLocation();
             }else {
-                moveImageView.setVisibility(View.GONE);
+                mMoveIv.setVisibility(View.GONE);
                 // 如果是选中钉子，setLayoutParams本就会重绘视图树，这里是选中非钉子工具时
-                nailNailCustomFl.requestLayout();
+                mRootFrameLayout.requestLayout();
             }
         }
         typedArray.recycle();
@@ -308,7 +308,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
     private void setGoodNailHeadImage(MoodGoodNail nail) {
         //设置钉帽图片
         setImageViewParams(nail.getX(), nail.getY(), R.drawable.ic_mood_good_head_nail, "good");
-        nailNailCustomFl.requestLayout();
+        mRootFrameLayout.requestLayout();
     }
 
     /**
@@ -320,7 +320,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
         final ImageView imageView = new ImageView(getContext());
         imageView.setImageResource(R.drawable.nail_nail_anim);
         imageView.setLayoutParams(params);
-        nailNailCustomFl.addView(imageView, nailNailCustomFl.getChildCount(), params);
+        mRootFrameLayout.addView(imageView, mRootFrameLayout.getChildCount(), params);
         final AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getDrawable();
         int duration = 0;
         imageView.post(new Runnable() {
@@ -335,7 +335,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                nailNailCustomFl.removeView(imageView);
+                mRootFrameLayout.removeView(imageView);
             }
         }, duration);
     }
@@ -345,36 +345,36 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
      */
     private void popCountShakeNumDialog(final int x, final int y, final String date, final String record) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        countShakeNumDialogLayout = LayoutInflater.from(getContext()).inflate(R.layout.dialog_count_shake_num, null);
-        countShakeNumDialog = builder.create();
-        countShakeNumDialog.show();
-        countShakeNumDialog.getWindow().setContentView(countShakeNumDialogLayout);
+        mCountShakeNumDialogLayout = LayoutInflater.from(getContext()).inflate(R.layout.dialog_count_shake_num, null);
+        mCountShakeNumDialog = builder.create();
+        mCountShakeNumDialog.show();
+        mCountShakeNumDialog.getWindow().setContentView(mCountShakeNumDialogLayout);
         // 开启传感器
         startSensor();
-        TextView finishBtn = countShakeNumDialogLayout.findViewById(R.id.finish);
-        TextView cancelBtn = countShakeNumDialogLayout.findViewById(R.id.cancel);
+        TextView finishBtn = mCountShakeNumDialogLayout.findViewById(R.id.finish);
+        TextView cancelBtn = mCountShakeNumDialogLayout.findViewById(R.id.cancel);
         finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                countShakeNumDialog.dismiss();
+                mCountShakeNumDialog.dismiss();
                 closeSensor();
                 showProgress("更新数据中，请稍等...");
 
                 int[] nailHeadImageSize = OperateNailUtil.getVectorImageSizeByRes(getContext(), R.drawable.ic_mood_bad_head_nail);
                 final int nailHeadMarginLeft = x - nailHeadImageSize[0] / 2;
                 final int nailHeadMarginTop = y - nailHeadImageSize[1] / 2;
-                final MoodBadNail nail = new MoodBadNail(user.getId(), nailHeadMarginLeft, nailHeadMarginTop, date, null, record, 0, 1, 1, 0);
-                if (!isVisible) nail.setVisibility(0);
-                if (!isAnonymous) nail.setAnonymous(0);
+                final MoodBadNail nail = new MoodBadNail(mUser.getId(), nailHeadMarginLeft, nailHeadMarginTop, date, null, record, 0, 1, 1, 0);
+                if (!mIsVisible) nail.setVisibility(0);
+                if (!mIsAnonymous) nail.setAnonymous(0);
 
-                CrackCountHelper helper = new CrackCountHelper(shakeSpeedList);
+                CrackCountHelper helper = new CrackCountHelper(mShakeSpeedList);
                 int crackImageResId = helper.getCrackImageResId();
                 Crack crack = null;
                 if (crackImageResId != -1) {
                     int[] crackImageSize = OperateNailUtil.getNormalImageSizeByRes(getContext(), crackImageResId);
                     int crackMarginLeft = x - crackImageSize[0] / 2;
                     int crackMarginTop = y - crackImageSize[1] / 2;
-                    crack = new Crack(user.getId(), crackMarginLeft, crackMarginTop, date, shakeSpeedList.size(), helper.getPower(), helper.getCrackImageResIdFromTypedArray());
+                    crack = new Crack(mUser.getId(), crackMarginLeft, crackMarginTop, date, mShakeSpeedList.size(), helper.getPower(), helper.getCrackImageResIdFromTypedArray());
                 }
 
                 // 保存钉帽和裂缝的信息
@@ -386,7 +386,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                countShakeNumDialog.dismiss();
+                mCountShakeNumDialog.dismiss();
                 closeSensor();
             }
         });
@@ -396,7 +396,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
      * 更新计数dialog的数字
      */
     private void updateDialogShakeNum() {
-        TextView num = countShakeNumDialogLayout.findViewById(R.id.num);
+        TextView num = mCountShakeNumDialogLayout.findViewById(R.id.num);
         num.setText((Integer.parseInt(num.getText().toString()) + 1) + "");
     }
 
@@ -404,23 +404,23 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
      * 开启传感器
      */
     private void startSensor() {
-        shakeListenerHelper = new ShakeListenerHelper(getContext());
-        shakeSpeedList = new ArrayList<>();
-        shakeListenerHelper.setOnShakeListener(new ShakeListenerHelper.OnShakeListener() {
+        mShakeListenerHelper = new ShakeListenerHelper(getContext());
+        mShakeSpeedList = new ArrayList<>();
+        mShakeListenerHelper.setOnShakeListener(new ShakeListenerHelper.OnShakeListener() {
             @Override
             public void onShake(double speed) {
-                shakeSpeedList.add(speed);
+                mShakeSpeedList.add(speed);
                 updateDialogShakeNum();
             }
         });
-        shakeListenerHelper.start();
+        mShakeListenerHelper.start();
     }
 
     /**
      * 关闭传感器
      */
     private void closeSensor() {
-        shakeListenerHelper.stop();
+        mShakeListenerHelper.stop();
     }
 
     /**
@@ -438,12 +438,12 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
         params.setMargins(MarginLeft, marginTop, 0, 0);
         imageView.setOnClickListener(this);
         imageView.setTag(MarginLeft + "+" + marginTop + "+" + type);
-        nailNailCustomFl.myAddViewInLayout(imageView, params);
+        mRootFrameLayout.myAddViewInLayout(imageView, params);
     }
 
     @Override
     public void onClick(final View v) {
-        if(currentSelectToolId == TOOL_LOOK_DETAILS) {
+        if(mCurrentSelectToolId == TOOL_LOOK_DETAILS) {
             if (v.getTag() != null) {
                 String[] tag  = ((String) v.getTag()).split("\\+");
                 int x = Integer.parseInt(tag[0]);
@@ -456,7 +456,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
                     mPresenter.getCrackDetails(x, y);
                 }
             }
-        }else if (currentSelectToolId == TOOL_CLAW_HAMMER) {
+        }else if (mCurrentSelectToolId == TOOL_CLAW_HAMMER) {
             if (v.getTag() != null) {
                 String[] tag  = ((String) v.getTag()).split("\\+");
                 final int x = Integer.parseInt(tag[0]);
@@ -472,7 +472,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
                                     dialog.dismiss();
                                     showProgress("更新数据中，请稍等...");
 
-                                    MoodGoodNail nail = new MoodGoodNail(user.getId(), x, y, null, DateUtil.getDateStr("yyyy-MM-dd HH:mm:ss"), null, 0, 0, 0);
+                                    MoodGoodNail nail = new MoodGoodNail(mUser.getId(), x, y, null, DateUtil.getDateStr("yyyy-MM-dd HH:mm:ss"), null, 0, 0, 0);
                                     // 拔出钉子，更新信息
                                     mPresenter.updateGoodNailFromServer(nail, v);
                                 }
@@ -496,7 +496,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
                                     dialog.dismiss();
                                     showProgress("更新数据中，请稍等...");
 
-                                    MoodBadNail nail = new MoodBadNail(user.getId(), x, y, null, DateUtil.getDateStr("yyyy-MM-dd HH:mm:ss"), null, 0, 0, 0, 0);
+                                    MoodBadNail nail = new MoodBadNail(mUser.getId(), x, y, null, DateUtil.getDateStr("yyyy-MM-dd HH:mm:ss"), null, 0, 0, 0, 0);
                                     mPresenter.updateBadNailFromServer(nail, v);
                                 }
                             })
@@ -545,7 +545,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
      * @param view
      */
     private void deleteNodeFromLayout(View view) {
-        nailNailCustomFl.removeView(view);
+        mRootFrameLayout.removeView(view);
     }
 
     /**
@@ -565,18 +565,18 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
      */
     private void recoverMoveImageViewLocation() {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(nailLocation.getLeft(),nailLocation.getTop(),0,0);
-        moveImageView.setVisibility(View.VISIBLE);
-        moveImageView.setLayoutParams(params);
+        params.setMargins(mNailLocation.getLeft(), mNailLocation.getTop(),0,0);
+        mMoveIv.setVisibility(View.VISIBLE);
+        mMoveIv.setLayoutParams(params);
     }
 
     /**
      * 重置可移动钉子
      */
     private void resetMoveImageView() {
-        nailLocation = null;
-        moveImageView.setVisibility(View.GONE);
-        nailNailCustomFl.requestLayout();
+        mNailLocation = null;
+        mMoveIv.setVisibility(View.GONE);
+        mRootFrameLayout.requestLayout();
     }
 
     /**
@@ -626,15 +626,15 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void placeValid(final int centerPointX, final int centerPointY, final int[] imageSize) {
         if (NetStateCheckHelper.isNetWork(getContext())) {
-            isVisible = false;
-            isAnonymous = false;
+            mIsVisible = false;
+            mIsAnonymous = false;
             // 弹出编辑框
             final String date = DateUtil.getDateStr("yyyy-MM-dd HH:mm:ss");
             final EditInfoDialog editInfoDialog = new EditInfoDialog(getContext());
             editInfoDialog.show();
             editInfoDialog.setData(1, date);
             editInfoDialog.setVisibleCheckBox();
-            if (currentSelectNailId == TOOL_GOOD_NAIL) {
+            if (mCurrentSelectNailId == TOOL_GOOD_NAIL) {
                 // 钉下好运钉子
                 editInfoDialog.setDialogBtnClickListener(new EditInfoDialog.DialogBtnClickListener() {
                     @Override
@@ -642,9 +642,9 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
                         showProgress("更新数据中，请稍候...");
                         int left = centerPointX - imageSize[0] / 2;
                         int top = centerPointY - imageSize[1] / 2;
-                        final MoodGoodNail nail = new MoodGoodNail(user.getId(), left, top, date, null, text, 0, 1, 1);
-                        if (!isVisible) nail.setVisibility(0);
-                        if (!isAnonymous) nail.setAnonymous(0);
+                        final MoodGoodNail nail = new MoodGoodNail(mUser.getId(), left, top, date, null, text, 0, 1, 1);
+                        if (!mIsVisible) nail.setVisibility(0);
+                        if (!mIsAnonymous) nail.setAnonymous(0);
                         mPresenter.submitGoodNailEditInfoToServer(nail, editInfoDialog);
                     }
                     @Override
@@ -654,15 +654,15 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
 
                     @Override
                     public void isVisible(boolean isChecked) {
-                        isVisible = isChecked;
+                        mIsVisible = isChecked;
                     }
 
                     @Override
                     public void isAnonymous(boolean isChecked) {
-                        isAnonymous = isChecked;
+                        mIsAnonymous = isChecked;
                     }
                 });
-            } else if (currentSelectNailId == TOOL_BAD_NAIL) {
+            } else if (mCurrentSelectNailId == TOOL_BAD_NAIL) {
                 // 钉下厄运钉子
                 editInfoDialog.setDialogBtnClickListener(new EditInfoDialog.DialogBtnClickListener() {
                     @Override
@@ -678,12 +678,12 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
 
                     @Override
                     public void isVisible(boolean isChecked) {
-                        isVisible = isChecked;
+                        mIsVisible = isChecked;
                     }
 
                     @Override
                     public void isAnonymous(boolean isChecked) {
-                        isAnonymous = isChecked;
+                        mIsAnonymous = isChecked;
                     }
                 });
 
@@ -771,7 +771,7 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onGetGoodNailHeadDetails(MoodGoodNail nail) {
         Intent i = new Intent(getContext(), LookCommentDetailActivity.class);
-        i.putExtra("name", getTopShowName(user.getName(), nail.getVisibility(), nail.getAnonymous()));
+        i.putExtra("name", getTopShowName(mUser.getName(), nail.getVisibility(), nail.getAnonymous()));
         i.putExtra("date", nail.getFirstDate());
         i.putExtra("content", nail.getRecord());
         i.putExtra("type", "good");
@@ -781,10 +781,10 @@ public class MoodNailFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onGetBadNailHeadDetails(MoodBadNail nail) {
         Intent i = new Intent(getContext(), LookCommentDetailActivity.class);
-        i.putExtra("id", user.getId());
+        i.putExtra("id", mUser.getId());
         i.putExtra("x", nail.getX());
         i.putExtra("y", nail.getY());
-        i.putExtra("name", getTopShowName(user.getName(), nail.getVisibility(), nail.getAnonymous()));
+        i.putExtra("name", getTopShowName(mUser.getName(), nail.getVisibility(), nail.getAnonymous()));
         i.putExtra("date", nail.getFirstDate());
         i.putExtra("content", nail.getRecord());
         i.putExtra("visible", nail.getVisibility());

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.base.MyApplication;
+import com.example.administrator.ding.config.MyApplication;
 import com.example.administrator.ding.view.IMainView;
 import com.example.administrator.ding.base.SimpleActivity;
 import com.example.administrator.ding.model.entities.User;
@@ -41,17 +41,17 @@ public class MainActivity extends SimpleActivity
      */
     private static final int START_NAIL_ACTIVITY_REQUEST_CODE = 1;
 
-    private DrawerLayout drawer;
+    private DrawerLayout mDrawerLayout;
     /**
      * 数据显示模块
      */
-    private LinearLayout moodModule;
-    private LinearLayout planModule;
+    private LinearLayout mMoodModuleLl;
+    private LinearLayout mPlanModuleLl;
 
     private MainPresenterImpl mPresenter;
 
-    private ArrayList<Integer> imagePath;
-    private ArrayList<String> imageTitle;
+    private ArrayList<Integer> mBannerImagePath;
+    private ArrayList<String> mBannerImageTitle;
 
 
     @Override
@@ -84,8 +84,8 @@ public class MainActivity extends SimpleActivity
         initBanner();
         initMenu();
 
-        moodModule = findViewById(R.id.mood_module_layout);
-        planModule = findViewById(R.id.plan_module_layout);
+        mMoodModuleLl = findViewById(R.id.mood_module_layout);
+        mPlanModuleLl = findViewById(R.id.plan_module_layout);
 
         ImageView moodLearnMoreBtn = findViewById(R.id.learn_more_mood_date_btn);
         moodLearnMoreBtn.setOnClickListener(this);
@@ -106,10 +106,10 @@ public class MainActivity extends SimpleActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Heart Wall");
         setSupportActionBar(toolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
@@ -184,8 +184,8 @@ public class MainActivity extends SimpleActivity
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -206,7 +206,7 @@ public class MainActivity extends SimpleActivity
                 showIsCleanUserInfoDialog();
                 break;
         }
-        drawer.closeDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -289,14 +289,14 @@ public class MainActivity extends SimpleActivity
      * 设置banner的数据
      */
     private void setBannerDate() {
-        imagePath = new ArrayList<>();
-        imageTitle = new ArrayList<>();
-        imagePath.add(R.drawable.main_bg_01);
-        imagePath.add(R.drawable.main_bg_02);
-        imagePath.add(R.drawable.main_bg03);
-        imageTitle.add("记录你的心情与计划");
-        imageTitle.add("钉下你的想法");
-        imageTitle.add("每日记录");
+        mBannerImagePath = new ArrayList<>();
+        mBannerImageTitle = new ArrayList<>();
+        mBannerImagePath.add(R.drawable.main_bg_01);
+        mBannerImagePath.add(R.drawable.main_bg_02);
+        mBannerImagePath.add(R.drawable.main_bg03);
+        mBannerImageTitle.add("记录你的心情与计划");
+        mBannerImageTitle.add("钉下你的想法");
+        mBannerImageTitle.add("每日记录");
     }
 
     /**
@@ -312,7 +312,7 @@ public class MainActivity extends SimpleActivity
         //设置轮播的动画效果
         mBanner.setBannerAnimation(Transformer.Default);
         //轮播图片的文字
-        mBanner.setBannerTitles(imageTitle);
+        mBanner.setBannerTitles(mBannerImageTitle);
         //设置轮播间隔时间
         mBanner.setDelayTime(5000);
         //设置是否为自动轮播，默认是true
@@ -320,7 +320,7 @@ public class MainActivity extends SimpleActivity
         //设置指示器的位置，小点点，居中显示
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
         //设置图片加载地址
-        mBanner.setImages(imagePath)
+        mBanner.setImages(mBannerImagePath)
                 //轮播图的监听
                 .setOnBannerListener(new OnBannerListener() {
                     @Override
@@ -348,10 +348,10 @@ public class MainActivity extends SimpleActivity
 
     @Override
     public void onGetCurrentMoodModuleInfo(String badNailNumberStr, String pullNumberStr, String goodNailNumberStr, String comment) {
-        TextView badNailNumberTv = moodModule.findViewById(R.id.today_nail_nail_num_tv);
-        TextView pullNumberTv = moodModule.findViewById(R.id.today_pull_nail_num_tv);
-        TextView goodNailNumberTv = moodModule.findViewById(R.id.today_extra_nail_num_tv);
-        TextView commentTv = moodModule.findViewById(R.id.today_comment_tv);
+        TextView badNailNumberTv = mMoodModuleLl.findViewById(R.id.today_nail_nail_num_tv);
+        TextView pullNumberTv = mMoodModuleLl.findViewById(R.id.today_pull_nail_num_tv);
+        TextView goodNailNumberTv = mMoodModuleLl.findViewById(R.id.today_extra_nail_num_tv);
+        TextView commentTv = mMoodModuleLl.findViewById(R.id.today_comment_tv);
         goodNailNumberTv.setVisibility(View.VISIBLE);
 
         badNailNumberTv.setText(badNailNumberStr);
@@ -362,10 +362,10 @@ public class MainActivity extends SimpleActivity
 
     @Override
     public void onGetCurrentPlanModuleInfo(String nailNumberStr, String pullNumberStr, String comment) {
-        TextView nailNumberTv = planModule.findViewById(R.id.today_nail_nail_num_tv);
-        TextView pullNumberTv = planModule.findViewById(R.id.today_pull_nail_num_tv);
-        TextView commentTv = planModule.findViewById(R.id.today_comment_tv);
-        TextView goodNailNumberTv = planModule.findViewById(R.id.today_extra_nail_num_tv);
+        TextView nailNumberTv = mPlanModuleLl.findViewById(R.id.today_nail_nail_num_tv);
+        TextView pullNumberTv = mPlanModuleLl.findViewById(R.id.today_pull_nail_num_tv);
+        TextView commentTv = mPlanModuleLl.findViewById(R.id.today_comment_tv);
+        TextView goodNailNumberTv = mPlanModuleLl.findViewById(R.id.today_extra_nail_num_tv);
         goodNailNumberTv.setVisibility(View.GONE);
 
         nailNumberTv.setText(nailNumberStr);

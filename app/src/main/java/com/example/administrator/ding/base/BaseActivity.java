@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Toast;
 
 /**
@@ -40,13 +39,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract Context getContext();
 
 
-    private Context context;
-    private Toast toast;
+    private Context mContext;
+    private Toast mToast;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.context = getContext();
+        this.mContext = getContext();
         initContentViewData();
         setContentView(getContentViewResId());
         initView();
@@ -59,13 +58,13 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param text
      */
     public void showShortToast(String text) {
-        if(toast == null) {
-            toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+        if(mToast == null) {
+            mToast = Toast.makeText(mContext, text, Toast.LENGTH_SHORT);
         }else {
-            toast.setDuration(Toast.LENGTH_SHORT);
-            toast.setText(text);
+            mToast.setDuration(Toast.LENGTH_SHORT);
+            mToast.setText(text);
         }
-        toast.show();
+        mToast.show();
     }
 
     /**
@@ -73,22 +72,22 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param text
      */
     public void showLongToast(String text) {
-        if(toast == null) {
-            toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
+        if(mToast == null) {
+            mToast = Toast.makeText(mContext, text, Toast.LENGTH_LONG);
         }else {
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setText(text);
+            mToast.setDuration(Toast.LENGTH_LONG);
+            mToast.setText(text);
         }
-        toast.show();
+        mToast.show();
     }
 
     /**
      * 取消toast
      */
     private void cancelToast() {
-        if (toast != null) {
-            toast.cancel();
-            toast = null;
+        if (mToast != null) {
+            mToast.cancel();
+            mToast = null;
         }
     }
 

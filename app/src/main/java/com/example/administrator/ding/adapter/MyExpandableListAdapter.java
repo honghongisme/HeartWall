@@ -23,27 +23,27 @@ import java.util.Map;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private Activity context;
+    private Activity mContext;
     /**
      * group标题数组
      */
-    private String[] groups;
+    private String[] mGroupsTitles;
     /**
      * 数据map
      */
-    private Map<String, List<BagListItem>> dateMap;
+    private Map<String, List<BagListItem>> mData;
     /**
      * 计划类型中未完成的个数
      */
-    private int planNotFinishNum;
+    private int mPlanNotFinishNum;
 
 
 
     public MyExpandableListAdapter(Activity context, String[] groups, Map<String, List<BagListItem>> dateMap, int planNotFinishNum) {
-        this.context = context;
-        this.groups = groups;
-        this.dateMap = dateMap;
-        this.planNotFinishNum = planNotFinishNum;
+        this.mContext = context;
+        this.mGroupsTitles = groups;
+        this.mData = dateMap;
+        this.mPlanNotFinishNum = planNotFinishNum;
     }
 
     @Override
@@ -58,22 +58,22 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return groups.length;
+        return mGroupsTitles.length;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return dateMap.get(groups[groupPosition]).size();
+        return mData.get(mGroupsTitles[groupPosition]).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return dateMap.get(groups[groupPosition]);
+        return mData.get(mGroupsTitles[groupPosition]);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return dateMap.get(groups[groupPosition]).get(childPosition);
+        return mData.get(mGroupsTitles[groupPosition]).get(childPosition);
     }
 
     @Override
@@ -94,20 +94,20 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if(convertView == null) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.expand_list_group, null);
         }
         convertView.setTag(R.layout.expand_list_group, groupPosition);
         convertView.setTag(R.layout.expand_list_item, -1);
         TextView text = (TextView) convertView.findViewById(R.id.group_title_tv);
-        text.setText(groups[groupPosition]);
+        text.setText(mGroupsTitles[groupPosition]);
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.expand_list_item, null);
         }
         //设置显示的文字
@@ -129,7 +129,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         ImageView stateImageView = convertView.findViewById(R.id.state);
         if(groupPosition == 0) {
             stateImageView.setVisibility(View.VISIBLE);
-            if (childPosition < planNotFinishNum) {
+            if (childPosition < mPlanNotFinishNum) {
                 stateImageView.setImageResource(R.drawable.ic_not_finish);
             }else {
                 stateImageView.setImageResource(R.drawable.ic_finish);
@@ -150,7 +150,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         TextView text2 = (TextView) convertView.findViewById(R.id.lastDate);
         TextView text3 = (TextView) convertView.findViewById(R.id.some_content);
 
-        BagListItem item = dateMap.get(groups[groupPosition]).get(childPosition);
+        BagListItem item = mData.get(mGroupsTitles[groupPosition]).get(childPosition);
         convertView.setTag(item);
         text1.setText(item.getFirstDate());
         text2.setText(item.getLastDate());
@@ -161,8 +161,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
      * 刷新数据
      */
     public void refresh(HashMap<String, List<BagListItem >> dateMap, int notFinishNum) {
-        this.dateMap = dateMap;
-        planNotFinishNum = notFinishNum;
+        this.mData = dateMap;
+        mPlanNotFinishNum = notFinishNum;
         notifyDataSetChanged();
     }
 

@@ -8,21 +8,21 @@ import java.util.List;
 
 public class NormalPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
-    private List<Fragment> mlist;
+    private List<Fragment> mList;
 
     public NormalPagerAdapter(FragmentManager fm, List<Fragment> list) {
         super(fm);
-        this.mlist = list;
+        this.mList = list;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return mlist.get(position);//显示第几个页面
+        return mList.get(position);//显示第几个页面
     }
 
     @Override
     public int getCount() {
-        return mlist.size();//有几个页面
+        return mList.size();//有几个页面
     }
 
     @Override

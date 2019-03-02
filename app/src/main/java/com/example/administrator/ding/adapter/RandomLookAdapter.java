@@ -14,13 +14,13 @@ import java.util.ArrayList;
 
 public class RandomLookAdapter extends RecyclerView.Adapter<RandomLookAdapter.ItemViewHolder>{
 
-    private OnItemClickListerner listener;
+    private OnItemClickListerner mListener;
     private LayoutInflater mInflater;
-    private ArrayList<CommentItem> mDatas;
+    private ArrayList<CommentItem> mData;
 
     public RandomLookAdapter(Context context, ArrayList<CommentItem> mDatas) {
         mInflater = LayoutInflater.from(context);
-        this.mDatas = mDatas;
+        this.mData = mDatas;
     }
 
     @Override
@@ -31,17 +31,17 @@ public class RandomLookAdapter extends RecyclerView.Adapter<RandomLookAdapter.It
 
     @Override
     public void onBindViewHolder(final ItemViewHolder itemViewHolder, int i) {
-        final CommentItem data = mDatas.get(i);
+        final CommentItem data = mData.get(i);
         itemViewHolder.name.setText(data.getUserName());
         itemViewHolder.date.setText(data.getDate());
         itemViewHolder.content.setText(data.getContent());
 
-        if(listener!=null){
+        if(mListener !=null){
             itemViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     int pos=itemViewHolder.getAdapterPosition();
-                    listener.onLongItemClick(itemViewHolder.itemView, pos);
+                    mListener.onLongItemClick(itemViewHolder.itemView, pos);
                     return false;
                 }
             });
@@ -51,7 +51,7 @@ public class RandomLookAdapter extends RecyclerView.Adapter<RandomLookAdapter.It
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return mData.size();
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder{
@@ -76,7 +76,7 @@ public class RandomLookAdapter extends RecyclerView.Adapter<RandomLookAdapter.It
     }
 
     public void setOnItemClickListener(OnItemClickListerner listener){
-        this.listener=listener;
+        this.mListener =listener;
     }
 
 }

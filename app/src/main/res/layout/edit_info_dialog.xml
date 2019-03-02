@@ -51,13 +51,13 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="是否公开"
+            android:text="公开"
             android:id="@+id/visible_btn"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="是否匿名"
+            android:text="匿名"
             android:id="@+id/anonymous_btn"
             android:layout_marginLeft="15dp"
             app:layout_constraintLeft_toRightOf="@id/visible_btn"/>

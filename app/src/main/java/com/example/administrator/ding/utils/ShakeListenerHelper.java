@@ -61,9 +61,6 @@ public class ShakeListenerHelper implements SensorEventListener {
     // 重力感应器感应获得变化数据
     @Override
     public void onSensorChanged(SensorEvent event) {
-
-        //       System.out.println("-----------------------------------" + "\n" + "x : " + event.values[0] + " ; y : " + event.values[1] + " ; z : " + event.values[2]);
-
         // 现在检测时间
         long currentUpdateTime = System.currentTimeMillis();
         // 两次检测的时间间隔

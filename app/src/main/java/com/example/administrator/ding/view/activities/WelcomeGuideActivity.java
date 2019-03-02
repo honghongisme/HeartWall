@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.adapter.WelcomePagerAdapter;
+import com.example.administrator.ding.adapter.NormalPagerAdapter;
 import com.example.administrator.ding.view.fragments.LeadFragment;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 public class WelcomeGuideActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
-    private WelcomePagerAdapter mAdapter;
+    private NormalPagerAdapter mAdapter;
     private List<Fragment> mList;
 
     private int[] mImageResId = {R.drawable.lead1, R.drawable.lead2, R.drawable.lead3, R.drawable.lead4};
@@ -33,7 +33,7 @@ public class WelcomeGuideActivity extends AppCompatActivity {
         addOneFragmentToList(mImageResId[2]);
         addOneFragmentToList(mImageResId[3]);
 
-        mAdapter = new WelcomePagerAdapter(getSupportFragmentManager(), mList);
+        mAdapter = new NormalPagerAdapter(getSupportFragmentManager(), mList);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOnPageChangeListener(new MyPagerChangeListener());
     }

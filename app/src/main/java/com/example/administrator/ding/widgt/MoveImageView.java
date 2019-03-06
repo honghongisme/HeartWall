@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import android.widget.FrameLayout;
 import com.example.administrator.ding.utils.SystemResHelper;
 
 /**
@@ -37,13 +38,15 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView{
 
 
     /**
-     * view随着手指拖动而移动 当view被点击时，回调坐标
+     * view随着手指拖动而移动,遇到边界时不能继续朝滑。
+     * 当view被点击时，回调坐标
+     * 本项目里这个view父布局即根布局，getLeft即该view到屏幕左侧边缘的位置
      * @param event
      * @return
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int x = (int)event.getRawX();
+        int x = (int)event.getRawY();
         int y = (int)event.getRawY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -56,13 +59,13 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView{
                 int[] screenSize = SystemResHelper.getScreenSize(context);
                 int left, top, right, bottom;
                 left = (int) (event.getRawX() + distanceX);
-                right = (int) (event.getRawX() + distanceX + getWidth());
+                right = (int) (left + getWidth());
                 top = (int) (event.getRawY() + distanceY);
-                bottom = (int) (event.getRawY() + distanceY + getHeight());
+                bottom = (int) (top + getHeight());
                 // 设置边界
                 if (right > screenSize[0]) {
-                    left = screenSize[0] - getWidth();
                     right = screenSize[0];
+                    left = right - getWidth();
                 } else if (left < 0){
                     left = 0;
                     right = getWidth();
@@ -71,8 +74,8 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView{
                     top = 0;
                     bottom = getHeight();
                 } else if (bottom > screenSize[1]) {
-                    top = screenSize[1] - getHeight();
                     bottom = screenSize[1];
+                    top = bottom - getHeight();
                 }
                 setFrame(left, top, right, bottom);
                 break;
@@ -83,7 +86,7 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView{
                     isClick = false;
                 } else {
                     // 若move
-                    onClickNailListener.getMoveLocation((int)(event.getRawX()), (int)(event.getRawY()));
+                    onClickNailListener.getMoveLocation(getLeft(), getTop());
                 }
                 break;
         }

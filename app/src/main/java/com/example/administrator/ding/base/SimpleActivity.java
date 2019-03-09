@@ -15,16 +15,6 @@ public abstract class SimpleActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
 
-
-    /**
-     * 发送 加载message
-     */
-    protected void sendLoadingMessage(int msgWhat) {
-        Message msg = new Message();
-        msg.what = msgWhat;
-        mHandler.sendMessage(msg);
-    }
-
     /**
      * 显示loading进度条
      */

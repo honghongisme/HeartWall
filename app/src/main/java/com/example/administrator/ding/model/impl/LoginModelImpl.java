@@ -235,10 +235,10 @@ public class LoginModelImpl implements ILoginModel {
                                     jsonObject.getString("moodMonth"),
                                     jsonObject.getString("crack"));
                         }
-                        onGetLoginResultListener.isSuccess(user);
+                        onGetLoginResultListener.onSuccess(user);
                     }
                 } catch (JSONException e) {
-                    onGetLoginResultListener.isError();
+                    onGetLoginResultListener.onFailed();
                     e.printStackTrace();
                 }
 

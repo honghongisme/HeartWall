@@ -14,14 +14,14 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.model.entities.MoodBadComment;
-import com.example.administrator.ding.base.BaseFragment;
+import com.example.administrator.ding.base.SimpleFragment;
 import com.example.administrator.ding.model.impl.CardDateGetHelper;
 import com.example.administrator.ding.presenter.OnGetCheckResultListener;
 import com.example.administrator.ding.view.activities.RandomActivity;
 import com.example.administrator.ding.utils.DateUtil;
 import com.example.administrator.ding.widgt.LinesEditText;
 
-public class RandomEditFragment extends BaseFragment {
+public class RandomEditFragment extends SimpleFragment {
 
     private static final int REQUEST_FAILED = 1;
     private static final int REQUEST_INSERT_SUCCESS = 2;
@@ -102,17 +102,17 @@ public class RandomEditFragment extends BaseFragment {
         new CardDateGetHelper().insertOneCommentToServer(comment, new OnGetCheckResultListener() {
             @Override
             public void onSuccess() {
-                sendLoadingMessage(REQUEST_INSERT_SUCCESS, null);
+                mHandler.sendEmptyMessage(REQUEST_INSERT_SUCCESS);
             }
 
             @Override
             public void onFailed() {
-                sendLoadingMessage(REQUEST_FAILED, null);
+                mHandler.sendEmptyMessage(REQUEST_FAILED);
             }
 
             @Override
             public void onNotPassSensitiveWordsCheck() {
-                sendLoadingMessage(REQUEST_INPUT_SENSITIVE, null);
+                mHandler.sendEmptyMessage(REQUEST_INPUT_SENSITIVE);
             }
         });
     }

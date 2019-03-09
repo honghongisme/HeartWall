@@ -99,9 +99,6 @@ public class MainActivity extends SimpleActivity
         mPresenter = new MainPresenterImpl(this);
     }
 
-    @Override
-    protected void initListener() { }
-
     private void initToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Heart Wall");

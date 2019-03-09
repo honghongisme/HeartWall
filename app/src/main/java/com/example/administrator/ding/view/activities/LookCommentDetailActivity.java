@@ -126,23 +126,21 @@ public class LookCommentDetailActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus && visible) {
-            System.out.println("---------------onWindowFocusChanged");
             new LoadingCommentItem().getCommentItemList(this, id, x, y, new LoadingCommentItem.OnGetRequestResultListener() {
                 @Override
                 public void onSuccess(ArrayList<CommentItem> commentItems) {
-                    System.out.println("--------------size = " + commentItems.size());
                     if (commentItems.size() == 0) {
-                        sendLoadingMessage(REQUEST_RESULT_EMPTY, null);
+                        handler.sendEmptyMessage(REQUEST_RESULT_EMPTY);
                     } else {
-                        Message msg = new Message();
+                        Message msg = handler.obtainMessage(REQUEST_RESULT_SUCCESS);
                         msg.obj = commentItems;
-                        sendLoadingMessage(REQUEST_RESULT_SUCCESS, msg);
+                        handler.sendMessage(msg);
                     }
                 }
 
                 @Override
                 public void onFailed() {
-                    sendLoadingMessage(REQUEST_RESULT_FAILED, null);
+                    handler.sendEmptyMessage(REQUEST_RESULT_FAILED);
                 }
 
                 @Override
@@ -160,17 +158,6 @@ public class LookCommentDetailActivity extends AppCompatActivity {
         nameTv.setText(name);
         dateTv.setText(date);
         contentTv.setText(content);
-    }
-
-    /**
-     * 发送 加载message
-     */
-    private void sendLoadingMessage(int msgWhat, Message msg) {
-        if (msg == null) {
-            msg = new Message();
-        }
-        msg.what = msgWhat;
-        handler.sendMessage(msg);
     }
 
     private void showLoadingProgress() {

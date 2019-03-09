@@ -4,11 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.example.administrator.ding.config.Constans;
-import com.example.administrator.ding.presenter.OnGetRequestResultListener;
 import com.example.administrator.ding.model.entities.BagListItem;
 import com.example.administrator.ding.model.entities.MoodBadNail;
 import com.example.administrator.ding.model.entities.MoodGoodNail;
 import com.example.administrator.ding.model.entities.PlanPullNail;
+import com.example.administrator.ding.presenter.IBaseNetRequestListener;
 import com.example.administrator.ding.utils.DBManager;
 import com.example.administrator.ding.utils.DateUtil;
 import com.google.gson.Gson;
@@ -59,7 +59,7 @@ public class NailListDataModel{
      *
      * @param planPullNail
      */
-    public void saveLastEditInfoToServer(PlanPullNail planPullNail, final OnGetRequestResultListener onGetRequestResultListener) {
+    public void saveLastEditInfoToServer(PlanPullNail planPullNail, final IBaseNetRequestListener listener) {
         FormBody body = new FormBody.Builder()
                 .add(("OperationType"), "3")
                 .add("Nail", new Gson().toJson(planPullNail))
@@ -71,12 +71,12 @@ public class NailListDataModel{
         new OkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                onGetRequestResultListener.onFailed();
+                listener.onFailed();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                onGetRequestResultListener.onSuccess();
+                listener.onSuccess();
             }
         });
     }

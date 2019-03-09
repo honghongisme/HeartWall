@@ -2,6 +2,7 @@ package com.example.administrator.ding.presenter;
 
 import com.example.administrator.ding.model.entities.Nail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,5 +12,5 @@ import java.util.List;
 
 public interface OnGetInitNailListListener {
 
-    void onSuccess(List<Nail> nailList);
+    void onSuccess(ArrayList<Nail> nailList);
 }

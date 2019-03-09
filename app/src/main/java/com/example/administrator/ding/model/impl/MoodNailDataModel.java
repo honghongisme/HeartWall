@@ -2,13 +2,12 @@ package com.example.administrator.ding.model.impl;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import com.example.administrator.ding.model.entities.Crack;
 import com.example.administrator.ding.model.entities.MoodBadNail;
 import com.example.administrator.ding.model.entities.MoodGoodNail;
 import com.example.administrator.ding.config.Constans;
+import com.example.administrator.ding.presenter.IBaseNetRequestListener;
 import com.example.administrator.ding.presenter.OnGetCheckResultListener;
-import com.example.administrator.ding.presenter.OnGetRequestResultListener;
 import com.example.administrator.ding.utils.DBManager;
 import com.example.administrator.ding.utils.DateUtil;
 import com.google.gson.Gson;
@@ -361,7 +360,7 @@ public class MoodNailDataModel {
         dbManager.execSQL(sql);
     }
 
-    public void updateBadNailFromServer(MoodBadNail nail, final OnGetRequestResultListener onGetRequestResultListener) {
+    public void updateBadNailFromServer(MoodBadNail nail, final IBaseNetRequestListener listener) {
         FormBody body = new FormBody.Builder()
                 .add("OperationType", "2")
                 .add("UBadNail", gson.toJson(nail))
@@ -373,13 +372,13 @@ public class MoodNailDataModel {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                onGetRequestResultListener.onFailed();
+                listener.onFailed();
                 e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                onGetRequestResultListener.onSuccess();
+                listener.onSuccess();
             }
         });
     }
@@ -395,7 +394,7 @@ public class MoodNailDataModel {
         dbManager.execSQL(sql);
     }
 
-    public void updateGoodNailFromServer(MoodGoodNail nail, final OnGetRequestResultListener onGetRequestResultListener) {
+    public void updateGoodNailFromServer(MoodGoodNail nail, final IBaseNetRequestListener listener) {
         FormBody body = new FormBody.Builder()
                 .add("OperationType", "4")
                 .add("UGoodNail", gson.toJson(nail))
@@ -407,13 +406,13 @@ public class MoodNailDataModel {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                onGetRequestResultListener.onFailed();
+                listener.onFailed();
                 e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                onGetRequestResultListener.onSuccess();
+                listener.onSuccess();
             }
         });
     }

@@ -6,8 +6,8 @@ import com.example.administrator.ding.model.entities.Nail;
 import com.example.administrator.ding.model.entities.PlanNail;
 import com.example.administrator.ding.model.entities.PlanPullNail;
 import com.example.administrator.ding.config.Constans;
+import com.example.administrator.ding.presenter.IBaseNetRequestListener;
 import com.example.administrator.ding.presenter.OnGetInitNailListListener;
-import com.example.administrator.ding.presenter.OnGetRequestResultListener;
 import com.example.administrator.ding.utils.DBManager;
 import com.example.administrator.ding.utils.DateUtil;
 import com.google.gson.Gson;
@@ -15,7 +15,6 @@ import okhttp3.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PlanNailDataModel {
 
@@ -63,7 +62,7 @@ public class PlanNailDataModel {
     public void getChildViewsLocation(OnGetInitNailListListener onGetNormalNailListListener) {
         String sql = "select x,y from " + tableNames[0];
         Cursor cursor = dbManager.queryAll(sql);
-        List<Nail> nailList = new ArrayList<>();
+        ArrayList<Nail> nailList = new ArrayList<>();
         while (cursor.moveToNext()) {
             Nail nail = new Nail();
             nail.setPointX(cursor.getInt(cursor.getColumnIndex("x")));
@@ -88,7 +87,7 @@ public class PlanNailDataModel {
      * @param nail
      * @param listener
      */
-    public void saveFirstEditInfoToServer(PlanNail nail, final OnGetRequestResultListener listener) {
+    public void saveFirstEditInfoToServer(PlanNail nail, final IBaseNetRequestListener listener) {
         FormBody body = new FormBody.Builder()
                 .add("OperationType", "1")
                 .add("Nail", gson.toJson(nail))
@@ -178,7 +177,7 @@ public class PlanNailDataModel {
      * @param planNail
      * @param planPullNail
      */
-    public void saveLastEditInfoToServer(PlanNail planNail, PlanPullNail planPullNail, final OnGetRequestResultListener onGetRequestResultListener) {
+    public void saveLastEditInfoToServer(PlanNail planNail, PlanPullNail planPullNail, final IBaseNetRequestListener listener) {
         FormBody body = new FormBody.Builder()
                 .add(("OperationType"), "2")
                 .add("Nail", gson.toJson(planNail))
@@ -191,12 +190,12 @@ public class PlanNailDataModel {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                onGetRequestResultListener.onFailed();
+                listener.onFailed();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                onGetRequestResultListener.onSuccess();
+                listener.onSuccess();
             }
         });
     }

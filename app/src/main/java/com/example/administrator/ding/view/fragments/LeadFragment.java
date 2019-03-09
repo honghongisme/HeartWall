@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.administrator.ding.R;
+import com.example.administrator.ding.base.BaseFragment;
 import com.example.administrator.ding.view.activities.WelcomeGuideActivity;
 import com.example.administrator.ding.widgt.LoadingProgressDialog;
 
-public class LeadFragment extends Fragment {
+public class LeadFragment extends BaseFragment {
 
     private View mView;
-    private LoadingProgressDialog mProgress;
 
     @Nullable
     @Override
@@ -43,29 +43,5 @@ public class LeadFragment extends Fragment {
                 ((WelcomeGuideActivity)getActivity()).clickCallBack();
             }
         });
-    }
-
-    /**
-     * 显示loading进度条
-     */
-    private void showProgress(String desc) {
-        mProgress = new LoadingProgressDialog(getContext());
-        if (!mProgress.isShowing()) mProgress.show();
-        mProgress.setData(desc);
-    }
-
-    /**
-     * 隐藏loading进度条
-     */
-    private void hideProgress() {
-        if (mProgress != null && mProgress.isShowing()) {
-            mProgress.dismiss();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        hideProgress();
     }
 }

@@ -94,7 +94,16 @@ public interface IMoodView {
      */
     void updateBadNailFailed();
 
+    /**
+     * 获取钉帽信息
+     * @param nail
+     */
     void onGetGoodNailHeadDetails(MoodGoodNail nail);
     void onGetBadNailHeadDetails(MoodBadNail nail);
+
+    /**
+     * 获取裂缝信息
+     * @param info
+     */
     void onGetCrackDetails(Crack info);
 }

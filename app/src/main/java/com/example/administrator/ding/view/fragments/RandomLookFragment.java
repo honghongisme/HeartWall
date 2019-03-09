@@ -16,7 +16,7 @@ import android.view.*;
 import android.view.animation.AccelerateInterpolator;
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.adapter.RandomLookAdapter;
-import com.example.administrator.ding.base.BaseFragment;
+import com.example.administrator.ding.base.SimpleFragment;
 import com.example.administrator.ding.model.entities.CommentItem;
 import com.example.administrator.ding.model.impl.CardDateGetHelper;
 import com.example.administrator.ding.view.activities.RandomActivity;
@@ -24,7 +24,7 @@ import com.race604.flyrefresh.FlyRefreshLayout;
 
 import java.util.ArrayList;
 
-public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout.OnPullRefreshListener {
+public class RandomLookFragment extends SimpleFragment implements FlyRefreshLayout.OnPullRefreshListener {
 
     private static final int REQUEST_RANDOM_SUCCESS = 0;
     private static final int REQUEST_FAILED = 1;
@@ -48,10 +48,6 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
                 switch (msg.what) {
                     case REQUEST_RANDOM_SUCCESS:
                         ArrayList<CommentItem> items = (ArrayList<CommentItem>) msg.obj;
-
-                        for (CommentItem i : items) {
-                            System.out.println(i.getDate() + " ; " + i.getContent() + " ; ");
-                        }
 
                         mData.clear();
                         mData.addAll(items);
@@ -119,15 +115,15 @@ public class RandomLookFragment extends BaseFragment implements FlyRefreshLayout
         helper.requestDataFromServer(new CardDateGetHelper.OnGetRequestResultListener() {
             @Override
             public void onFailed() {
-                sendLoadingMessage(REQUEST_FAILED, null);
+                mHandler.sendEmptyMessage(REQUEST_FAILED);
             }
 
             @Override
             public void onSuccess(ArrayList<CommentItem> items, ArrayList<Integer> commentTags) {
                 mCommentTagList = commentTags;
-                Message msg = new Message();
+                Message msg = mHandler.obtainMessage(REQUEST_RANDOM_SUCCESS);
                 msg.obj = items;
-                sendLoadingMessage(REQUEST_RANDOM_SUCCESS, msg);
+                mHandler.sendMessage(msg);
             }
         });
     }

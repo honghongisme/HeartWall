@@ -4,6 +4,7 @@ import android.view.View;
 import com.example.administrator.ding.model.entities.Nail;
 import com.example.administrator.ding.model.entities.PlanNail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface IPlanView {
@@ -12,7 +13,7 @@ public interface IPlanView {
      * 获得页面初始数据
      * @param nailList
      */
-    void getInitialDataSuccess(List<Nail> nailList);
+    void getInitialDataSuccess(ArrayList<Nail> nailList);
 
     /**
      * 选择的位置有效，可放置

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.graphics.drawable.VectorDrawableCompat;
 
-public class OperateNailUtil {
+public class ImageSizeUtil {
 
     /**
      * 获取xml图片资源的宽高

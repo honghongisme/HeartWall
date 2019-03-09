@@ -1,86 +1,46 @@
 package com.example.administrator.ding.view.fragments;
 
 import android.annotation.SuppressLint;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.base.BaseFragment;
+import com.example.administrator.ding.base.OperateNailFragment;
 import com.example.administrator.ding.config.MyApplication;
 import com.example.administrator.ding.model.entities.*;
 import com.example.administrator.ding.presenter.impl.PlanPresenterImpl;
 import com.example.administrator.ding.utils.DateUtil;
 import com.example.administrator.ding.utils.NetStateCheckHelper;
-import com.example.administrator.ding.utils.OperateNailUtil;
+import com.example.administrator.ding.utils.ImageSizeUtil;
 import com.example.administrator.ding.view.IPlanView;
 import com.example.administrator.ding.widgt.*;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class PlanNailFragment extends BaseFragment implements View.OnClickListener, IPlanView {
+public class PlanNailFragment extends OperateNailFragment implements View.OnClickListener, IPlanView {
 
     /**
      * 工具编号
      */
-    private static final int TOOL_NAIL = 0;
-    private static final int TOOL_HAMMER = 1;
-    private static final int TOOL_CLAW_HAMMER = 2;
-    private static final int TOOL_LOOK_DETAILS = 3;
+    private static final int TOOL_NAIL = 3;
+
     /**
      * 网络请求状态
      */
     private static final int REQUEST_INSERT_SUCCESS = 4;
     private static final int REQUEST_DELETE_SUCCESS = 5;
     private static final int REQUEST_FAILED = 6;
-
-    /**
-     * 工具菜单子项标题
-     */
-    private final String[] toolMenuTitleArrays = {"计划钉子", "锤子", "羊角锤", "查看"};
-    /**
-     * 工具功能描述
-     */
-    private final String[] toolFuncDescArrays = {"“ 可以记录你的<b><tt> 计划 </b></tt>的钉子，可拔下。”",
-            "“ <b><tt> 钉 </b></tt>下一颗钉子，记录你的计划 ”",
-            "“ <b><tt> 拔 </b></tt>出一颗钉子，记录计划进度或完成情况 ”",
-            "“ 可以<b><tt> 查看 </b></tt>墙面上钉子的信息 ”"};
-    /**
-     * 工具额外描述
-     */
-    private final String[] toolExtraArrays = {"“ 做一个会记录计划的人 ”",
-            "“ 这真的是你要做的事情吗？ ”",
-            "“ 你真的完成这件事了吗 ”",
-            "“ 这个还用解释吗？ ”"};
-
-    /**
-     * 可移动钉子ImageView
-     */
-    private MoveImageView mMoveIv;
-    /**
-     * 可移动钉子的位置信息类
-     */
-    private NailLocationParams mNailLocation;
-    /**
-     * 当前选中的工具编号
-     */
-    private int mCurrentSelectToolId = 3;
     /**
      * intent里的用户信息
      */
     private User mUser;
-    /**
-     * 可添加节点的根布局
-     */
-    private AddViewsFrameLayout mRootFrameLayout;
     private PlanPresenterImpl mPresenter;
 
 
@@ -90,18 +50,33 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
 
         mRootFrameLayout = (AddViewsFrameLayout) inflater.inflate(R.layout.activity_nail, null);
         mRootFrameLayout.setBackgroundResource(R.drawable.plan_bg);
-
-        mUser = ((MyApplication)(getActivity().getApplication())).getUser();
         mPresenter = new PlanPresenterImpl(this);
 
+        initData();
         initHandler();
-        setMenu();
+        setMenu(R.array.plan_tool_menu_image_res_id, R.array.plan_tool_func_image_res_id);
         setMoveImageViewListener();
 
         //获取数据
         mPresenter.getInitialData();
+        // 刷新视图树
+        mRootFrameLayout.requestLayout();
 
         return mRootFrameLayout;
+    }
+
+    public void initData() {
+        toolMenuTitleArrays = new String[]{"查看", "锤子", "羊角锤","计划钉子",};
+        toolFuncDescArrays = new String[]{"“ 可以<b><tt> 查看 </b></tt>墙面上钉子的信息 ”",
+                "“ 可以记录你的<b><tt> 计划 </b></tt>的钉子，可拔下。”",
+                "“ <b><tt> 钉 </b></tt>下一颗钉子，记录你的计划 ”",
+                "“ <b><tt> 拔 </b></tt>出一颗钉子，记录计划进度或完成情况 ”"};
+        toolExtraArrays = new String[]{"“ 这个还用解释吗？ ”",
+                "“ 做一个会记录计划的人 ”",
+                "“ 这真的是你要做的事情吗？ ”",
+                "“ 你真的完成这件事了吗 ”"};
+        mUser = ((MyApplication)(getActivity().getApplication())).getUser();
+        mCurrentSelectToolId = 3;
     }
 
     @SuppressLint("HandlerLeak")
@@ -113,7 +88,7 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
                 switch (msg.what) {
                     case REQUEST_INSERT_SUCCESS:
                         setNailHeadInfo((PlanNail) msg.obj);
-                        resetMoveImageView();
+                        hideAndClearMoveImageView();
                         hideProgress();
                         showLongToast("钉下成功！");
                         break;
@@ -131,48 +106,13 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         };
     }
 
-    private void setMenu() {
-        ArcMenu arcMenu = mRootFrameLayout.findViewById(R.id.arcMenu);
-        TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.plan_tool_menu_image_res_id);
-        int toolCount = toolMenuTitleArrays.length;
-        for (int i = 0; i < toolCount; i++) {
-            arcMenu.addChildArcMenu(typedArray.getResourceId(i, 0), toolMenuTitleArrays[i], null);
-        }
-        typedArray.recycle();
-        arcMenu.layoutChildMenu();
-        arcMenu.setShowMenuBtnNum(toolCount);
-        arcMenu.setOnMenuMainBtnClickListener(new ArcMenu.OnMenuMainBtnClickListener() {
-            @Override
-            public void onClick() {
-                if (mNailLocation != null) {
-                    recoverMoveImageViewLocation();
-                }
-            }
-        });
-        arcMenu.setOnMenuItemClickListener(new ArcMenu.OnMenuItemClickListener() {
-            @Override
-            public void onClickMenu(View view, int pos, String extraInfo) {
-                setCurrentToolLocation(pos);
-            }
-        });
-        arcMenu.setOnMenuItemLongClickListener(new ArcMenu.OnMenuItemLongClickListener() {
-            @Override
-            public void onLongClickItem(View view, int pos) {
-                TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.plan_tool_func_image_res_id);
-                int resId = typedArray.getResourceId(pos, 0);
-                typedArray.recycle();
-                popToolFuncDescDialog(resId, toolMenuTitleArrays[pos], toolFuncDescArrays[pos], toolExtraArrays[pos]);
-            }
-        });
-    }
-
     private void setMoveImageViewListener() {
         mMoveIv = mRootFrameLayout.findViewById(R.id.move_iv);
         mMoveIv.setClickNailListener(new MoveImageView.OnClickNailListener() {
             @Override
             public void getClickPointLocation(final int centerPointX, final int centerPointY) {
                 if (mCurrentSelectToolId == TOOL_HAMMER) {
-                    final int[] imageSize = OperateNailUtil.getVectorImageSizeByRes(getContext(), R.drawable.ic_plan_nail_head);
+                    final int[] imageSize = ImageSizeUtil.getVectorImageSizeByRes(getContext(), R.drawable.ic_plan_nail_head);
                     if (NetStateCheckHelper.isNetWork(getContext())) {
                         mPresenter.checkIsPlaceValid(centerPointX, centerPointY, imageSize);
                     } else {
@@ -190,51 +130,9 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
-    /**
-     * 设置当前选中的工具的图像位置并切换工具
-     * 整个视图树中index = 0是menu，index = 1是currentTool， index = 2是moveIv(不用时设置为gone)
-     * @param selectedToolId 选中的工具
-     */
-    private void setCurrentToolLocation(int selectedToolId) {
-        mCurrentSelectToolId = selectedToolId;
-        // 移出上一个使用的tool
-        mRootFrameLayout.removeViewAt(1);
-        //设置并添加显示当前工具
-        TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.plan_tool_menu_image_res_id);
-        // 当前选中的工具
-        ImageView currentSelectToolIv = new ImageView(getContext());
-        currentSelectToolIv.setImageResource(typedArray.getResourceId(selectedToolId, 0));
-        currentSelectToolIv.setOnClickListener(this);
-        currentSelectToolIv.setTag(selectedToolId);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
-        params.setMargins(0,0,20,20);
-        // 设置工具在父viewGroup里的固定位置1上，便于移出上一个显示的工具（xml里同理）
-        mRootFrameLayout.myAddViewInLayout(currentSelectToolIv, 1, params);
-        // 当选中拔钉子和查看细节工具时，隐藏移动钉子并重置innerNail
-        if (selectedToolId == TOOL_CLAW_HAMMER || selectedToolId == TOOL_LOOK_DETAILS) {
-            resetMoveImageView();
-        }
-        // 当选中钉子时，再设置一层可移动的钉子iv
-        if (selectedToolId == TOOL_NAIL) {
-            // 重置位置信息类
-            mNailLocation = new NailLocationParams(getContext());
-            params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(mNailLocation.getLeft(), mNailLocation.getTop(),0,0);
-            mMoveIv.setVisibility(View.VISIBLE);
-            mMoveIv.setImageResource(typedArray.getResourceId(selectedToolId, 0));
-            mMoveIv.setLayoutParams(params);
-        }else {
-            //如果之前已选过钉子，则恢复位置
-            if (mNailLocation != null) {
-                recoverMoveImageViewLocation();
-            }else {
-                mMoveIv.setVisibility(View.GONE);
-                // 如果是选中钉子，setLayoutParams本就会重绘视图树，这里是选中非钉子工具时
-                mRootFrameLayout.requestLayout();
-            }
-        }
-        typedArray.recycle();
+    @Override
+    public boolean isSelectedNail(int selectedToolId) {
+        return (selectedToolId == TOOL_NAIL);
     }
 
     /**
@@ -336,39 +234,6 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         dialog.setData(date, content);
     }
 
-    /**
-     * 每次点击menu的选项都会重绘视图树，因此要恢复钉子的位置
-     */
-    private void recoverMoveImageViewLocation() {
-        mMoveIv.setVisibility(View.VISIBLE);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(mNailLocation.getLeft(), mNailLocation.getTop(), 0, 0);
-        mMoveIv.setLayoutParams(params);
-    }
-
-    /**
-     * 重置可移动钉子
-     */
-    private void resetMoveImageView() {
-        mNailLocation = null;
-        mMoveIv.setVisibility(View.GONE);
-        mRootFrameLayout.requestLayout();
-    }
-
-    /**
-     * 弹出工具功能描述dialog
-     * @param resId
-     * @param title
-     * @param toolDesc
-     * @param extraTips
-     */
-    private void popToolFuncDescDialog(int resId, String title, String toolDesc, String extraTips) {
-        ToolFuncDescDialog dialog = new ToolFuncDescDialog(getContext());
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
-        dialog.setData(resId, title, toolDesc, extraTips);
-    }
-
     @Override
     public void placeValid(final int centerPointX, final int centerPointY, final int[] imageSize) {
         final String date = DateUtil.getDateStr("yyyy-MM-dd HH:mm:ss");
@@ -414,28 +279,28 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
         // 保存信息到本地
         mPresenter.submitFirstEditInfoToLocal(planNail);
         // insert成功，发送消息刷新视图
-        Message message = new Message();
+        Message message = mHandler.obtainMessage(REQUEST_INSERT_SUCCESS);
         message.obj = planNail;
-        sendLoadingMessage(REQUEST_INSERT_SUCCESS, message);
+        mHandler.sendMessage(message);
     }
 
     @Override
     public void submitFirstEditInfoFailed() {
-        sendLoadingMessage(REQUEST_FAILED, null);
+        mHandler.sendEmptyMessage(REQUEST_FAILED);
     }
 
     @Override
     public void submitLastEditInfoSuccess(int x, int y, String date, String text, View v) {
         mPresenter.submitLastEditInfoToLocal(x, y, date, text);
 
-        Message message = new Message();
+        Message message = mHandler.obtainMessage(REQUEST_DELETE_SUCCESS);
         message.obj = v;
-        sendLoadingMessage(REQUEST_DELETE_SUCCESS, message);
+        mHandler.sendMessage(message);
     }
 
     @Override
     public void submitLastEditInfoFailed() {
-        sendLoadingMessage(REQUEST_FAILED, null);
+        mHandler.sendEmptyMessage(REQUEST_FAILED);
     }
 
     @Override
@@ -444,7 +309,7 @@ public class PlanNailFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void getInitialDataSuccess(List<Nail> nailList) {
+    public void getInitialDataSuccess(ArrayList<Nail> nailList) {
         for (Nail nail : nailList) {
             setImageViewParams(nail.getPointX(), nail.getPointY());
         }

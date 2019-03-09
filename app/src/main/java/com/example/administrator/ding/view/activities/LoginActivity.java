@@ -62,8 +62,28 @@ public class LoginActivity extends SimpleActivity implements LoginContract.ILogi
     @Override
     public void initView() {
         mAccountEv = (EditText)findViewById(R.id.account_ev);
+
         mPasswordEv = (EditText)findViewById(R.id.password_ev);
+        mPasswordEv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    SystemResHelper.hideKeyBoard(v);
+                    attemptLogin();
+                }
+                return true;
+            }
+        });
+
         mLoginIv = (ImageView) findViewById(R.id.login_btn);
+        mLoginIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SystemResHelper.hideKeyBoard(v);
+                attemptLogin();
+            }
+        });
+
     }
 
     @SuppressLint("HandlerLeak")
@@ -94,27 +114,6 @@ public class LoginActivity extends SimpleActivity implements LoginContract.ILogi
                 }
             }
         };
-    }
-
-    @Override
-    protected void initListener() {
-        mLoginIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SystemResHelper.hideKeyBoard(v);
-                attemptLogin();
-            }
-        });
-        mPasswordEv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    SystemResHelper.hideKeyBoard(v);
-                    attemptLogin();
-                }
-                return true;
-            }
-        });
     }
 
     @Override
@@ -160,23 +159,23 @@ public class LoginActivity extends SimpleActivity implements LoginContract.ILogi
 
     @Override
     public void noNetWork() {
-        sendLoadingMessage(NO_NETWORK);
+        mHandler.sendEmptyMessage(NO_NETWORK);
     }
 
     @Override
     public void userNotExist() {
-        sendLoadingMessage(USER_NOT_EXIST);
+        mHandler.sendEmptyMessage(USER_NOT_EXIST);
     }
 
     @Override
     public void loginSuccess(User user) {
         ((MyApplication)getApplication()).saveUser(user);
-        sendLoadingMessage(LOGIN_SUCCESS);
+        mHandler.sendEmptyMessage(LOGIN_SUCCESS);
     }
 
     @Override
     public void loginFailed() {
-        sendLoadingMessage(LOGIN_FAILED);
+        mHandler.sendEmptyMessage(LOGIN_FAILED);
     }
 
 }

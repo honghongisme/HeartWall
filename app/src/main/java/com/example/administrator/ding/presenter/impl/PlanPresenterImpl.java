@@ -2,15 +2,15 @@ package com.example.administrator.ding.presenter.impl;
 
 import android.view.View;
 import com.example.administrator.ding.model.entities.PlanPullNail;
+import com.example.administrator.ding.presenter.IBaseNetRequestListener;
 import com.example.administrator.ding.presenter.OnGetInitNailListListener;
-import com.example.administrator.ding.presenter.OnGetRequestResultListener;
 import com.example.administrator.ding.model.entities.Nail;
 import com.example.administrator.ding.model.entities.PlanNail;
 import com.example.administrator.ding.view.IPlanView;
 import com.example.administrator.ding.model.impl.PlanNailDataModel;
 import com.example.administrator.ding.view.fragments.PlanNailFragment;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class PlanPresenterImpl {
 
@@ -28,7 +28,7 @@ public class PlanPresenterImpl {
     public void getInitialData() {
         mModel.getChildViewsLocation(new OnGetInitNailListListener() {
             @Override
-            public void onSuccess(List<Nail> nailList) {
+            public void onSuccess(ArrayList<Nail> nailList) {
                 mView.getInitialDataSuccess(nailList);
             }
         });
@@ -53,7 +53,7 @@ public class PlanPresenterImpl {
      * @param nail
      */
     public void submitFirstEditInfoToServer(final PlanNail nail) {
-        mModel.saveFirstEditInfoToServer(nail, new OnGetRequestResultListener() {
+        mModel.saveFirstEditInfoToServer(nail, new IBaseNetRequestListener() {
             @Override
             public void onSuccess() {
                 mView.submitFirstEditInfoSuccess(nail);
@@ -83,7 +83,7 @@ public class PlanPresenterImpl {
      * @param v 被点击的view
      */
     public void submitLastEditInfoToServer(final PlanNail planNail, final PlanPullNail planPullNail, final View v) {
-        mModel.saveLastEditInfoToServer(planNail, planPullNail, new OnGetRequestResultListener() {
+        mModel.saveLastEditInfoToServer(planNail, planPullNail, new IBaseNetRequestListener() {
             @Override
             public void onSuccess() {
                 mView.submitLastEditInfoSuccess(planNail.getX(), planNail.getY(), planPullNail.getLastDate(), planPullNail.getLastRecord(), v);

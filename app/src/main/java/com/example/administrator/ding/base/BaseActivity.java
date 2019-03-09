@@ -30,10 +30,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected abstract void initData();
     /**
-     * 初始化监听器
-     */
-    protected abstract void initListener();
-    /**
      * 获得context
      */
     protected abstract Context getContext();
@@ -50,7 +46,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getContentViewResId());
         initView();
         initData();
-        initListener();
     }
 
     /**
@@ -89,12 +84,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             mToast.cancel();
             mToast = null;
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        cancelToast();
     }
 
     @Override

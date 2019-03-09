@@ -16,8 +16,8 @@ import com.example.administrator.ding.adapter.MyExpandableListAdapter;
 import com.example.administrator.ding.base.SimpleActivity;
 import com.example.administrator.ding.config.MyApplication;
 import com.example.administrator.ding.model.impl.NailListDataModel;
-import com.example.administrator.ding.presenter.OnGetRequestResultListener;
 import com.example.administrator.ding.model.entities.*;
+import com.example.administrator.ding.presenter.IBaseNetRequestListener;
 import com.example.administrator.ding.utils.DateUtil;
 import com.example.administrator.ding.utils.NetStateCheckHelper;
 import com.example.administrator.ding.utils.SystemResHelper;
@@ -28,7 +28,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class NailBagListActivity extends SimpleActivity {
+public class NailBagListActivity extends SimpleActivity implements ExpandableListView.OnChildClickListener {
+
+    private static final int PLAN_GROUP_POSITION = 0;
+    private static final int MOOD_GOOD_GROUP_POSITION = 1;
+    private static final int MOOD_BAD_GROUP_POSITION = 2;
+    private static final int REQUEST_RESULT_FAILED = 3;
+    private static final int REQUEST_RESULT_SUCCESS = 4;
 
     /**
      * intent里的用户信息
@@ -52,12 +58,6 @@ public class NailBagListActivity extends SimpleActivity {
     private int notFinishNum;
 
     private NailListDataModel model;
-
-    private static final int PLAN_GROUP_POSITION = 0;
-    private static final int MOOD_GOOD_GROUP_POSITION = 1;
-    private static final int MOOD_BAD_GROUP_POSITION = 2;
-    private static final int REQUEST_RESULT_FAILED = 3;
-    private static final int REQUEST_RESULT_SUCCESS = 4;
 
 
     @Override
@@ -91,6 +91,7 @@ public class NailBagListActivity extends SimpleActivity {
         model = new NailListDataModel(getContext());
 
         expandableListView = findViewById(R.id.expand_list);
+        expandableListView.setOnChildClickListener(this);
         adapter = new MyExpandableListAdapter(this, groupTitles, getData(), notFinishNum);
         expandableListView.setAdapter(adapter);
 
@@ -114,48 +115,6 @@ public class NailBagListActivity extends SimpleActivity {
                 }
             }
         };
-    }
-
-    @Override
-    protected void initListener() {
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                BagListItem item = (BagListItem) v.getTag();
-                if(groupPosition == PLAN_GROUP_POSITION) {
-                    if (childPosition < notFinishNum) {
-                        // 在墙上的
-                        String record = model.getPlanNailDetails(item.getFirstDate());
-                        showListenerNailDetailsDialog(item.getFirstDate(), record);
-                    }else {
-                        // 取下的
-                        String[] records = model.getPlanPullNailDetails(item.getFirstDate(), item.getLastDate());
-                        popNailDetailsDialog(item.getFirstDate(), records[0], item.getLastDate(), records[1]);
-                    }
-                }else if (groupPosition == MOOD_GOOD_GROUP_POSITION){
-                    MoodGoodNail nail = model.getGoodNailDetailsByDate(item.getFirstDate());
-                    Intent i = new Intent(getContext(), LookCommentDetailActivity.class);
-                    i.putExtra("name", getTopShowName(user.getName(), nail.getVisibility(), nail.getAnonymous()));
-                    i.putExtra("date", nail.getFirstDate());
-                    i.putExtra("content", nail.getRecord());
-                    i.putExtra("type", "good");
-                    startActivity(i);
-                } else if (groupPosition == MOOD_BAD_GROUP_POSITION) {
-                    MoodBadNail nail = model.getBadNailDetailsByDate(item.getFirstDate());
-                    Intent i = new Intent(getContext(), LookCommentDetailActivity.class);
-                    i.putExtra("id", user.getId());
-                    i.putExtra("x", nail.getX());
-                    i.putExtra("y", nail.getY());
-                    i.putExtra("name", getTopShowName(user.getName(), nail.getVisibility(), nail.getAnonymous()));
-                    i.putExtra("date", nail.getFirstDate());
-                    i.putExtra("content", nail.getRecord());
-                    i.putExtra("visible", nail.getVisibility());
-                    i.putExtra("type", "bad");
-                    startActivity(i);
-                }
-                return true;
-            }
-        });
     }
 
     @Override
@@ -202,18 +161,18 @@ public class NailBagListActivity extends SimpleActivity {
                             editInfoDialog.dismiss();
 
                             PlanPullNail planPullNail = new PlanPullNail(user.getId(), firstDate, firstRecord, date, text);
-                            model.saveLastEditInfoToServer(planPullNail, new OnGetRequestResultListener() {
+                            model.saveLastEditInfoToServer(planPullNail, new IBaseNetRequestListener() {
                                 @Override
                                 public void onSuccess() {
                                     model.saveLastEditInfo(firstDate, firstRecord, date, text);
                                     model.updateDateData(4, "yyyy-MM-dd EEE");
                                     model.updateDateData(5, "yyyy-MM");
-                                    sendLoadingMessage(REQUEST_RESULT_SUCCESS);
+                                    mHandler.sendEmptyMessage(REQUEST_RESULT_SUCCESS);
                                 }
 
                                 @Override
                                 public void onFailed() {
-                                    sendLoadingMessage(REQUEST_RESULT_FAILED);
+                                    mHandler.sendEmptyMessage(REQUEST_RESULT_FAILED);
                                 }
                             });
                         }
@@ -282,4 +241,40 @@ public class NailBagListActivity extends SimpleActivity {
         return name;
     }
 
+    @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        BagListItem item = (BagListItem) v.getTag();
+        if(groupPosition == PLAN_GROUP_POSITION) {
+            if (childPosition < notFinishNum) {
+                // 在墙上的
+                String record = model.getPlanNailDetails(item.getFirstDate());
+                showListenerNailDetailsDialog(item.getFirstDate(), record);
+            }else {
+                // 取下的
+                String[] records = model.getPlanPullNailDetails(item.getFirstDate(), item.getLastDate());
+                popNailDetailsDialog(item.getFirstDate(), records[0], item.getLastDate(), records[1]);
+            }
+        }else if (groupPosition == MOOD_GOOD_GROUP_POSITION){
+            MoodGoodNail nail = model.getGoodNailDetailsByDate(item.getFirstDate());
+            Intent i = new Intent(getContext(), LookCommentDetailActivity.class);
+            i.putExtra("name", getTopShowName(user.getName(), nail.getVisibility(), nail.getAnonymous()));
+            i.putExtra("date", nail.getFirstDate());
+            i.putExtra("content", nail.getRecord());
+            i.putExtra("type", "good");
+            startActivity(i);
+        } else if (groupPosition == MOOD_BAD_GROUP_POSITION) {
+            MoodBadNail nail = model.getBadNailDetailsByDate(item.getFirstDate());
+            Intent i = new Intent(getContext(), LookCommentDetailActivity.class);
+            i.putExtra("id", user.getId());
+            i.putExtra("x", nail.getX());
+            i.putExtra("y", nail.getY());
+            i.putExtra("name", getTopShowName(user.getName(), nail.getVisibility(), nail.getAnonymous()));
+            i.putExtra("date", nail.getFirstDate());
+            i.putExtra("content", nail.getRecord());
+            i.putExtra("visible", nail.getVisibility());
+            i.putExtra("type", "bad");
+            startActivity(i);
+        }
+        return true;
+    }
 }

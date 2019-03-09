@@ -1,6 +1,6 @@
 package com.example.administrator.ding.presenter;
 
-public interface OnGetRequestResultListener {
+public interface IBaseNetRequestListener {
 
     /**
      * 请求成功

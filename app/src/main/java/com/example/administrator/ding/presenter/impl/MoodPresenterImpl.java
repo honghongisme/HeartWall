@@ -5,9 +5,8 @@ import com.example.administrator.ding.model.entities.Crack;
 import com.example.administrator.ding.model.entities.MoodBadNail;
 import com.example.administrator.ding.model.entities.MoodGoodNail;
 import com.example.administrator.ding.model.impl.MoodNailDataModel;
+import com.example.administrator.ding.presenter.IBaseNetRequestListener;
 import com.example.administrator.ding.presenter.OnGetCheckResultListener;
-import com.example.administrator.ding.presenter.OnGetRequestResultListener;
-import com.example.administrator.ding.utils.DateUtil;
 import com.example.administrator.ding.view.IMoodView;
 import com.example.administrator.ding.view.fragments.MoodNailFragment;
 import com.example.administrator.ding.widgt.EditInfoDialog;
@@ -119,7 +118,7 @@ public class MoodPresenterImpl {
      * @param nail
      */
     public void updateGoodNailFromServer(final MoodGoodNail nail, final View v) {
-        mModel.updateGoodNailFromServer(nail, new OnGetRequestResultListener() {
+        mModel.updateGoodNailFromServer(nail, new IBaseNetRequestListener() {
             @Override
             public void onSuccess() {
                 mView.updateGoodNailSuccess(nail, v);
@@ -147,7 +146,7 @@ public class MoodPresenterImpl {
      * @param nail
      */
     public void updateBadNailFromServer(final MoodBadNail nail, final View v) {
-        mModel.updateBadNailFromServer(nail, new OnGetRequestResultListener() {
+        mModel.updateBadNailFromServer(nail, new IBaseNetRequestListener() {
             @Override
             public void onSuccess() {
                 mView.updateBadNailSuccess(nail, v);

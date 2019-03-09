@@ -48,12 +48,12 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
                 }
 
                 @Override
-                public void isSuccess(User userInfo) {
+                public void onSuccess(User userInfo) {
                     mView.loginSuccess(userInfo);
                 }
 
                 @Override
-                public void isError() {
+                public void onFailed() {
                     mView.loginFailed();
                 }
             });

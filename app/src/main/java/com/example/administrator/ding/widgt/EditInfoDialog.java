@@ -1,16 +1,10 @@
 package com.example.administrator.ding.widgt;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.*;
 
 import com.example.administrator.ding.R;
@@ -20,46 +14,42 @@ import com.example.administrator.ding.R;
  * Created by Administrator on 2018/7/22.
  */
 
-public class EditInfoDialog extends Dialog implements View.OnClickListener{
+public class EditInfoDialog extends BaseDialog{
 
-    private Context context;
-    private View layout;
-    private ImageView confirm,cancel;
     private DialogBtnClickListener dialogBtnClickListener;
 
 
     public EditInfoDialog(@NonNull Context context) {
         super(context, R.style.BaseDialog);
-        this.context = context;
+    }
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.edit_info_dialog;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+        initListener();
     }
 
-    private void init() {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        layout = inflater.inflate(R.layout.edit_info_dialog, null);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(layout);
-
-        cancel = layout.findViewById(R.id.cancel);
-        confirm = layout.findViewById(R.id.confirm);
-        cancel.setOnClickListener(this);
-        confirm.setOnClickListener(this);
-
-        Window dialogWindow = getWindow();
-        dialogWindow.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        WindowManager.LayoutParams params = dialogWindow.getAttributes();
-        //获取屏幕宽高
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        //宽度设置为屏幕的0.8
-        params.width = (int)(displayMetrics.widthPixels * 0.8);
-        params.height = (int)(displayMetrics.heightPixels * 0.9);
-        dialogWindow.setAttributes(params);
-        dialogWindow.setWindowAnimations(R.style.dialog_animation_style);
+    private void initListener() {
+        ImageView cancel = layout.findViewById(R.id.cancel);
+        ImageView confirm = layout.findViewById(R.id.confirm);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogBtnClickListener.doCancel();
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText text = layout.findViewById(R.id.mainText);
+                dialogBtnClickListener.doConfirm(text.getText().toString());
+            }
+        });
     }
 
     public void setData(int tag, String date) {
@@ -79,21 +69,6 @@ public class EditInfoDialog extends Dialog implements View.OnClickListener{
     private void setPageText(String text) {
         TextView pageTV = layout.findViewById(R.id.page);
         pageTV.setText(text);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cancel:
-                dialogBtnClickListener.doCancel();
-                break;
-            case R.id.confirm:
-                EditText text = layout.findViewById(R.id.mainText);
-                dialogBtnClickListener.doConfirm(text.getText().toString());
-                break;
-            default:
-                break;
-        }
     }
 
     public void setVisibleCheckBox() {

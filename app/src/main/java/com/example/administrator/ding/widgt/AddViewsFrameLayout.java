@@ -32,11 +32,6 @@ public class AddViewsFrameLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public AddViewsFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-
     public void myAddViewInLayout(View child, int index, ViewGroup.LayoutParams params) {
         super.addViewInLayout(child,index,params);
     }

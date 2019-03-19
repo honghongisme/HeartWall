@@ -30,10 +30,6 @@ public class LinesEditText extends EditText {
         super(context, attrs, defStyleAttr);
     }
 
-    public LinesEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     protected void onDraw(Canvas paramCanvas) {
         paramCanvas.drawColor(this.paperColor);
         int i = getLineCount();

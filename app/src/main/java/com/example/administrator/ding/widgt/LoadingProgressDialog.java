@@ -36,7 +36,6 @@ public class LoadingProgressDialog extends Dialog {
         Window dialogWindow = getWindow();
         dialogWindow.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         WindowManager.LayoutParams params = dialogWindow.getAttributes();
-        //宽度设置为屏幕的0.8
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialogWindow.setAttributes(params);

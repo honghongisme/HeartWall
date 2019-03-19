@@ -224,21 +224,65 @@ public class DateAnalysisActivity extends BaseActivity {
         renderer.addSeriesRenderer(renderer2);
 
         // 将图像add到根布局中
+        addChartViewInLayout(dataset, renderer, mLineChartCl);
+    }
+
+    /**
+     * 将图像add到根布局中
+     * @param dataset
+     * @param renderer
+     * @param layout
+     */
+    private void addChartViewInLayout(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, ConstraintLayout layout) {
         GraphicalView view = ChartFactory.getLineChartView(getContext(), dataset, renderer);
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
         params.topToBottom = R.id.date_start_desc_tv;
         params.topMargin = 50;
-        mLineChartCl.addView(view, 0, params);
+        layout.addView(view, 0, params);
     }
 
     /**
-     * 设置折线图横轴标签
-     * @param renderer
+     * 绘制心情折线图
      */
-    public void setPlanLineChartXTextLabel(XYMultipleSeriesRenderer renderer) {
-        for(int i = 0; i < 7; i++) {
-            renderer.addXTextLabel(i, mPlanLineChartXValues.get(i));
+    private void paintMoodLineChart() {
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        TimeSeries series1 = new TimeSeries(mMoodLineTitles[0]);
+        TimeSeries series2 = new TimeSeries(mMoodLineTitles[1]);
+        TimeSeries series3 = new TimeSeries(mMoodLineTitles[2]);
+        TimeSeries series4 = new TimeSeries(mMoodLineTitles[3]);
+        for(int i = 0; i < mMoodLineChartXValues.size(); i++) {
+            // 这里add的x和下面设置x标签addXTextLabel添加的x对应
+            series1.add(i, mMoodLineChartYValues.get(i)[0][0]);
+            series2.add(i, mMoodLineChartYValues.get(i)[0][1]);
+            series3.add(i, mMoodLineChartYValues.get(i)[0][2]);
+            series4.add(i, mMoodLineChartYValues.get(i)[0][3]);
         }
+        // 添加数据集
+        dataset.addSeries(series1);
+        dataset.addSeries(series2);
+        dataset.addSeries(series3);
+        dataset.addSeries(series4);
+        // 渲染曲线
+        XYSeriesRenderer renderer1 = new XYSeriesRenderer();
+        XYSeriesRenderer renderer2 = new XYSeriesRenderer();
+        XYSeriesRenderer renderer3 = new XYSeriesRenderer();
+        XYSeriesRenderer renderer4 = new XYSeriesRenderer();
+        setLineRenderer(renderer1, Color.BLUE);
+        setLineRenderer(renderer2, Color.RED);
+        setLineRenderer(renderer3, Color.YELLOW);
+        setLineRenderer(renderer4, Color.WHITE);
+        // 渲染坐标轴
+        XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+        setLineChartSettings(renderer);
+        setMoodLineChartXTextLabel(renderer);
+
+        renderer.addSeriesRenderer(renderer1);
+        renderer.addSeriesRenderer(renderer2);
+        renderer.addSeriesRenderer(renderer3);
+        renderer.addSeriesRenderer(renderer4);
+
+        // 将图像add到根布局中
+        addChartViewInLayout(dataset, renderer, mLineChartCl);
     }
 
     /**
@@ -354,11 +398,15 @@ public class DateAnalysisActivity extends BaseActivity {
         renderer.addSeriesRenderer(renderer1);
         renderer.addSeriesRenderer(renderer2);
 
+        addBarChartViewInLayout(dataset, renderer, mColumnarChartCl);
+    }
+
+    private void addBarChartViewInLayout(XYMultipleSeriesDataset dataset, XYMultipleSeriesRenderer renderer, ConstraintLayout layout) {
         GraphicalView view = ChartFactory.getBarChartView(getContext(), dataset, renderer, null);
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
         params.topToBottom = R.id.month_desc_tv;
         params.topMargin = 50;
-        mColumnarChartCl.addView(view, 0, params);
+        layout.addView(view, 0, params);
     }
 
     /**
@@ -421,17 +469,6 @@ public class DateAnalysisActivity extends BaseActivity {
     }
 
     /**
-     * 设置柱状图横轴坐标
-     * @param renderer
-     */
-    private void setPlanColumnarChartXTextLabel(XYMultipleSeriesRenderer renderer) {
-        for(int i = 1; i < 13; i++) {
-            //这里的i和坐标轴上的刻度对应，设置从1开始，空出0刻度
-            renderer.addXTextLabel(i, mPlanColumnarChartXValues.get(i - 1));
-        }
-    }
-
-    /**
      * 设置坐标轴基础色
      * @param renderer
      */
@@ -444,57 +481,6 @@ public class DateAnalysisActivity extends BaseActivity {
         renderer.setAxesColor(resources.getColor(R.color.axes));
         renderer.setXLabelsColor(resources.getColor(R.color.black));
         renderer.setYLabelsColor(0, resources.getColor(R.color.black));
-    }
-
-
-
-
-    /**
-     * 绘制心情折线图
-     */
-    private void paintMoodLineChart() {
-        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        TimeSeries series1 = new TimeSeries(mMoodLineTitles[0]);
-        TimeSeries series2 = new TimeSeries(mMoodLineTitles[1]);
-        TimeSeries series3 = new TimeSeries(mMoodLineTitles[2]);
-        TimeSeries series4 = new TimeSeries(mMoodLineTitles[3]);
-        for(int i = 0; i < mMoodLineChartXValues.size(); i++) {
-            // 这里add的x和下面设置x标签addXTextLabel添加的x对应
-            series1.add(i, mMoodLineChartYValues.get(i)[0][0]);
-            series2.add(i, mMoodLineChartYValues.get(i)[0][1]);
-            series3.add(i, mMoodLineChartYValues.get(i)[0][2]);
-            series4.add(i, mMoodLineChartYValues.get(i)[0][3]);
-        }
-        // 添加数据集
-        dataset.addSeries(series1);
-        dataset.addSeries(series2);
-        dataset.addSeries(series3);
-        dataset.addSeries(series4);
-        // 渲染曲线
-        XYSeriesRenderer renderer1 = new XYSeriesRenderer();
-        XYSeriesRenderer renderer2 = new XYSeriesRenderer();
-        XYSeriesRenderer renderer3 = new XYSeriesRenderer();
-        XYSeriesRenderer renderer4 = new XYSeriesRenderer();
-        setLineRenderer(renderer1, Color.BLUE);
-        setLineRenderer(renderer2, Color.RED);
-        setLineRenderer(renderer3, Color.YELLOW);
-        setLineRenderer(renderer4, Color.WHITE);
-        // 渲染坐标轴
-        XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-        setLineChartSettings(renderer);
-        setMoodLineChartXTextLabel(renderer);
-
-        renderer.addSeriesRenderer(renderer1);
-        renderer.addSeriesRenderer(renderer2);
-        renderer.addSeriesRenderer(renderer3);
-        renderer.addSeriesRenderer(renderer4);
-
-        // 将图像add到根布局中
-        GraphicalView view = ChartFactory.getLineChartView(getContext(), dataset, renderer);
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-        params.topToBottom = R.id.date_start_desc_tv;
-        params.topMargin = 50;
-        mLineChartCl.addView(view, 0, params);
     }
 
     /**
@@ -536,11 +522,7 @@ public class DateAnalysisActivity extends BaseActivity {
         renderer.addSeriesRenderer(renderer3);
         renderer.addSeriesRenderer(renderer4);
 
-        GraphicalView view = ChartFactory.getBarChartView(getContext(), dataset, renderer, null);
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-        params.topToBottom = R.id.month_desc_tv;
-        params.topMargin = 50;
-        mColumnarChartCl.addView(view, 0, params);
+        addBarChartViewInLayout(dataset, renderer, mColumnarChartCl);
     }
 
     /**
@@ -554,6 +536,16 @@ public class DateAnalysisActivity extends BaseActivity {
     }
 
     /**
+     * 设置折线图横轴标签
+     * @param renderer
+     */
+    public void setPlanLineChartXTextLabel(XYMultipleSeriesRenderer renderer) {
+        for(int i = 0; i < 7; i++) {
+            renderer.addXTextLabel(i, mPlanLineChartXValues.get(i));
+        }
+    }
+
+    /**
      * 设置柱状图横轴坐标
      * @param renderer
      */
@@ -561,6 +553,17 @@ public class DateAnalysisActivity extends BaseActivity {
         for(int i = 1; i < 13; i++) {
             //这里的i和坐标轴上的刻度对应，设置从1开始，空出0刻度
             renderer.addXTextLabel(i, mMoodColumnarChartXValues.get(i - 1));
+        }
+    }
+
+    /**
+     * 设置柱状图横轴坐标
+     * @param renderer
+     */
+    private void setPlanColumnarChartXTextLabel(XYMultipleSeriesRenderer renderer) {
+        for(int i = 1; i < 13; i++) {
+            //这里的i和坐标轴上的刻度对应，设置从1开始，空出0刻度
+            renderer.addXTextLabel(i, mPlanColumnarChartXValues.get(i - 1));
         }
     }
 

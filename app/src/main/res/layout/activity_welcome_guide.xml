@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.administrator.ding.view.activities.WelcomeGuideActivity">
-        <android.support.v4.view.ViewPager
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/view_page"
-        />
-
-</android.support.constraint.ConstraintLayout>
+        android:id="@+id/view_page"
+        tools:context="com.example.administrator.ding.WelcomeGuideActivity">
+</android.support.v4.view.ViewPager>

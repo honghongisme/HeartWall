@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.model.entities.CommentItem;
+import com.example.administrator.ding.bean.CommentItem;
 
 import java.util.ArrayList;
 

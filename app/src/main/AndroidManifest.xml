@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".config.MyApplication"
+        android:name=".base.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="Heart Wall"
@@ -21,35 +21,40 @@
         android:theme="@style/AppTheme"
         tools:replace="android:label">
         <activity
-            android:name=".view.activities.MainActivity"
+            android:name=".module.main.MainActivity"
             android:label="Ding"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.activities.NailBagListActivity"
+            android:name=".module.bag.NailBagListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+
         <activity
-            android:name=".view.activities.SplashScreenActivity"
+            android:name=".SplashScreenActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".view.activities.DateAnalysisActivity"
+            android:name=".WelcomeGuideActivity"
+            android:theme="@style/SplashTheme" />
+
+
+        <activity
+            android:name=".module.analysis.DateAnalysisActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".base.BaseActivity" />
-        <activity android:name=".view.activities.LoginActivity" />
+        <activity android:name=".module.login.LoginActivity" />
+
+        <activity android:name=".module.communication.LookCommentDetailActivity" />
         <activity
-            android:name=".view.activities.WelcomeGuideActivity"
-            android:theme="@style/NoActionBarFullScreen" />
-        <activity android:name=".view.activities.LookCommentDetailActivity" />
-        <activity
-            android:name=".view.activities.RandomActivity"
+            android:name=".module.communication.RandomActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".view.activities.OperateNailActivity"
+            android:name=".module.nail.OperateNailActivity"
             android:theme="@style/NoActionBarFullScreen" />
         <activity android:name=".base.SimpleActivity"></activity>
     </application>

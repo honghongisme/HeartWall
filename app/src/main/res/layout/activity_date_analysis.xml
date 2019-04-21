@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.administrator.ding.view.activities.DateAnalysisActivity"
+    tools:context="com.example.administrator.ding.module.analysis.DateAnalysisActivity"
     android:orientation="vertical">
 
     <include layout="@layout/child_activity_toolbar"

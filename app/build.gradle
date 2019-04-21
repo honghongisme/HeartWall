@@ -39,9 +39,18 @@ dependencies {
     implementation files('libs/achartengine-1.0.0.jar')
     implementation 'com.youth.banner:banner:1.4.10'
     implementation "com.github.bumptech.glide:glide:4.6.1"
-    implementation 'com.squareup.okhttp3:okhttp:3.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okio:okio:2.1.0'
     implementation 'com.github.mcxtzhang:all-base-adapter:V1.8.0'
     implementation 'com.race604.flyrefresh:library:2.0.0'
     implementation 'jp.wasabeef:recyclerview-animators:2.2.6'
+
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    implementation 'com.orhanobut:logger:2.1.1'
+    testImplementation 'org.mockito:mockito-core:2.19.0'
+    compile 'com.squareup.retrofit2:retrofit:2.4.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.1'
+    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'io.reactivex:rxjava:1.1.5'
 }

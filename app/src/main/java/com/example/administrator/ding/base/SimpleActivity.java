@@ -20,7 +20,7 @@ public abstract class SimpleActivity extends BaseActivity {
      */
     protected void showProgress(String desc) {
         if (mLoadingProgress == null) {
-            mLoadingProgress = new LoadingProgressDialog(getContext());
+            mLoadingProgress = new LoadingProgressDialog(this);
             mLoadingProgress.show();
         }
         if (!mLoadingProgress.isShowing()) mLoadingProgress.show();

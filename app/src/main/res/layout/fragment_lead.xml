@@ -4,20 +4,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/im"/>
-
-    <ImageView
+    <ViewStub
         android:layout_width="150dp"
         android:layout_height="40dp"
-        android:id="@+id/btn"
+        android:id="@+id/go_login_view_stub"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="75dp"
-        android:src="@drawable/leadswitch"
-        android:visibility="invisible"/>
+        android:layout="@layout/go_login"/>
 
 </android.support.constraint.ConstraintLayout>

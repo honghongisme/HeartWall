@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.administrator.ding.view.activities.LookCommentDetailActivity">
+    tools:context="com.example.administrator.ding.module.communication.LookCommentDetailActivity">
 
     <include layout="@layout/child_activity_toolbar"
         android:layout_height="match_parent"

@@ -1,8 +1,8 @@
-package com.example.administrator.ding.module.login;
+package com.example.administrator.ding.database.login;
 
 import android.content.Context;
 
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.User;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

@@ -1,8 +1,8 @@
 package com.example.administrator.ding.module.nail.plan;
 
 import android.view.View;
-import com.example.administrator.ding.bean.nail.Nail;
-import com.example.administrator.ding.bean.nail.PlanNail;
+import com.example.administrator.ding.model.entry.Nail;
+import com.example.administrator.ding.model.entry.PlanNail;
 
 import java.util.ArrayList;
 

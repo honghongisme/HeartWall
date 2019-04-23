@@ -21,10 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.base.OperateNailFragment;
-import com.example.administrator.ding.bean.Crack;
-import com.example.administrator.ding.bean.nail.MoodBadNail;
-import com.example.administrator.ding.bean.nail.MoodGoodNail;
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.Crack;
+import com.example.administrator.ding.model.entry.MoodBadNail;
+import com.example.administrator.ding.model.entry.MoodGoodNail;
+import com.example.administrator.ding.model.entry.User;
 import com.example.administrator.ding.utils.*;
 import com.example.administrator.ding.module.communication.LookCommentDetailActivity;
 import com.example.administrator.ding.base.MyApplication;
@@ -32,7 +32,7 @@ import com.example.administrator.ding.widgt.*;
 
 import java.util.ArrayList;
 
-public class MoodNailFragment extends OperateNailFragment implements View.OnClickListener, IMoodView {
+public class MoodNailFragment extends OperateNailFragment implements View.OnClickListener, IMoodContract.View {
 
     /**
      * 工具编号

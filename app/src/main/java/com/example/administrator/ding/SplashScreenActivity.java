@@ -5,9 +5,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.User;
 import com.example.administrator.ding.base.MyApplication;
-import com.example.administrator.ding.module.login.UserInfoStore;
+import com.example.administrator.ding.database.login.UserInfoStore;
 import com.example.administrator.ding.module.main.MainActivity;
 
 

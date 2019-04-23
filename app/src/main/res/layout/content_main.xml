@@ -41,15 +41,6 @@
                 android:layout_height="match_parent"
                 android:id="@+id/mood_module_layout"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_learn_more"
-                android:id="@+id/learn_more_mood_date_btn"
-                android:layout_gravity="right"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="80dp"/>
-
         </FrameLayout>
 
         <FrameLayout
@@ -65,15 +56,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/plan_module_layout"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_learn_more"
-                android:id="@+id/learn_more_plan_date_btn"
-                android:layout_gravity="right"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="80dp"/>
 
         </FrameLayout>
 

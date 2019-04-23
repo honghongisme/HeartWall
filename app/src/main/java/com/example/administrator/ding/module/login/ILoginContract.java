@@ -2,7 +2,7 @@ package com.example.administrator.ding.module.login;
 
 import com.example.administrator.ding.base.IBasePresenter;
 import com.example.administrator.ding.base.IBaseView;
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.User;
 
 public interface ILoginContract {
 
@@ -71,6 +71,6 @@ public interface ILoginContract {
          * @param password
          * @param listener
          */
-        void requestServer(String account, String password, final IOnLoginReqListener listener);
+        void doLogin(String account, String password, final IOnLoginReqListener listener);
     }
 }

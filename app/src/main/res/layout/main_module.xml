@@ -3,40 +3,46 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/main_show_grid_shape">
+    android:background="@drawable/main_show_grid_shape"
+    android:paddingLeft="20dp"
+    android:paddingTop="30dp"
+    android:paddingBottom="30dp">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/today_nail_nail_num_tv"
         android:text="今日钉下 0 颗钉子"
         android:textSize="20sp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_weight="1" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/today_pull_nail_num_tv"
         android:text="今日拔出 0 颗钉子"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="12dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/today_extra_nail_num_tv"
-        android:text="今日钉入0颗钉子"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="12dp"
-        android:visibility="gone"/>
+        android:layout_weight="1"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/today_extra_nail_num_tv"
+        android:text="今日钉入0颗钉子"
+        android:visibility="gone"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:id="@+id/today_comment_tv"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="12dp"
-        android:text="你今天似乎很闲"/>
+        android:text="你今天似乎很闲"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_learn_more"
+        android:id="@+id/learn_more_btn"
+        android:layout_weight="1"/>
 
 </LinearLayout>

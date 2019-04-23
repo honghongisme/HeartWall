@@ -1,4 +1,4 @@
-package com.example.administrator.ding.bean;
+package com.example.administrator.ding.model.entry;
 
 /**
  * 消极情绪钉子的评论

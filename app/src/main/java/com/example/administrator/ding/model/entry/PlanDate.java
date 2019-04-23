@@ -1,4 +1,4 @@
-package com.example.administrator.ding.bean;
+package com.example.administrator.ding.model.entry;
 
 /**
  * 计划钉子时间记录（周/年）

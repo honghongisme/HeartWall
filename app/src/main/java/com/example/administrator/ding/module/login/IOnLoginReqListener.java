@@ -1,6 +1,6 @@
 package com.example.administrator.ding.module.login;
 
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.User;
 
 /**
  * 网络请求结果回调接口

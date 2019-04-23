@@ -190,9 +190,7 @@ public class ArcMenu extends ViewGroup implements OnClickListener {
      * 摆放主按钮，设置主按钮的点击事件
      */
     private void layoutMainButton() {
-
         cButton = getChildAt(0);
-
         cButton.setOnClickListener(this);
 
         int l = 0;

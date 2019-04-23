@@ -1,4 +1,4 @@
-package com.example.administrator.ding.bean;
+package com.example.administrator.ding.model.entry;
 
 /**
  * 情绪钉子日期记录

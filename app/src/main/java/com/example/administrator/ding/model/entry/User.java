@@ -1,7 +1,4 @@
-package com.example.administrator.ding.bean;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package com.example.administrator.ding.model.entry;
 
 import java.io.Serializable;
 

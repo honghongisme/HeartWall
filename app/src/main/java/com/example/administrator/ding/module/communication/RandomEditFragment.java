@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.bean.MoodBadComment;
+import com.example.administrator.ding.model.entry.MoodBadComment;
 import com.example.administrator.ding.base.SimpleFragment;
 import com.example.administrator.ding.module.nail.OnGetCheckResultListener;
 import com.example.administrator.ding.utils.DateUtil;

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.base.MyApplication;
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.User;
 
 import java.util.ArrayList;
 

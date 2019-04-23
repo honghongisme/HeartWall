@@ -1,11 +1,7 @@
 package com.example.administrator.ding.module.login;
 
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -13,7 +9,7 @@ import android.widget.*;
 
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.base.SimpleActivity;
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.User;
 import com.example.administrator.ding.base.MyApplication;
 import com.example.administrator.ding.utils.NetStateCheckHelper;
 import com.example.administrator.ding.utils.SystemResHelper;
@@ -26,15 +22,6 @@ import butterknife.OnEditorAction;
 
 
 public class LoginActivity extends SimpleActivity implements ILoginContract.View {
-
-    // 用户不存在
-    private static final int USER_NOT_EXIST = 0;
-    // 登录成功
-    private static final int LOGIN_SUCCESS = 1;
-    // 登录失败
-    private static final int LOGIN_FAILED = 2;
-    // 没有网络
-    private static final int NO_NETWORK = 3;
 
     @BindView(R.id.account_ev)
     EditText mAccountEv;
@@ -50,7 +37,7 @@ public class LoginActivity extends SimpleActivity implements ILoginContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        initData();
+        mPresenter = new LoginPresenterImpl(this);
     }
 
     @OnEditorAction(R.id.password_ev)
@@ -66,33 +53,6 @@ public class LoginActivity extends SimpleActivity implements ILoginContract.View
     public void doLogin(View v) {
         SystemResHelper.hideKeyBoard(v);
         attemptLogin();
-    }
-
-    @SuppressLint("HandlerLeak")
-    protected void initData() {
-        mPresenter = new LoginPresenterImpl(this);
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                hideProgress();
-                switch(msg.what) {
-                    case USER_NOT_EXIST:
-                        showLongToast("用户不存在");
-                        break;
-                    case LOGIN_SUCCESS:
-                        showLongToast("登录成功");
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(i);finish();
-                        break;
-                    case LOGIN_FAILED:
-                        showLongToast("登录失败");
-                        break;
-                    case NO_NETWORK:
-                        NetStateCheckHelper.setNetworkMethod(getApplicationContext());
-                }
-            }
-        };
     }
 
     /**
@@ -123,23 +83,29 @@ public class LoginActivity extends SimpleActivity implements ILoginContract.View
 
     @Override
     public void noNetWork() {
-        mHandler.sendEmptyMessage(NO_NETWORK);
+        hideProgress();
+        NetStateCheckHelper.setNetworkMethod(getApplicationContext());
     }
 
     @Override
     public void userNotExist() {
-        mHandler.sendEmptyMessage(USER_NOT_EXIST);
+        hideProgress();
+        showLongToast("用户不存在");
     }
 
     @Override
     public void loginSuccess(User user) {
         ((MyApplication)getApplication()).saveUser(user);
-        mHandler.sendEmptyMessage(LOGIN_SUCCESS);
+        hideProgress();
+        showLongToast("登录成功");
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);finish();
     }
 
     @Override
     public void loginFailed() {
-        mHandler.sendEmptyMessage(LOGIN_FAILED);
+        hideProgress();
+        showLongToast("登录失败");
     }
 
 }

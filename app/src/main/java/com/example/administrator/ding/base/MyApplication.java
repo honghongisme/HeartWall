@@ -1,7 +1,7 @@
 package com.example.administrator.ding.base;
 
 import android.app.Application;
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.User;
 
 public class MyApplication extends Application {
 

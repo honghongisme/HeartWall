@@ -24,7 +24,7 @@ import com.example.administrator.ding.base.MyApplication;
 import com.example.administrator.ding.module.login.LoginActivity;
 import com.example.administrator.ding.module.nail.OperateNailActivity;
 import com.example.administrator.ding.base.SimpleActivity;
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.User;
 import com.example.administrator.ding.utils.SystemResHelper;
 import com.example.administrator.ding.widgt.ArcMenu;
 import com.youth.banner.Banner;
@@ -68,12 +68,12 @@ public class MainActivity extends SimpleActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mContext = this;
         ButterKnife.bind(this);
         SystemResHelper.setStateBarColor(this);
-        mPresenter = new MainPresenterImpl(this);
+
+        mContext = this;
         initView();
+        mPresenter = new MainPresenterImpl(this);
         mPresenter.getTodayModuleInfo();
     }
 
@@ -82,16 +82,21 @@ public class MainActivity extends SimpleActivity
         initNavigation();
         initBanner();
         initMenu();
-    }
 
-    @OnClick(R.id.learn_more_mood_date_btn)
-    public void doLearnMood() {
-        startOneActivity("mood", DateAnalysisActivity.class);
-    }
-
-    @OnClick(R.id.learn_more_plan_date_btn)
-    public void doLearnPlan() {
-        startOneActivity("plan", DateAnalysisActivity.class);
+        ImageView learnMoreMoodBtn = mMoodModuleLl.findViewById(R.id.learn_more_btn);
+        learnMoreMoodBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startOneActivity("mood", DateAnalysisActivity.class);
+            }
+        });
+        ImageView learnMorePlanBtn = mPlanModuleLl.findViewById(R.id.learn_more_btn);
+        learnMorePlanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startOneActivity("plan", DateAnalysisActivity.class);
+            }
+        });
     }
 
     private void initToolBar() {
@@ -145,6 +150,12 @@ public class MainActivity extends SimpleActivity
                 }
             }
         });
+        mArcMenu.setOnMenuMainBtnClickListener(new ArcMenu.OnMenuMainBtnClickListener() {
+            @Override
+            public void onClick() {
+
+            }
+        });
     }
 
     @Override
@@ -195,9 +206,7 @@ public class MainActivity extends SimpleActivity
     private void exitAccount() {
         showProgress("正在退出账号，请稍后...");
         mPresenter.clearAccountInfo();
-        Intent i = new Intent(mContext, LoginActivity.class);
-        i.putExtra("tag", "clean");
-        startActivity(i);
+        startActivity(new Intent(mContext, LoginActivity.class));
         hideProgress();
         finish();
     }

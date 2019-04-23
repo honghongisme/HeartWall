@@ -4,25 +4,27 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.administrator.ding.base.Constans;
-import com.example.administrator.ding.bean.Crack;
-import com.example.administrator.ding.bean.nail.MoodBadNail;
-import com.example.administrator.ding.bean.MoodDate;
-import com.example.administrator.ding.bean.nail.MoodGoodNail;
-import com.example.administrator.ding.bean.PlanDate;
-import com.example.administrator.ding.bean.nail.PlanNail;
-import com.example.administrator.ding.bean.nail.PlanPullNail;
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.Crack;
+import com.example.administrator.ding.model.entry.MoodBadNail;
+import com.example.administrator.ding.model.entry.MoodDate;
+import com.example.administrator.ding.model.entry.MoodGoodNail;
+import com.example.administrator.ding.model.entry.PlanDate;
+import com.example.administrator.ding.model.entry.PlanNail;
+import com.example.administrator.ding.model.entry.PlanPullNail;
+import com.example.administrator.ding.model.entry.User;
+import com.example.administrator.ding.database.login.UserInfoStore;
+import com.example.administrator.ding.model.LoginInfoModel;
+import com.example.administrator.ding.network.ILoginService;
 import com.example.administrator.ding.utils.NetStateCheckHelper;
 import com.example.administrator.ding.utils.SQLiteHelper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import okhttp3.*;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -30,69 +32,32 @@ import java.util.ArrayList;
  */
 public class LoginModelImpl implements ILoginContract.Model {
 
-    private Gson mGson;
     private String mSql;
     private SQLiteDatabase mSQLiteDatabase;
     private Context mContext;
 
     public LoginModelImpl(Context context) {
-        mGson = new Gson();
         mContext = context;
         mSQLiteDatabase = new SQLiteHelper(context).getWritableDatabase();
     }
 
-    /**
-     * 同步数据库
-     * @param planNailJson
-     * @param planPullNailJson
-     * @param planWeekJson
-     * @param planMonthJson
-     * @param moodGoodNailJson
-     * @param moodBadNailJson
-     * @param moodWeekJson
-     * @param moodMonthJson
-     * @param crackJson
-     */
-    public void sync(String planNailJson, String planPullNailJson, String planWeekJson, String planMonthJson, String moodGoodNailJson, String moodBadNailJson, String moodWeekJson, String moodMonthJson, String crackJson) {
-        Type type = new TypeToken<ArrayList<PlanNail>>(){}.getType();
-        ArrayList<PlanNail> planNailArrayList = mGson.fromJson(planNailJson, type);
-
-        type = new TypeToken<ArrayList<PlanPullNail>>(){}.getType();
-        ArrayList<PlanPullNail> planPullNailArrayList = mGson.fromJson(planPullNailJson, type);
-
-        type = new TypeToken<ArrayList<PlanDate>>(){}.getType();
-        ArrayList<PlanDate> planWeekArrayList = mGson.fromJson(planWeekJson, type);
-
-        type = new TypeToken<ArrayList<PlanDate>>(){}.getType();
-        ArrayList<PlanDate> planMonthArrayList = mGson.fromJson(planMonthJson, type);
-
-        type = new TypeToken<ArrayList<MoodGoodNail>>(){}.getType();
-        ArrayList<MoodGoodNail> moodGoodNailArrayList = mGson.fromJson(moodGoodNailJson, type);
-
-        type = new TypeToken<ArrayList<MoodBadNail>>(){}.getType();
-        ArrayList<MoodBadNail> moodBadNailArrayList = mGson.fromJson(moodBadNailJson, type);
-
-        type = new TypeToken<ArrayList<MoodDate>>(){}.getType();
-        ArrayList<MoodDate> moodWeekArrayList = mGson.fromJson(moodWeekJson, type);
-
-        type = new TypeToken<ArrayList<MoodDate>>(){}.getType();
-        ArrayList<MoodDate> moodMonthArrayList = mGson.fromJson(moodMonthJson, type);
-
-        type = new TypeToken<ArrayList<Crack>>(){}.getType();
-        ArrayList<Crack> crackArrayList = mGson.fromJson(crackJson, type);
-
+    public void sync(ArrayList<PlanNail> planNail, ArrayList<PlanPullNail> planPullNail, ArrayList<PlanDate> planWeek,
+                     ArrayList<PlanDate> planMonth, ArrayList<MoodGoodNail> moodGoodNail, ArrayList<MoodBadNail> moodBadNail,
+                     ArrayList<MoodDate> moodWeek, ArrayList<MoodDate> moodMonth, ArrayList<Crack> crack) {
+        // 开启事务
         mSQLiteDatabase.beginTransaction();
-        savePlanNailInfoList(planNailArrayList);
-        savePlanPullNailInfoList(planPullNailArrayList);
-        savePlanWeekInfoList(planWeekArrayList);
-        savePlanMonthInfoList(planMonthArrayList);
-        saveMoodGoodNailInfoList(moodGoodNailArrayList);
-        saveMoodBadNailInfoList(moodBadNailArrayList);
-        saveMoodWeekInfoList(moodWeekArrayList);
-        saveMoodMonthInfoList(moodMonthArrayList);
-        saveCrack(crackArrayList);
+        savePlanNailInfoList(planNail);
+        savePlanPullNailInfoList(planPullNail);
+        savePlanWeekInfoList(planWeek);
+        savePlanMonthInfoList(planMonth);
+        saveMoodGoodNailInfoList(moodGoodNail);
+        saveMoodBadNailInfoList(moodBadNail);
+        saveMoodWeekInfoList(moodWeek);
+        saveMoodMonthInfoList(moodMonth);
+        saveCrack(crack);
         mSQLiteDatabase.setTransactionSuccessful();
         mSQLiteDatabase.endTransaction();
+
     }
 
     private void savePlanNailInfoList(ArrayList<PlanNail> nailArrayList) {
@@ -158,61 +123,54 @@ public class LoginModelImpl implements ILoginContract.Model {
         }
     }
 
-    @Override
-    public void requestServer(String account, String password, final IOnLoginReqListener listener) {
-        final OkHttpClient client = new OkHttpClient.Builder().build();
-        FormBody body = new FormBody.Builder()
-                .add("AccountNumber", account)
-                .add("Password", password)
+    public void doLogin(String account, String password, final IOnLoginReqListener listener) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constans.SERVER_IP_ADDRESS)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        final Request request = new Request.Builder()
-                .url(Constans.SERVER_IP_ADDRESS + "LoginServlet")
-                .post(body)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                if (!NetStateCheckHelper.isNetWork(mContext)) {
-                    listener.isNoNet();
-                }
-                e.printStackTrace();
-            }
+        ILoginService service = retrofit.create(ILoginService.class);
+        service.doLogin(account, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<LoginInfoModel>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String info = response.body().string();
-                System.out.println(info);
-                try {
-                    JSONObject jsonObject = new JSONObject(info);
-                    String result = jsonObject.getString("Result");
-                    if ("failed".equals(result)) {
-                        listener.isNotExistUser();
-                    }else if ("success".equals(result)){
-                        boolean isLogin = jsonObject.getBoolean("IsLogin");
-                        User user = new Gson().fromJson(jsonObject.getString("User"), User.class);
-                        new UserInfoStore().saveUser(mContext, user);
-                        System.out.println("onResponse: " + user.getId() + " ; " + user.getAccountNumber() + " ; " + user.getPassword() + " ; " + user.getName() + " ; " + user.getSex() + " ; " + user.getIdentity() + " ; " + user.getDepartment());
-                        if (isLogin) {
-                            // 同步信息
-                            sync(jsonObject.getString("planNail"),
-                                    jsonObject.getString("planPullNail"),
-                                    jsonObject.getString("planWeek"),
-                                    jsonObject.getString("planMonth"),
-                                    jsonObject.getString("moodGoodNail"),
-                                    jsonObject.getString("moodBadNail"),
-                                    jsonObject.getString("moodWeek"),
-                                    jsonObject.getString("moodMonth"),
-                                    jsonObject.getString("crack"));
-                        }
-                        listener.onSuccess(user);
                     }
-                } catch (JSONException e) {
-                    listener.onFailed();
-                    e.printStackTrace();
-                }
 
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        if (!NetStateCheckHelper.isNetWork(mContext)) {
+                            listener.isNoNet();
+                        }
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(LoginInfoModel loginModel) {
+                        String result = loginModel.getResult();
+                        if ("failed".equals(result)) {
+                            listener.isNotExistUser();
+                        } else if ("success".equals(result)){
+                            boolean isLogin = loginModel.getLogin();
+                            User user = loginModel.getUser();
+                            new UserInfoStore().saveUser(mContext, user);
+                            if (isLogin) {
+                                // 同步信息
+                                sync(loginModel.getPlanNail(),
+                                        loginModel.getPlanPullNail(),
+                                        loginModel.getPlanWeek(),
+                                        loginModel.getPlanMonth(),
+                                        loginModel.getMoodGoodNail(),
+                                        loginModel.getMoodBadNail(),
+                                        loginModel.getMoodWeek(),
+                                        loginModel.getMoodMonth(),
+                                        loginModel.getCrack());
+                            }
+                            listener.onSuccess(user);
+                        }
+                    }
+                });
     }
-
 }

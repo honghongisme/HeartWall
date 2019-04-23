@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.bean.BagListItem;
+import com.example.administrator.ding.model.entry.BagListItem;
 
 import java.util.HashMap;
 import java.util.List;

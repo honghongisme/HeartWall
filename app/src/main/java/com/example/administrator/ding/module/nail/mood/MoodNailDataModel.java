@@ -4,9 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.administrator.ding.bean.Crack;
-import com.example.administrator.ding.bean.nail.MoodBadNail;
-import com.example.administrator.ding.bean.nail.MoodGoodNail;
+import com.example.administrator.ding.model.entry.Crack;
+import com.example.administrator.ding.model.entry.MoodBadNail;
+import com.example.administrator.ding.model.entry.MoodGoodNail;
 import com.example.administrator.ding.base.Constans;
 import com.example.administrator.ding.base.IBaseNetRequestListener;
 import com.example.administrator.ding.utils.SQLiteHelper;
@@ -14,6 +14,10 @@ import com.example.administrator.ding.module.nail.OnGetCheckResultListener;
 import com.example.administrator.ding.utils.DateUtil;
 import com.google.gson.Gson;
 import okhttp3.*;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,12 +30,19 @@ public class MoodNailDataModel {
     private Gson gson;
     private OkHttpClient client;
     private SQLiteDatabase mSQLiteDatabase;
+    private Retrofit retrofit;
 
     public MoodNailDataModel(Context context) {
         mSQLiteDatabase = new SQLiteHelper(context).getWritableDatabase();
         setTablesName();
         gson = new Gson();
         client = new OkHttpClient();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constans.SERVER_IP_ADDRESS)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
     }
 
     /**

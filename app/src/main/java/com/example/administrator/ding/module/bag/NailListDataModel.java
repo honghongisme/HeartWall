@@ -5,10 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.administrator.ding.base.Constans;
-import com.example.administrator.ding.bean.BagListItem;
-import com.example.administrator.ding.bean.nail.MoodBadNail;
-import com.example.administrator.ding.bean.nail.MoodGoodNail;
-import com.example.administrator.ding.bean.nail.PlanPullNail;
+import com.example.administrator.ding.model.entry.BagListItem;
+import com.example.administrator.ding.model.entry.MoodBadNail;
+import com.example.administrator.ding.model.entry.MoodGoodNail;
+import com.example.administrator.ding.model.entry.PlanPullNail;
 import com.example.administrator.ding.base.IBaseNetRequestListener;
 import com.example.administrator.ding.utils.SQLiteHelper;
 import com.example.administrator.ding.utils.DateUtil;

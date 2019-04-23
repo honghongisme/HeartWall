@@ -1,7 +1,7 @@
 package com.example.administrator.ding.module.login;
 
 import android.content.Context;
-import com.example.administrator.ding.bean.User;
+import com.example.administrator.ding.model.entry.User;
 import com.example.administrator.ding.utils.LoginFieldCheckUtil;
 
 public class LoginPresenterImpl implements ILoginContract.Presenter {
@@ -33,7 +33,7 @@ public class LoginPresenterImpl implements ILoginContract.Presenter {
             // 显示加载进度条
             mView.loadingDialog();
             // 请求服务器验证用户信息
-            mModel.requestServer(account, password, new IOnLoginReqListener() {
+            mModel.doLogin(account, password, new IOnLoginReqListener() {
                 @Override
                 public void isNoNet() {
                     mView.noNetWork();

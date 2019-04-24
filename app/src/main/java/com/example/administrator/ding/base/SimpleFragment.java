@@ -1,10 +1,7 @@
 package com.example.administrator.ding.base;
 
 import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.widget.Toast;
-import com.example.administrator.ding.widgt.LoadingProgressDialog;
 
 public class SimpleFragment extends BaseFragment{
 

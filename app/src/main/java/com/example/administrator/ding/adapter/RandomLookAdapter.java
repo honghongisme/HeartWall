@@ -64,10 +64,10 @@ public class RandomLookAdapter extends RecyclerView.Adapter<RandomLookAdapter.It
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-            icon = (ImageView) itemView.findViewById(R.id.type_icon);
-            name = (TextView) itemView.findViewById(R.id.name_tv);
-            date = (TextView) itemView.findViewById(R.id.date_tv);
-            content = (TextView) itemView.findViewById(R.id.content_tv);
+            icon = itemView.findViewById(R.id.type_icon);
+            name = itemView.findViewById(R.id.name_tv);
+            date = itemView.findViewById(R.id.date_tv);
+            content = itemView.findViewById(R.id.content_tv);
         }
     }
 

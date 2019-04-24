@@ -100,7 +100,6 @@ public class CrackCountHelper {
      * @return
      */
     public int getPower() {
-        int power = ((int) ((getAverageSpeed() - 3000) / 300)) + 1;
-        return power;
+        return ((int) ((getAverageSpeed() - 3000) / 300)) + 1;
     }
 }

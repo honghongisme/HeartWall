@@ -65,11 +65,11 @@ public class RandomLookFragment extends SimpleFragment implements FlyRefreshLayo
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mLayout = inflater.inflate(R.layout.fragment_random_look, container, false);
-        mRv = (RecyclerView) mLayout.findViewById(R.id.rv);
+        mRv = mLayout.findViewById(R.id.rv);
         showProgress("加载数据中，请稍候...");
 
         // set Toolbar
-        Toolbar toolbar = (Toolbar) mLayout.findViewById(R.id.toolbar);
+        Toolbar toolbar = mLayout.findViewById(R.id.toolbar);
         toolbar.setTitle("评论墙");
         RandomActivity activity = (RandomActivity)getActivity();
         activity.setSupportActionBar(toolbar);
@@ -80,7 +80,7 @@ public class RandomLookFragment extends SimpleFragment implements FlyRefreshLayo
         initHandler();
 
         mData = new ArrayList<>();
-        mFlylayout = (FlyRefreshLayout) mLayout.findViewById(R.id.fly_refresh_layout);
+        mFlylayout = mLayout.findViewById(R.id.fly_refresh_layout);
         mLayoutManager = new LinearLayoutManager(activity);
         mAdapter = new RandomLookAdapter(activity, mData);
         mAdapter.setOnItemClickListener(new RandomLookAdapter.OnItemClickListerner() {

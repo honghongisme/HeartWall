@@ -73,7 +73,7 @@ public class NailListDataModel{
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 listener.onSuccess();
             }
         });

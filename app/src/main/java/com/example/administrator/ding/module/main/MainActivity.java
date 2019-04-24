@@ -37,7 +37,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 public class MainActivity extends SimpleActivity
@@ -87,14 +86,14 @@ public class MainActivity extends SimpleActivity
         learnMoreMoodBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startOneActivity("mood", DateAnalysisActivity.class);
+                startOneActivity("mood");
             }
         });
         ImageView learnMorePlanBtn = mPlanModuleLl.findViewById(R.id.learn_more_btn);
         learnMorePlanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startOneActivity("plan", DateAnalysisActivity.class);
+                startOneActivity("plan");
             }
         });
     }
@@ -217,8 +216,8 @@ public class MainActivity extends SimpleActivity
         startActivityForResult(i, START_NAIL_ACTIVITY_REQUEST_CODE);
     }
 
-    private void startOneActivity(String arg, Class<?> cls) {
-        Intent i = new Intent(mContext, cls);
+    private void startOneActivity(String arg) {
+        Intent i = new Intent(mContext, DateAnalysisActivity.class);
         i.putExtra("arg", arg);
         startActivity(i);
     }

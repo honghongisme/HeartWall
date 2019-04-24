@@ -45,8 +45,7 @@ public class NetStateCheckHelper {
      * @return
      */
     public static boolean isExistWiFiNet(Context context) {
-        if (getNetWorkState(context) == 1) return true;
-        return false;
+        return getNetWorkState(context) == 1;
     }
 
     /**
@@ -55,8 +54,7 @@ public class NetStateCheckHelper {
      * @return
      */
     public static boolean isExistDateNet(Context context) {
-        if (getNetWorkState(context) == 0) return true;
-        return false;
+        return getNetWorkState(context) == 0;
     }
 
     /**
@@ -66,10 +64,7 @@ public class NetStateCheckHelper {
      */
     public static boolean isNetWork(Context context) {
         int type = getNetWorkState(context);
-        if (type != 0 && type != 1) {
-            return false;
-        }
-        return true;
+        return type == 0 || type == 1;
     }
 
     /**

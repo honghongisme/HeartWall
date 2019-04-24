@@ -44,7 +44,7 @@ public class OperateNailActivity extends AppCompatActivity {
         }
 
         // set viewPager
-        ViewPager myViewPager = (ViewPager) findViewById(R.id.view_page);
+        ViewPager myViewPager = findViewById(R.id.view_page);
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), list);
         myViewPager.setAdapter(adapter);
     }

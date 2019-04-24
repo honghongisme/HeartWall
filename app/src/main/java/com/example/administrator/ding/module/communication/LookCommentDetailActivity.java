@@ -105,7 +105,7 @@ public class LookCommentDetailActivity extends AppCompatActivity {
      * 初始化toolbar控件
      */
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("评论");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

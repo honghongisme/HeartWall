@@ -1,7 +1,6 @@
 package com.example.administrator.ding.base;
 
 import android.os.Handler;
-import android.os.Message;
 import android.os.Bundle;
 import com.example.administrator.ding.widgt.LoadingProgressDialog;
 

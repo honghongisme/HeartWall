@@ -1,7 +1,5 @@
 package com.example.administrator.ding.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2018/8/23.
@@ -32,10 +30,7 @@ public class LoginFieldCheckUtil {
      * @return
      */
     public static boolean isEmpty(String str) {
-        if (str == null || str.trim().length() == 0)
-            return true;
-        else
-            return false;
+        return str == null || str.trim().length() == 0;
     }
 
 }

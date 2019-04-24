@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import android.widget.FrameLayout;
 import com.example.administrator.ding.utils.SystemResHelper;
 
 /**
@@ -59,9 +58,9 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView{
                 int[] screenSize = SystemResHelper.getScreenSize(context);
                 int left, top, right, bottom;
                 left = (int) (event.getRawX() + distanceX);
-                right = (int) (left + getWidth());
+                right = left + getWidth();
                 top = (int) (event.getRawY() + distanceY);
-                bottom = (int) (top + getHeight());
+                bottom = top + getHeight();
                 // 设置边界
                 if (right > screenSize[0]) {
                     right = screenSize[0];

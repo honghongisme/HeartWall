@@ -1,13 +1,10 @@
 package com.example.administrator.ding.base;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2018/8/23.

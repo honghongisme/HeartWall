@@ -99,7 +99,7 @@ public class ListAdapter extends BaseExpandableListAdapter {
         }
         convertView.setTag(R.layout.expand_list_group, groupPosition);
         convertView.setTag(R.layout.expand_list_item, -1);
-        TextView text = (TextView) convertView.findViewById(R.id.group_title_tv);
+        TextView text = convertView.findViewById(R.id.group_title_tv);
         text.setText(mGroupsTitles[groupPosition]);
         return convertView;
     }
@@ -145,9 +145,9 @@ public class ListAdapter extends BaseExpandableListAdapter {
      * @param convertView
      */
     public void setItemText(int groupPosition, int childPosition, View convertView) {
-        TextView text1 = (TextView) convertView.findViewById(R.id.firstDate);
-        TextView text2 = (TextView) convertView.findViewById(R.id.lastDate);
-        TextView text3 = (TextView) convertView.findViewById(R.id.some_content);
+        TextView text1 = convertView.findViewById(R.id.firstDate);
+        TextView text2 = convertView.findViewById(R.id.lastDate);
+        TextView text3 = convertView.findViewById(R.id.some_content);
 
         BagListItem item = mData.get(mGroupsTitles[groupPosition]).get(childPosition);
         convertView.setTag(item);

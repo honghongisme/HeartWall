@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.model.entry.NailLocationParams;
+import com.example.administrator.ding.model.NailLocationParams;
 import com.example.administrator.ding.widgt.AddViewsFrameLayout;
 import com.example.administrator.ding.widgt.ArcMenu;
 import com.example.administrator.ding.widgt.MoveImageView;

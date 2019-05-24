@@ -17,7 +17,7 @@ import android.view.animation.AccelerateInterpolator;
 import com.example.administrator.ding.R;
 import com.example.administrator.ding.adapter.RandomLookAdapter;
 import com.example.administrator.ding.base.SimpleFragment;
-import com.example.administrator.ding.model.entry.CommentItem;
+import com.example.administrator.ding.model.view.CommentItem;
 import com.race604.flyrefresh.FlyRefreshLayout;
 
 import java.util.ArrayList;

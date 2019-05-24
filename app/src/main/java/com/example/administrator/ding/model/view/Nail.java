@@ -1,4 +1,4 @@
-package com.example.administrator.ding.model.entry;
+package com.example.administrator.ding.model.view;
 
 /**
  * Created by Administrator on 2018/8/23.

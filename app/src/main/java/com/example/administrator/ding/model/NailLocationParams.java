@@ -1,4 +1,4 @@
-package com.example.administrator.ding.model.entry;
+package com.example.administrator.ding.model;
 
 import android.content.Context;
 import com.example.administrator.ding.utils.SystemResHelper;

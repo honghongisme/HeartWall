@@ -1,4 +1,4 @@
-package com.example.administrator.ding.model;
+package com.example.administrator.ding.model.view;
 
 import com.example.administrator.ding.model.entry.Crack;
 import com.example.administrator.ding.model.entry.MoodDate;

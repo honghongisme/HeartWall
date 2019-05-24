@@ -3,7 +3,7 @@ package com.example.administrator.ding.module.nail.plan;
 import android.view.View;
 import com.example.administrator.ding.model.entry.PlanPullNail;
 import com.example.administrator.ding.base.IBaseNetRequestListener;
-import com.example.administrator.ding.model.entry.Nail;
+import com.example.administrator.ding.model.view.Nail;
 import com.example.administrator.ding.model.entry.PlanNail;
 import com.example.administrator.ding.module.nail.OnGetInitNailListListener;
 

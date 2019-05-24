@@ -15,7 +15,7 @@ import com.example.administrator.ding.R;
 import com.example.administrator.ding.adapter.ListAdapter;
 import com.example.administrator.ding.base.SimpleActivity;
 import com.example.administrator.ding.base.MyApplication;
-import com.example.administrator.ding.model.entry.BagListItem;
+import com.example.administrator.ding.model.view.BagListItem;
 import com.example.administrator.ding.model.entry.MoodBadNail;
 import com.example.administrator.ding.model.entry.MoodGoodNail;
 import com.example.administrator.ding.model.entry.PlanPullNail;

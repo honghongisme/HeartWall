@@ -2,7 +2,7 @@ package com.example.administrator.ding.module.communication;
 
 import com.example.administrator.ding.base.Constans;
 import com.example.administrator.ding.module.nail.OnGetCheckResultListener;
-import com.example.administrator.ding.model.entry.CommentItem;
+import com.example.administrator.ding.model.view.CommentItem;
 import com.example.administrator.ding.model.entry.MoodBadComment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

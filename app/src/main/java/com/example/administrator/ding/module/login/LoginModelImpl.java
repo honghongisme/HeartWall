@@ -13,7 +13,7 @@ import com.example.administrator.ding.model.entry.PlanNail;
 import com.example.administrator.ding.model.entry.PlanPullNail;
 import com.example.administrator.ding.model.entry.User;
 import com.example.administrator.ding.database.login.UserInfoStore;
-import com.example.administrator.ding.model.LoginInfoModel;
+import com.example.administrator.ding.model.view.LoginInfoModel;
 import com.example.administrator.ding.network.ILoginService;
 import com.example.administrator.ding.utils.NetStateCheckHelper;
 import com.example.administrator.ding.utils.SQLiteHelper;

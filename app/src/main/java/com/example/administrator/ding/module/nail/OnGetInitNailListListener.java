@@ -1,6 +1,6 @@
 package com.example.administrator.ding.module.nail;
 
-import com.example.administrator.ding.model.entry.Nail;
+import com.example.administrator.ding.model.view.Nail;
 
 import java.util.ArrayList;
 

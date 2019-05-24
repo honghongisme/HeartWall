@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.administrator.ding.R;
-import com.example.administrator.ding.model.entry.CommentItem;
+import com.example.administrator.ding.model.view.CommentItem;
 import com.example.administrator.ding.utils.SystemResHelper;
 
 import java.util.ArrayList;

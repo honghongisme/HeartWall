@@ -1,6 +1,6 @@
 package com.example.administrator.ding.network;
 
-import com.example.administrator.ding.model.LoginInfoModel;
+import com.example.administrator.ding.model.view.LoginInfoModel;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

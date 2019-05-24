@@ -1,7 +1,7 @@
 package com.example.administrator.ding.module.nail.plan;
 
 import android.view.View;
-import com.example.administrator.ding.model.entry.Nail;
+import com.example.administrator.ding.model.view.Nail;
 import com.example.administrator.ding.model.entry.PlanNail;
 
 import java.util.ArrayList;

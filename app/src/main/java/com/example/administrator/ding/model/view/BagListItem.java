@@ -1,4 +1,4 @@
-package com.example.administrator.ding.model.entry;
+package com.example.administrator.ding.model.view;
 
 public class BagListItem {
 

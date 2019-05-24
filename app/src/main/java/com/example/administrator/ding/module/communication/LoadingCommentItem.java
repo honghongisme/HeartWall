@@ -2,7 +2,7 @@ package com.example.administrator.ding.module.communication;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import com.example.administrator.ding.model.entry.CommentItem;
+import com.example.administrator.ding.model.view.CommentItem;
 import com.example.administrator.ding.model.entry.MoodBadNail;
 import com.example.administrator.ding.base.Constans;
 import com.example.administrator.ding.utils.NetStateCheckHelper;

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.administrator.ding.base.Constans;
-import com.example.administrator.ding.model.entry.BagListItem;
+import com.example.administrator.ding.model.view.BagListItem;
 import com.example.administrator.ding.model.entry.MoodBadNail;
 import com.example.administrator.ding.model.entry.MoodGoodNail;
 import com.example.administrator.ding.model.entry.PlanPullNail;
